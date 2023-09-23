@@ -1,6 +1,8 @@
-import { ButtonBlock, InputBlock } from '../components';
+import { useState } from 'react';
+import { ButtonBlock, InputBlock, ModalBlock } from '../components';
 
 export function ComponentTest() {
+  const [open, setOpen] = useState(false);
   return (
     <>
       <ButtonBlock
@@ -89,6 +91,20 @@ export function ComponentTest() {
         fill='bg-bnt-white-1'
         hoverFill='hover:bg-bnt-white-2'
       />
+      <ButtonBlock
+        label='Open Modal'
+        minWidth='min-w-lg'
+        maxWidth='max-w-xl'
+        minHeight='min-h-md'
+        maxHeight='max-h-2xl'
+        fill='bg-bnt-dark'
+        hoverFill='hover:bg-b-disabled'
+        color='text-fnt-light'
+        textSize='text-md'
+      />
+      <ModalBlock open={open}>
+        <div></div>
+      </ModalBlock>
     </>
   );
 }

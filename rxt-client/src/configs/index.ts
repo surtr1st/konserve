@@ -2,15 +2,15 @@ export const BACKGROUND_COLORS = {
   primary: '#5849FF',
   secondary: '#6D39FF',
   danger: '#FF3939',
-  dark: '#1E1E1E',
-  light: '#FFFFFF',
-  disabled: '#050505',
+  'bnt-dark': '#1E1E1E',
+  'bnt-light': '#FFFFFF',
+  'b-disabled': '#050505',
 };
 
 export const FOREGROUND_COLORS = {
-  'neutral-light': '#FFFFFF',
-  'neutral-dark': '#1E1E1E',
-  disabled: '#606060',
+  'fnt-light': '#FFFFFF',
+  'fnt-dark': '#1E1E1E',
+  'f-disabled': '#606060',
 };
 
 export const FONT_FAMILY = {
@@ -23,6 +23,7 @@ export const FONT_SIZE = {
   md: '12px',
   lg: '14px',
   xl: '16px',
+  '2xl': '18px',
 };
 
 export const HEIGHT = {
@@ -30,6 +31,7 @@ export const HEIGHT = {
   md: '40px',
   lg: '60px',
   xl: '80px',
+  '2xl': '100px',
 };
 
 export const WIDTH = {
@@ -37,4 +39,5 @@ export const WIDTH = {
   md: '70px',
   lg: '90px',
   xl: '110px',
+  '2xl': '130px',
 };

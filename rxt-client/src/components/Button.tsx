@@ -1,7 +1,12 @@
+import clsx from "clsx"
 import { block } from "million/react"
-import { Button } from '../types'
+import { TButton } from '../types'
 
-export const ButtonBlock = block(({ label, fill, width, height, textSize, color }: Partial<Button>) =>
-  <button className={`bg-${fill} hover:bg-secondary hover:transition-all w-${width} h-${height} font-semibold text-${textSize} text-${color} rounded`}>{label}</button>
-)
+export const ButtonBlock = block(({ label, fill, minWidth, maxWidth, minHeight, maxHeight, textSize, color, hoverFill, disabled }: Partial<TButton>) => {
+  const className = clsx('',
+    !disabled && `${fill} ${hoverFill} ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize} ${color} font-semibold transition-all rounded m-1 p-1 cursor-pointer`,
+    disabled && `bg-b-disabled text-f-disabled ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize} font-semibold transition-all rounded m-1 p-1`
+  )
+  return <button disabled={disabled} className={className}>{label}</button>
+})
 

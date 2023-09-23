@@ -24,7 +24,19 @@ export default {
     width: {
       ...WIDTH,
     },
+    minWidth: {
+      ...WIDTH,
+    },
+    maxWidth: {
+      ...WIDTH,
+    },
     height: {
+      ...HEIGHT,
+    },
+    minHeight: {
+      ...HEIGHT,
+    },
+    maxHeight: {
       ...HEIGHT,
     },
     screens: {

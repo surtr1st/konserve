@@ -10,3 +10,15 @@ export type TButton = {
   maxHeight: MaxinumHeight;
   disabled: boolean;
 };
+
+export type TInput = {
+  value: string;
+  name: string;
+  type: 'text' | 'email' | 'password';
+  readonly: boolean;
+  disabled: boolean;
+  fill: BackColor;
+  hoverFill: HoveredBackColor;
+  color: ForeColor;
+  textSize: TextSize;
+};

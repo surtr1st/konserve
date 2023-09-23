@@ -15,6 +15,12 @@ export default {
       ...BACKGROUND_COLORS,
       ...FOREGROUND_COLORS,
     },
+    borderColor: {
+      ...BACKGROUND_COLORS,
+    },
+    outlineColor: {
+      ...BACKGROUND_COLORS,
+    },
     fontFamily: {
       ...FONT_FAMILY,
     },

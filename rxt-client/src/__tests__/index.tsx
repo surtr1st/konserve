@@ -101,8 +101,13 @@ export function ComponentTest() {
         hoverFill='hover:bg-b-disabled'
         color='text-fnt-light'
         textSize='text-md'
+        onClick={() => setOpen(!open)}
       />
-      <ModalBlock open={open}>
+      <ModalBlock
+        open={open}
+        fill='bg-bnt-dark'
+        onBackdropClick={() => setOpen(false)}
+      >
         <div></div>
       </ModalBlock>
     </>

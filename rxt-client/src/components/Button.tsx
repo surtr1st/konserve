@@ -14,6 +14,7 @@ export const ButtonBlock = block(
     color,
     hoverFill,
     disabled,
+    onClick,
   }: Partial<TButton>) => {
     const className = clsx(
       'font-semibold transition-all rounded m-1 p-1',
@@ -26,6 +27,7 @@ export const ButtonBlock = block(
       <button
         disabled={disabled}
         className={className}
+        onClick={onClick}
       >
         {label}
       </button>

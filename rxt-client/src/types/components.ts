@@ -31,4 +31,5 @@ export type TModal = {
   fill: BackColor;
   color: ForeColor;
   children: ReactNode;
+  onBackdropClick: () => void | Promise<void>;
 };

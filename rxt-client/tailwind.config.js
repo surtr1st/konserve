@@ -11,40 +11,6 @@ import {
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    colors: {
-      ...BACKGROUND_COLORS,
-      ...FOREGROUND_COLORS,
-    },
-    borderColor: {
-      ...BACKGROUND_COLORS,
-    },
-    outlineColor: {
-      ...BACKGROUND_COLORS,
-    },
-    fontFamily: {
-      ...FONT_FAMILY,
-    },
-    fontSize: {
-      ...FONT_SIZE,
-    },
-    width: {
-      ...WIDTH,
-    },
-    minWidth: {
-      ...WIDTH,
-    },
-    maxWidth: {
-      ...WIDTH,
-    },
-    height: {
-      ...HEIGHT,
-    },
-    minHeight: {
-      ...HEIGHT,
-    },
-    maxHeight: {
-      ...HEIGHT,
-    },
     screens: {
       sm: '640px',
       // => @media (min-width: 640px) { ... }
@@ -61,7 +27,42 @@ export default {
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
     },
-    extend: {},
+    extend: {
+      colors: {
+        ...BACKGROUND_COLORS,
+        ...FOREGROUND_COLORS,
+      },
+      borderColor: {
+        ...BACKGROUND_COLORS,
+      },
+      outlineColor: {
+        ...BACKGROUND_COLORS,
+      },
+      fontFamily: {
+        ...FONT_FAMILY,
+      },
+      fontSize: {
+        ...FONT_SIZE,
+      },
+      width: {
+        ...WIDTH,
+      },
+      minWidth: {
+        ...WIDTH,
+      },
+      maxWidth: {
+        ...WIDTH,
+      },
+      height: {
+        ...HEIGHT,
+      },
+      minHeight: {
+        ...HEIGHT,
+      },
+      maxHeight: {
+        ...HEIGHT,
+      },
+    },
   },
   plugins: [],
 };

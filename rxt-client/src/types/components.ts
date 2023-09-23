@@ -11,6 +11,7 @@ export type TButton = {
   minHeight: MininumHeight;
   maxHeight: MaxinumHeight;
   disabled: boolean;
+  onClick: () => void | Promise<void>;
 };
 
 export type TInput = {

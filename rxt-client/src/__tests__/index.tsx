@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { ButtonBlock, InputBlock, ModalBlock } from '../components';
+import { useRef, useState } from 'react';
+import { Button, Input, Modal } from '../components';
 
 export function ComponentTest() {
   const [open, setOpen] = useState(false);
+  const inputText = useRef<HTMLInputElement>(null);
   return (
     <>
-      <ButtonBlock
+      <Button
         label='Primary'
         minWidth='min-w-lg'
         maxWidth='max-w-xl'
@@ -16,7 +17,7 @@ export function ComponentTest() {
         color='text-fnt-light'
         textSize='text-md'
       />
-      <ButtonBlock
+      <Button
         label='Secondary'
         minWidth='min-w-lg'
         maxWidth='max-w-xl'
@@ -27,7 +28,7 @@ export function ComponentTest() {
         color='text-fnt-light'
         textSize='text-md'
       />
-      <ButtonBlock
+      <Button
         label='Danger'
         minWidth='min-w-lg'
         maxWidth='max-w-xl'
@@ -38,7 +39,7 @@ export function ComponentTest() {
         color='text-fnt-light'
         textSize='text-md'
       />
-      <ButtonBlock
+      <Button
         label='Dark'
         minWidth='min-w-lg'
         maxWidth='max-w-xl'
@@ -49,7 +50,7 @@ export function ComponentTest() {
         color='text-fnt-light'
         textSize='text-md'
       />
-      <ButtonBlock
+      <Button
         label='Light'
         minWidth='min-w-lg'
         maxWidth='max-w-xl'
@@ -60,7 +61,7 @@ export function ComponentTest() {
         color='text-fnt-dark'
         textSize='text-md'
       />
-      <ButtonBlock
+      <Button
         disabled
         label='Disabled'
         minWidth='min-w-lg'
@@ -69,13 +70,28 @@ export function ComponentTest() {
         maxHeight='max-h-2xl'
         textSize='text-md'
       />
-      <InputBlock
+      <Input
         textSize='text-lg'
         color='text-fnt-dark'
         fill='bg-bnt-white-1'
         hoverFill='hover:bg-bnt-white-2'
+        ref={inputText}
       />
-      <InputBlock
+      <Button
+        label='Get Text'
+        minWidth='min-w-lg'
+        maxWidth='max-w-xl'
+        minHeight='min-h-md'
+        maxHeight='max-h-2xl'
+        fill='bg-bnt-light'
+        hoverFill='hover:bg-bnt-white-1'
+        color='text-fnt-dark'
+        textSize='text-md'
+        onClick={() => {
+          console.log(inputText.current?.value);
+        }}
+      />
+      <Input
         disabled
         value='A dud dark wa'
         textSize='text-lg'
@@ -83,7 +99,7 @@ export function ComponentTest() {
         fill='bg-bnt-white-1'
         hoverFill='hover:bg-bnt-white-2'
       />
-      <InputBlock
+      <Input
         readonly
         value='A dud dark wa 123'
         textSize='text-lg'
@@ -91,7 +107,7 @@ export function ComponentTest() {
         fill='bg-bnt-white-1'
         hoverFill='hover:bg-bnt-white-2'
       />
-      <ButtonBlock
+      <Button
         label='Open Modal'
         minWidth='min-w-lg'
         maxWidth='max-w-xl'
@@ -103,13 +119,13 @@ export function ComponentTest() {
         textSize='text-md'
         onClick={() => setOpen(!open)}
       />
-      <ModalBlock
+      <Modal
         open={open}
         fill='bg-bnt-dark'
         onBackdropClick={() => setOpen(false)}
       >
         <div></div>
-      </ModalBlock>
+      </Modal>
     </>
   );
 }

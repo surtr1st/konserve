@@ -1,9 +1,9 @@
-declare type Color =
+declare type BackColor =
   | 'primary'
   | 'secondary'
   | 'dark'
   | 'light'
   | 'danger'
   | 'disabled';
-declare type TextColor = Color;
-declare type FillColor = Color;
+
+declare type ForeColor = 'neutral-light' | 'neutral-dark' | 'disabled';

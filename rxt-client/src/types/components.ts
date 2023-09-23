@@ -1,6 +1,8 @@
 export type Button = {
-  label?: string;
-  fill: Partial<FillColor>;
-  color: Partial<TextColor>;
-  size: Partial<Size>;
+  label: string;
+  fill: BackColor;
+  color: ForeColor;
+  textSize: Size;
+  width: Width;
+  height: Height;
 };

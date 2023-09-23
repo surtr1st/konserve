@@ -6,5 +6,6 @@
   "htmlWhitespaceSensitivity": "css",
   "singleAttributePerLine": true,
   "jsxSingleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "parser": "typescript"
 }

@@ -67,7 +67,10 @@ export function Register() {
           maxHeight='max-h-2xl'
           textSize='text-md'
         />
-        <a class='p-2 my-2 cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'>
+        <a
+          href='/'
+          class='p-2 my-2 cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'
+        >
           Already have an account? Log in here.
         </a>
       </section>

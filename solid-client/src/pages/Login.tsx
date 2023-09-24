@@ -2,12 +2,14 @@ import { Button, Input } from '../components';
 
 export function Login() {
   return (
-    <main class='min-h-screen w-full'>
+    <main class='min-h-screen w-full flex flex-col justify-center items-center'>
       <section class='grid place-items-center'>
-        <div class='w-[700px] h-40 border-1 border-primary'>
+        <div class='w-[700px] p-10'>
+          <h1 class='my-4 text-5xl font-bold'>LOG IN</h1>
           <Input
             type='text'
             name='username'
+            label='Username'
             textSize='text-lg'
             color='text-fnt-dark'
             fill='bg-bnt-white-1'
@@ -16,6 +18,7 @@ export function Login() {
           <Input
             type='password'
             name='password'
+            label='Password'
             textSize='text-lg'
             color='text-fnt-dark'
             fill='bg-bnt-white-1'
@@ -23,7 +26,7 @@ export function Login() {
           />
         </div>
       </section>
-      <section class='flex flex-col justify-center items-center'>
+      <section class='flex flex-col justify-center items-center mt-3'>
         <Button
           title='Log in'
           label='Log in'
@@ -35,6 +38,9 @@ export function Login() {
           maxHeight='max-h-2xl'
           textSize='text-md'
         />
+        <a class='p-2 my-2 cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'>
+          Does not have an account? Register here.
+        </a>
       </section>
     </main>
   );

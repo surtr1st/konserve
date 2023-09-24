@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { TInput } from '../types';
+import { Show } from 'solid-js';
 
 export function Input({
   type,
@@ -12,8 +13,9 @@ export function Input({
   disabled,
   value,
   ref,
+  label,
 }: Partial<TInput>) {
-  const baseClass = `w-full h-[54px] ${textSize} rounded rounded-md transition-all px-3 m-2 border-0 outline-none`;
+  const baseClass = `w-full h-[54px] ${textSize} rounded rounded-md transition-all px-3 my-2 border-0 outline-none`;
   const defaultClass = `${color} ${fill} ${hoverFill} hover:outline-1 hover:outline-primary focus:outline-1 focus:outline-primary`;
   const classDisabled = clsx(
     baseClass,
@@ -27,14 +29,25 @@ export function Input({
   );
 
   return (
-    <input
-      ref={ref}
-      type={type}
-      name={name}
-      value={value}
-      readonly={readonly}
-      disabled={disabled}
-      class={readonly && !disabled ? classReadOnly : classDisabled}
-    />
+    <div class='flex flex-col justify-center items-start w-full'>
+      <Show when={label}>
+        <label
+          for={name}
+          class='my-2 text-2xl font-semibold'
+        >
+          {label}
+        </label>
+      </Show>
+      <input
+        ref={ref}
+        type={type}
+        name={name}
+        value={value || ''}
+        placeholder={label || ''}
+        readonly={readonly}
+        disabled={disabled}
+        class={readonly && !disabled ? classReadOnly : classDisabled}
+      />
+    </div>
   );
 }

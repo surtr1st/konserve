@@ -21,6 +21,7 @@ export type TInput = {
   ref: SolidInputRef;
   value: string;
   name: string;
+  label: string;
   type: 'text' | 'email' | 'password';
   readonly: boolean;
   disabled: boolean;

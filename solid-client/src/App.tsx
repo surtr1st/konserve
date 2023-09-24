@@ -1,9 +1,9 @@
-import { ComponentTest } from './__tests__';
+import { PageTest } from './__tests__';
 
 function App() {
   return (
     <>
-      <ComponentTest />
+      <PageTest />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { createSignal } from 'solid-js';
 import { Button, Input, Modal, Node, NodeCreator } from '../components';
 import { Leaf } from '../components/Leaf';
-import { Login } from '../pages';
+import { Register } from '../pages';
 
 export function ComponentTest() {
   const [open, setOpen] = createSignal(false);
@@ -154,5 +154,5 @@ export function ComponentTest() {
 }
 
 export function PageTest() {
-  return <Login />;
+  return <Register />;
 }

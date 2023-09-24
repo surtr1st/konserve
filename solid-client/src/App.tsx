@@ -1,11 +1,15 @@
 import { Routes, Route } from '@solidjs/router';
-import { Login, Register } from './pages';
+import { Main, Login, Register } from './pages';
 
 function App() {
   return (
     <Routes>
       <Route
         path='/'
+        component={Main}
+      />
+      <Route
+        path='/login'
         component={Login}
       />
       <Route

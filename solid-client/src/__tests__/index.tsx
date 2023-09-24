@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js';
-import { Button, Input, Modal } from '../components';
+import { Button, Input, Modal, Node, NodeCreator } from '../components';
 
 export function ComponentTest() {
   const [open, setOpen] = createSignal(false);
@@ -137,6 +137,8 @@ export function ComponentTest() {
         fill='bg-bnt-dark'
         onBackdropClick={handleOpen}
       ></Modal>
+      <Node />
+      <NodeCreator />
     </>
   );
 }

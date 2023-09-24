@@ -1,3 +1,5 @@
+import { JSXElement } from 'solid-js';
+
 export type TButton = {
   label?: string;
   fill?: BackColor;
@@ -9,11 +11,14 @@ export type TButton = {
   minHeight?: MininumHeight;
   maxHeight?: MaxinumHeight;
   disabled?: boolean;
-  onClick?: () => unknown | Promise<unknown>;
+  onClick?: UnknownType;
+  customClass?: string;
+  icon?: JSXElement;
+  title?: string;
 };
 
 export type TInput = {
-  ref: HTMLInputElement | ((el: HTMLInputElement) => undefined) | undefined;
+  ref: SolidInputRef;
   value: string;
   name: string;
   type: 'text' | 'email' | 'password';
@@ -30,5 +35,17 @@ export type TModal = {
   fill?: BackColor;
   color?: ForeColor;
   children?: Element;
-  onBackdropClick?: () => unknown | Promise<unknown>;
+  onBackdropClick?: UnknownType;
+};
+
+export type TNode = {
+  src: string;
+  onView: VoidType;
+  onViewDetail: VoidType;
+  onCopyUsername: StringType;
+  onCopyPassword: StringType;
+};
+
+export type TNodeCreator = {
+  onAdd: UnknownType;
 };

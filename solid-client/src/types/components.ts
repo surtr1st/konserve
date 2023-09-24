@@ -11,7 +11,7 @@ export type TButton = {
   minHeight?: MininumHeight;
   maxHeight?: MaxinumHeight;
   disabled?: boolean;
-  onClick?: UnknownType;
+  onClick?: UnknownCallback;
   customClass?: string;
   icon?: JSXElement;
   title?: string;
@@ -35,23 +35,23 @@ export type TModal = {
   fill?: BackColor;
   color?: ForeColor;
   children?: Element;
-  onBackdropClick?: UnknownType;
+  onBackdropClick?: UnknownCallback;
 };
 
 export type TNode = {
   src: string;
-  onView: VoidType;
-  onViewDetail: VoidType;
+  onView: VoidCallback;
+  onViewDetail: VoidCallback;
 };
 
 export type TNodeCreator = {
-  onAdd: UnknownType;
+  onAdd: UnknownCallback;
 };
 
 export type TLeaf = {
   username: string;
   password: string;
-  onCopyUsername: StringType;
-  onCopyPassword: StringType;
-  onExtraAction: VoidType;
+  onCopyUsername: StringCallback;
+  onCopyPassword: StringCallback;
+  onExtraAction: VoidCallback;
 };

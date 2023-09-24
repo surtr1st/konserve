@@ -34,11 +34,13 @@ export function Button({
       title={label || title}
     >
       <Switch>
-        <Match when={label}>{label}</Match>
-        <Match when={icon}>{icon}</Match>
+        <Match when={label && !icon}>{label}</Match>
+        <Match when={icon && !label}>{icon}</Match>
         <Match when={icon && label}>
-          {icon}
-          {label}
+          <span class='flex justify-center items-center gap-1'>
+            {icon}
+            {label}
+          </span>
         </Match>
       </Switch>
     </button>

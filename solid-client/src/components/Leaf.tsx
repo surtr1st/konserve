@@ -38,8 +38,8 @@ export function Leaf({
       </div>
       <div class='absolute bottom-0 flex justify-around m-2 w-full'>
         <Button
-          title='Delete account leaf'
           label='Delete'
+          title='Delete account leaf'
           fill='bg-danger'
           hoverFill='hover:bg-b-disabled'
           minWidth='min-w-lg'

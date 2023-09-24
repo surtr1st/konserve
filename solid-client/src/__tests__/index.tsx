@@ -1,5 +1,6 @@
 import { createSignal } from 'solid-js';
 import { Button, Input, Modal, Node, NodeCreator } from '../components';
+import { Leaf } from '../components/Leaf';
 
 export function ComponentTest() {
   const [open, setOpen] = createSignal(false);
@@ -139,6 +140,14 @@ export function ComponentTest() {
       ></Modal>
       <Node />
       <NodeCreator />
+      <Leaf
+        username='saochep9@gmail.com'
+        password='adudarkwa'
+      />
+      <Leaf
+        username='anhchipro147@gmail.com'
+        password='vailzdarkwa123'
+      />
     </>
   );
 }

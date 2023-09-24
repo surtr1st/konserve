@@ -47,3 +47,11 @@ export type TNode = {
 export type TNodeCreator = {
   onAdd: UnknownType;
 };
+
+export type TLeaf = {
+  username: string;
+  password: string;
+  onCopyUsername: StringType;
+  onCopyPassword: StringType;
+  onExtraAction: VoidType;
+};

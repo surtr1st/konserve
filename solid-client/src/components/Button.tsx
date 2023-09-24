@@ -13,7 +13,7 @@ export function Button({
   hoverFill,
   disabled,
   onClick,
-}: Partial<TButton>) {
+}: TButton) {
   const className = clsx(
     'font-semibold transition-all rounded m-1 p-1',
     !disabled &&
@@ -25,8 +25,8 @@ export function Button({
   return (
     <button
       disabled={disabled}
-      className={className}
-      onClick={onClick}
+      class={className}
+      onclick={onClick}
     >
       {label}
     </button>

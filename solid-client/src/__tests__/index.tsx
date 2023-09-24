@@ -1,9 +1,24 @@
-import { useRef, useState } from 'react';
+import { createSignal } from 'solid-js';
 import { Button, Input, Modal } from '../components';
 
 export function ComponentTest() {
-  const [open, setOpen] = useState(false);
-  const inputText = useRef<HTMLInputElement>(null);
+  const [open, setOpen] = createSignal(false);
+
+  let inputRef:
+    | HTMLInputElement
+    | ((el: HTMLInputElement) => undefined)
+    | undefined = undefined;
+
+  const handleOpen = () => {
+    setOpen(!open());
+  };
+
+  const handleText = () => {
+    if (!inputRef) return;
+    const value = (inputRef as HTMLInputElement).value;
+    console.log(value);
+  };
+
   return (
     <>
       <Button
@@ -75,7 +90,7 @@ export function ComponentTest() {
         color='text-fnt-dark'
         fill='bg-bnt-white-1'
         hoverFill='hover:bg-bnt-white-2'
-        ref={inputText}
+        ref={inputRef}
       />
       <Button
         label='Get Text'
@@ -87,9 +102,7 @@ export function ComponentTest() {
         hoverFill='hover:bg-bnt-white-1'
         color='text-fnt-dark'
         textSize='text-md'
-        onClick={() => {
-          console.log(inputText.current?.value);
-        }}
+        onClick={handleText}
       />
       <Input
         disabled
@@ -117,15 +130,13 @@ export function ComponentTest() {
         hoverFill='hover:bg-b-disabled'
         color='text-fnt-light'
         textSize='text-md'
-        onClick={() => setOpen(!open)}
+        onClick={handleOpen}
       />
       <Modal
-        open={open}
+        open={() => open()}
         fill='bg-bnt-dark'
-        onBackdropClick={() => setOpen(false)}
-      >
-        <div></div>
-      </Modal>
+        onBackdropClick={handleOpen}
+      ></Modal>
     </>
   );
 }

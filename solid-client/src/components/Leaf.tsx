@@ -1,8 +1,14 @@
+import clsx from 'clsx';
+import { createSignal } from 'solid-js';
 import { TLeaf } from '../types';
 import { Button } from '.';
-import { CopyFilledIcon, CopyIcon } from './icons';
-import { createSignal } from 'solid-js';
-import clsx from 'clsx';
+import {
+  CopyFilledIcon,
+  CopyIcon,
+  DeleteFilledIcon,
+  PasswordBoldIcon,
+  User5FillIcon,
+} from './icons';
 
 export function Leaf({
   username,
@@ -19,21 +25,27 @@ export function Leaf({
       title='View'
       class='relative flex flex-col items-center w-[500px] h-60 m-2 rounded-lg border border-primary bg-transparent hover:bg-bnt-dark cursor-pointer transition-all'
     >
-      <div class='w-64 h-24 bg-none flex text-left justify-center items-end text-[24px] gap-1 mt-10'>
+      <div class='w-full h-24 bg-none flex text-left justify-center items-end text-[24px] gap-1 mt-10'>
         <span>
-          <h3 class='p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'>
-            {username}
-          </h3>
-          <h3
-            onclick={uncencor}
-            class={clsx(
-              'p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30',
-              censor() && 'blur-lg',
-              !censor() && 'blur-none',
-            )}
-          >
-            {password}
-          </h3>
+          <span class='flex items-center gap-2'>
+            <User5FillIcon />
+            <h3 class='p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'>
+              {username}
+            </h3>
+          </span>
+          <span class='flex items-center gap-2'>
+            <PasswordBoldIcon />
+            <h3
+              onclick={uncencor}
+              class={clsx(
+                'p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30',
+                censor() && 'blur-lg',
+                !censor() && 'blur-none',
+              )}
+            >
+              {password}
+            </h3>
+          </span>
         </span>
       </div>
       <div class='absolute bottom-0 flex justify-around m-2 w-full'>
@@ -48,7 +60,7 @@ export function Leaf({
           maxHeight='max-h-xl'
           color='text-fnt-light'
           textSize='text-md'
-          icon={<CopyFilledIcon />}
+          icon={<DeleteFilledIcon />}
           onClick={onExtraAction}
         />
         <div class='flex'>

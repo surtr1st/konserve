@@ -145,7 +145,7 @@ export function ComponentTest() {
         password='adudarkwa'
       />
       <Leaf
-        username='anhchipro147@gmail.com'
+        username='anhchipro7@gmail.com'
         password='vailzdarkwa123'
       />
     </>

@@ -12,8 +12,8 @@ export function Main() {
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
       <section class='grid place-items-center'>
         <div class='flex flex-wrap justify-evenly items-center'>
-          <For each={nodes()}>{() => <Node />}</For>
           <NodeCreator />
+          <For each={nodes()}>{() => <Node />}</For>
         </div>
       </section>
     </main>

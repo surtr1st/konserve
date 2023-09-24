@@ -42,8 +42,6 @@ export type TNode = {
   src: string;
   onView: VoidType;
   onViewDetail: VoidType;
-  onCopyUsername: StringType;
-  onCopyPassword: StringType;
 };
 
 export type TNodeCreator = {

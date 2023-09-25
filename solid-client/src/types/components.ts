@@ -1,3 +1,5 @@
+import { JSXElement } from 'solid-js';
+
 export type TButton = {
   label?: string;
   fill?: BackColor;
@@ -9,13 +11,17 @@ export type TButton = {
   minHeight?: MininumHeight;
   maxHeight?: MaxinumHeight;
   disabled?: boolean;
-  onClick?: () => unknown | Promise<unknown>;
+  onClick?: UnknownCallback;
+  customClass?: string;
+  icon?: JSXElement;
+  title?: string;
 };
 
 export type TInput = {
-  ref: HTMLInputElement | ((el: HTMLInputElement) => undefined) | undefined;
+  ref: SolidInputRef;
   value: string;
   name: string;
+  label: string;
   type: 'text' | 'email' | 'password';
   readonly: boolean;
   disabled: boolean;
@@ -30,5 +36,23 @@ export type TModal = {
   fill?: BackColor;
   color?: ForeColor;
   children?: Element;
-  onBackdropClick?: () => unknown | Promise<unknown>;
+  onBackdropClick?: UnknownCallback;
+};
+
+export type TNode = {
+  src: string;
+  onView: VoidCallback;
+  onViewDetail: VoidCallback;
+};
+
+export type TNodeCreator = {
+  onAdd: UnknownCallback;
+};
+
+export type TLeaf = {
+  username: string;
+  password: string;
+  onCopyUsername: StringCallback;
+  onCopyPassword: StringCallback;
+  onExtraAction: VoidCallback;
 };

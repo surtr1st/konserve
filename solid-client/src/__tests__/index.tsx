@@ -1,5 +1,7 @@
 import { createSignal } from 'solid-js';
-import { Button, Input, Modal } from '../components';
+import { Button, Input, Modal, Node, NodeCreator } from '../components';
+import { Leaf } from '../components/Leaf';
+import { Register } from '../pages';
 
 export function ComponentTest() {
   const [open, setOpen] = createSignal(false);
@@ -137,6 +139,20 @@ export function ComponentTest() {
         fill='bg-bnt-dark'
         onBackdropClick={handleOpen}
       ></Modal>
+      <Node />
+      <NodeCreator />
+      <Leaf
+        username='saochep9@gmail.com'
+        password='adudarkwa'
+      />
+      <Leaf
+        username='anhchipro7@gmail.com'
+        password='vailzdarkwa123'
+      />
     </>
   );
+}
+
+export function PageTest() {
+  return <Register />;
 }

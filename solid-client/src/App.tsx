@@ -1,10 +1,22 @@
-import { ComponentTest } from './__tests__';
+import { Routes, Route } from '@solidjs/router';
+import { Main, Login, Register } from './pages';
 
 function App() {
   return (
-    <>
-      <ComponentTest />
-    </>
+    <Routes>
+      <Route
+        path='/'
+        component={Main}
+      />
+      <Route
+        path='/login'
+        component={Login}
+      />
+      <Route
+        path='/register'
+        component={Register}
+      />
+    </Routes>
   );
 }
 

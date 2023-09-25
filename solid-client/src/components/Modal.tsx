@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { TModal } from '../types';
-import { Show } from 'solid-js';
+import { useLockScroll } from '../hooks';
+import { Show, createEffect } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 export function Modal({
@@ -15,6 +16,13 @@ export function Modal({
     'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20';
   const sizeClass = 'min-w-[500px] max-w-[700px] min-h-[200px] max-h-[700px]';
   const className = clsx(baseClass, positionClass, sizeClass);
+
+  const { lock, release } = useLockScroll();
+
+  createEffect(() => {
+    if (open()) lock();
+    else release();
+  });
 
   return (
     <Portal>

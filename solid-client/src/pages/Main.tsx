@@ -1,6 +1,7 @@
-import { For, createSignal } from 'solid-js';
-import { Node, NodeCreator } from '../components';
 import clsx from 'clsx';
+import { For, createSignal } from 'solid-js';
+import { Button, Node, NodeCreator } from '../components';
+import { GearFillIcon } from '../components/icons/GearFillIcon';
 
 export function Main() {
   const [nodes, _] = createSignal([
@@ -26,7 +27,19 @@ export function Main() {
 
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
-      <section class='grid place-items-center w-[1600px]'>
+      <section class='flex justify-end items-center border-b-primary w-full p-2'>
+        <Button
+          minWidth='min-w-md'
+          maxWidth='max-w-md'
+          minHeight='min-h-lg'
+          maxHeight='max-h-lg'
+          fill='bg-primary'
+          hoverFill='hover:bg-secondary'
+          color='text-fnt-light'
+          icon={<GearFillIcon />}
+        />
+      </section>
+      <section class='grid place-items-center w-[1600px] h-[85vh]'>
         <div
           class={clsx(
             'grid',

@@ -6,7 +6,7 @@ export function Node({ src, onView, onViewDetail }: Partial<TNode>) {
   return (
     <div
       title='View'
-      class='relative w-72 h-72 m-2 rounded-lg border border-primary bg-transparent hover:bg-bnt-dark cursor-pointer transition-all'
+      class='relative w-72 h-72 m-2 rounded-lg border border-primary bg-white hover:bg-bnt-white-1 dark:bg-bnt-dark dark:hover:bg-bnt-dark-1 cursor-pointer transition-all'
     >
       <picture onclick={onView}>
         <source src={src} />

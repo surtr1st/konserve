@@ -10,9 +10,11 @@ export function Modal({
   color,
   children,
   onBackdropClick,
+  onClose,
   className,
+  label,
 }: TModal) {
-  const baseClass = `${fill} ${color} ${className} drop-shadow-lg outline outline-1 outline-primary rounded rounded-2 grid place-items-center py-7`;
+  const baseClass = `${fill} ${color} ${className} drop-shadow-lg outline outline-1 outline-primary rounded rounded-2 grid place-items-center`;
   const positionClass =
     'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20';
   const sizeClass =
@@ -29,7 +31,23 @@ export function Modal({
   return (
     <Portal>
       <Show when={open()}>
-        <div class={clsxName}>{children}</div>
+        <div class={clsxName}>
+          <div
+            class={clsx(
+              className &&
+                `flex w-full justify-between items-center h-20 p-3 sticky top-0 z-20 ${className}`,
+            )}
+          >
+            <h3 class='text-2xl font-semibold'>{label}</h3>
+            <span
+              class='text-bnt-dark px-5 py-3 text-center dark:text-white cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'
+              onclick={onClose}
+            >
+              &times;
+            </span>
+          </div>
+          {children}
+        </div>
         <div
           class='bg-opacity-70 bg-bnt-dark fixed top-0 left-0 w-full h-screen z-10'
           onClick={onBackdropClick}

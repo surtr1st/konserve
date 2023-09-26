@@ -58,7 +58,7 @@ export type TLeaf = {
 };
 
 export type TSection = {
-  type: 'free' | 'toolbar' | 'grid' | 'heading';
+  type: 'free' | 'toolbar' | 'body' | 'heading';
   children: JSXElement;
   className: string;
   label: string;

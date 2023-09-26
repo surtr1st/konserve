@@ -25,7 +25,7 @@ export function Section({
           {children}
         </section>
       </Match>
-      <Match when={type === 'grid'}>
+      <Match when={type === 'body'}>
         <section
           class={`grid place-items-center w-[1600px] h-[90vh] ${className}`}
         >

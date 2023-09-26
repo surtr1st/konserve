@@ -68,7 +68,7 @@ export function Main() {
           onClick={() => navigate('/preferences')}
         />
       </Section>
-      <Section type='grid'>
+      <Section type='body'>
         <div
           class={clsx(
             'grid',

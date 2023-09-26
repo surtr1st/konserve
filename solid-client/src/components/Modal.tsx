@@ -12,7 +12,7 @@ export function Modal({
   onBackdropClick,
   className,
 }: TModal) {
-  const baseClass = `${fill} ${color} drop-shadow-lg outline outline-1 outline-primary rounded rounded-2 ${className}`;
+  const baseClass = `${fill} ${color} ${className} drop-shadow-lg outline outline-1 outline-primary rounded rounded-2 grid place-items-center py-7`;
   const positionClass =
     'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20';
   const sizeClass =

@@ -44,6 +44,7 @@ export type TNode = {
   src: string;
   onView: VoidCallback;
   onViewDetail: VoidCallback;
+  className: string;
 };
 
 export type TNodeCreator = {

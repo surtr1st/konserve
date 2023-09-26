@@ -14,7 +14,7 @@ export function DetailNodePopup() {
       className='bg-bnt-light dark:bg-bnt-dark'
     >
       <div class='grid grid-cols-1'>
-        <For each={nodes()}>{() => <Node />}</For>
+        <For each={nodes()}>{() => <Node className='w-[400px] h-52' />}</For>
         <NodeCreator />
       </div>
     </Modal>

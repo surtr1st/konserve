@@ -10,7 +10,7 @@ export function Section({ type, children }: Partial<TSection>) {
         </section>
       </Match>
       <Match when={type === 'toolbar'}>
-        <section class='flex justify-end items-center border border-x-transparent border-t-transparent border-b-primary w-full p-2'>
+        <section class='flex justify-end items-center border border-x-transparent border-t-transparent border-b-primary w-full p-2 h-[10vh]'>
           {children}
         </section>
       </Match>

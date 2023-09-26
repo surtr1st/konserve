@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { usePreferredTheme } from '../hooks';
 import { For, createSignal, Match, Switch } from 'solid-js';
-import { Button, Node, NodeCreator } from '../components';
+import { Button, Node, NodeCreator, Section } from '../components';
 import { GearFillIcon } from '../components/icons/GearFillIcon';
 import {
   CloudSun2BoldDuoTone,
@@ -33,7 +33,7 @@ export function Main() {
 
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
-      <section class='flex justify-end items-center border border-x-transparent border-t-transparent border-b-primary w-full p-2'>
+      <Section type='toolbar'>
         <Button
           minWidth='min-w-md'
           maxWidth='max-w-md'
@@ -64,7 +64,7 @@ export function Main() {
           color='text-fnt-light'
           icon={<GearFillIcon />}
         />
-      </section>
+      </Section>
       <section class='grid place-items-center w-[1600px] h-[90vh]'>
         <div
           class={clsx(

@@ -1,5 +1,5 @@
 import { TLeafCreator } from '../types';
-import { PlusIcon } from './icons';
+import { PlusIcon } from '../components/icons';
 
 export function LeafCreator({ onAdd }: Partial<TLeafCreator>) {
   return (

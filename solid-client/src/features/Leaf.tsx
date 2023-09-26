@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import { createSignal } from 'solid-js';
 import { TLeaf } from '../types';
-import { Button } from '.';
+import { Button } from '../components';
 import {
   CopyFilledIcon,
   CopyIcon,
   DeleteFilledIcon,
   PasswordBoldIcon,
   User5FillIcon,
-} from './icons';
+} from '../components/icons';
 
 export function Leaf({
   username,

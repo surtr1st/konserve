@@ -1,4 +1,4 @@
-import { Button } from '.';
+import { Button } from '../components';
 import { TNode } from '../types';
 import { EyeIcon } from '../components/icons';
 

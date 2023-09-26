@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { For, createSignal, Match, Switch } from 'solid-js';
-import { Button, Node, NodeCreator, Section } from '../components';
+import { Button, Section } from '../components';
+import { Node, NodeCreator } from '../features';
 import { GearFillIcon } from '../components/icons/GearFillIcon';
 import { useNavigate } from '@solidjs/router';
 import {

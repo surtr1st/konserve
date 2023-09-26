@@ -2,8 +2,7 @@ import clsx from 'clsx';
 import { For, createSignal } from 'solid-js';
 import { Section } from '../components';
 import { useDynamicGridColumns } from '../hooks';
-import { Leaf } from '../components/Leaf';
-import { LeafCreator } from '../components/LeafCreator';
+import { Leaf, LeafCreator } from '../features';
 
 export function DetailNode() {
   const [nodes, _] = createSignal([

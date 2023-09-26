@@ -1,5 +1,5 @@
 import { TNodeCreator } from '../types';
-import { PlusIcon } from './icons';
+import { PlusIcon } from '../components/icons';
 
 export function NodeCreator({ onAdd }: Partial<TNodeCreator>) {
   return (

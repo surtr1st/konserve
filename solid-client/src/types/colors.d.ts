@@ -7,7 +7,9 @@ declare type BackColor =
   | 'bg-light-danger'
   | 'bg-b-disabled'
   | 'bg-bnt-white-1'
-  | 'bg-bnt-white-2';
+  | 'bg-bnt-white-2'
+  | 'bg-bnt-dark-1'
+  | 'bg-bnt-dark-2';
 
 declare type ForeColor = 'text-fnt-light' | 'text-fnt-dark' | 'text-f-disabled';
 
@@ -20,4 +22,6 @@ declare type HoveredBackColor =
   | 'hover:bg-light-danger'
   | 'hover:bg-b-disabled'
   | 'hover:bg-bnt-white-1'
-  | 'hover:bg-bnt-white-2';
+  | 'hover:bg-bnt-white-2'
+  | 'hover:bg-bnt-dark-1'
+  | 'hover:bg-bnt-dark-2';

@@ -23,7 +23,7 @@ export function Leaf({
   return (
     <div
       title='View'
-      class='relative flex flex-col items-center w-[500px] h-60 m-2 rounded-lg border border-primary bg-transparent hover:bg-bnt-dark cursor-pointer transition-all'
+      class='relative flex flex-col items-center w-[500px] h-60 m-2 rounded-lg border border-primary bg-white hover:bg-bnt-white-1 dark:bg-bnt-dark dark:hover:bg-bnt-dark-1 cursor-pointer transition-all'
     >
       <div class='w-full h-24 bg-none flex text-left justify-center items-end text-[24px] gap-1 mt-10'>
         <span>
@@ -66,8 +66,6 @@ export function Leaf({
         <div class='flex'>
           <Button
             title='Copy username'
-            fill='bg-bnt-dark'
-            hoverFill='hover:bg-b-disabled'
             minWidth='min-w-lg'
             maxWidth='max-w-xl'
             minHeight='min-h-md'
@@ -79,8 +77,6 @@ export function Leaf({
           />
           <Button
             title='Copy password'
-            fill='bg-bnt-dark'
-            hoverFill='hover:bg-b-disabled'
             minWidth='min-w-lg'
             maxWidth='max-w-xl'
             minHeight='min-h-md'

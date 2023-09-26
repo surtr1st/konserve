@@ -3,6 +3,7 @@ import { For, createSignal } from 'solid-js';
 import { Section } from '../components';
 import { useDynamicGridColumns } from '../hooks';
 import { Leaf } from '../components/Leaf';
+import { LeafCreator } from '../components/LeafCreator';
 
 export function DetailNode() {
   const [nodes, _] = createSignal([
@@ -22,6 +23,7 @@ export function DetailNode() {
             nodes().length < 3 && expandColumns,
           )}
         >
+          <LeafCreator />
           <For each={nodes()}>{() => <Leaf />}</For>
         </div>
       </Section>

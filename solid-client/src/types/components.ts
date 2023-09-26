@@ -49,6 +49,8 @@ export type TNodeCreator = {
   onAdd: UnknownCallback;
 };
 
+export type TLeafCreator = TNodeCreator;
+
 export type TLeaf = {
   username: string;
   password: string;

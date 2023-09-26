@@ -37,6 +37,7 @@ export type TModal = {
   color?: ForeColor;
   children?: JSXElement;
   onBackdropClick?: UnknownCallback;
+  className?: string;
 };
 
 export type TNode = {

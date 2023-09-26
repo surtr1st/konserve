@@ -9,7 +9,10 @@ export function DetailNodePopup() {
     { id: 3, name: 'Henri The Existential Cat' },
   ]);
   return (
-    <Modal open={() => true}>
+    <Modal
+      open={() => true}
+      className='bg-bnt-light dark:bg-bnt-dark'
+    >
       <div class='grid grid-cols-1'>
         <For each={nodes()}>{() => <Node />}</For>
         <NodeCreator />

@@ -3,6 +3,7 @@ import { usePreferredTheme } from '../hooks';
 import { For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Node, NodeCreator, Section } from '../components';
 import { GearFillIcon } from '../components/icons/GearFillIcon';
+import { useNavigate } from '@solidjs/router';
 import {
   CloudSun2BoldDuoTone,
   CloudyMoonBoldDuoTone,
@@ -10,6 +11,7 @@ import {
 
 export function Main() {
   const { isDarkMode, toggleTheme } = usePreferredTheme();
+  const navigate = useNavigate();
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
     { id: 2, name: 'Maru' },
@@ -63,17 +65,20 @@ export function Main() {
           hoverFill='hover:bg-secondary'
           color='text-fnt-light'
           icon={<GearFillIcon />}
+          onClick={() => navigate('/preferences')}
         />
       </Section>
-      <Section
-        type='grid'
-        className={clsx(
-          nodes().length >= 5 && 'grid-cols-5',
-          nodes().length < 5 && expandColumns(),
-        )}
-      >
-        <NodeCreator />
-        <For each={nodes()}>{() => <Node />}</For>
+      <Section type='grid'>
+        <div
+          class={clsx(
+            'grid',
+            nodes().length >= 5 && 'grid-cols-5',
+            nodes().length < 5 && expandColumns(),
+          )}
+        >
+          <NodeCreator />
+          <For each={nodes()}>{() => <Node />}</For>
+        </div>
       </Section>
     </main>
   );

@@ -1,5 +1,6 @@
 import { Routes, Route } from '@solidjs/router';
 import { Main, Login, Register } from './pages';
+import { Preference } from './pages/Preference';
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
       <Route
         path='/register'
         component={Register}
+      />
+      <Route
+        path='/preferences'
+        component={Preference}
       />
     </Routes>
   );

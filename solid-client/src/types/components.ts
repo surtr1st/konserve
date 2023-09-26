@@ -56,3 +56,8 @@ export type TLeaf = {
   onCopyPassword: StringCallback;
   onExtraAction: VoidCallback;
 };
+
+export type TSection = {
+  type: 'free' | 'toolbar';
+  children: JSXElement;
+};

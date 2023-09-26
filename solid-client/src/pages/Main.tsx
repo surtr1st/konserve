@@ -9,6 +9,7 @@ import {
   CloudSun2BoldDuoTone,
   CloudyMoonBoldDuoTone,
 } from '../components/icons';
+import { DetailNodePopup } from '../features/DetailNodePopup';
 
 export function Main() {
   const { isDarkMode, toggleTheme } = usePreferredTheme();
@@ -22,6 +23,7 @@ export function Main() {
 
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
+      <DetailNodePopup />
       <Section type='toolbar'>
         <Button
           minWidth='min-w-md'

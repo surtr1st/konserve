@@ -35,7 +35,7 @@ export type TModal = {
   open: () => boolean;
   fill?: BackColor;
   color?: ForeColor;
-  children?: Element;
+  children?: JSXElement;
   onBackdropClick?: UnknownCallback;
 };
 

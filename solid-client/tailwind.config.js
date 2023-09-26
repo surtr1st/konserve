@@ -1,5 +1,4 @@
 import {
-  THEME_COLORS,
   BACKGROUND_COLORS,
   FOREGROUND_COLORS,
   FONT_FAMILY,
@@ -32,7 +31,6 @@ export default {
       colors: {
         ...BACKGROUND_COLORS,
         ...FOREGROUND_COLORS,
-        ...THEME_COLORS,
       },
       borderColor: {
         ...BACKGROUND_COLORS,

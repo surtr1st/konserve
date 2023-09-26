@@ -5,3 +5,5 @@ export * from './PlusIcon';
 export * from './DeleteFilledIcon';
 export * from './User5FillIcon';
 export * from './PasswordBoldIcon';
+export * from './CloudSun2BoldDuoTone';
+export * from './CloudyMoonBoldDuoTone';

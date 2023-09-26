@@ -1,9 +1,15 @@
 import clsx from 'clsx';
-import { For, createSignal } from 'solid-js';
+import { usePreferredTheme } from '../hooks';
+import { For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Node, NodeCreator } from '../components';
 import { GearFillIcon } from '../components/icons/GearFillIcon';
+import {
+  CloudSun2BoldDuoTone,
+  CloudyMoonBoldDuoTone,
+} from '../components/icons';
 
 export function Main() {
+  const { isDarkMode, toggleTheme } = usePreferredTheme();
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
     { id: 2, name: 'Maru' },
@@ -28,6 +34,26 @@ export function Main() {
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
       <section class='flex justify-end items-center border border-x-transparent border-t-transparent border-b-primary w-full p-2'>
+        <Button
+          minWidth='min-w-md'
+          maxWidth='max-w-md'
+          minHeight='min-h-lg'
+          maxHeight='max-h-lg'
+          fill='bg-primary'
+          hoverFill='hover:bg-secondary'
+          color='text-fnt-light'
+          onClick={toggleTheme}
+          icon={
+            <Switch>
+              <Match when={isDarkMode()}>
+                <CloudSun2BoldDuoTone />
+              </Match>
+              <Match when={!isDarkMode()}>
+                <CloudyMoonBoldDuoTone />
+              </Match>
+            </Switch>
+          }
+        />
         <Button
           minWidth='min-w-md'
           maxWidth='max-w-md'

@@ -21,3 +21,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.light-theme {
+  background: #FFFFFF;
+  color: #1E1E1E;
+}
+
+.dark-theme {
+  background: #181818;
+  color: #FFFFFF;
+}

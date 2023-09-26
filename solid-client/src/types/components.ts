@@ -69,3 +69,15 @@ export type TSection = {
   className: string;
   label: string;
 };
+
+export type TAccount = {
+  username: string;
+  password: string;
+};
+
+export type TDetailNodePopup = {
+  open: () => boolean;
+  onClose: UnknownCallback;
+  onBackdropClick: UnknownCallback;
+  data: TAccount[];
+};

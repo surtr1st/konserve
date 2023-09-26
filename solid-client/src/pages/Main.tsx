@@ -14,16 +14,20 @@ import { DetailNodePopup } from '../features/DetailNodePopup';
 export function Main() {
   const { isDarkMode, toggleTheme } = usePreferredTheme();
   const navigate = useNavigate();
+  const [open, setOpen] = createSignal(false);
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
     { id: 2, name: 'Maru' },
     { id: 3, name: 'Henri The Existential Cat' },
   ]);
   const expandColumns = useDynamicGridColumns(nodes().length + 1);
+  const handleOpenPopup = () => {
+    setOpen(!open());
+    console.log(open());
+  };
 
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
-      <DetailNodePopup />
       <Section type='toolbar'>
         <Button
           minWidth='min-w-md'
@@ -66,7 +70,13 @@ export function Main() {
           )}
         >
           <NodeCreator />
-          <For each={nodes()}>{() => <Node />}</For>
+          <For each={nodes()}>{() => <Node onView={handleOpenPopup} />}</For>
+          <DetailNodePopup
+            open={() => open()}
+            onClose={() => setOpen((open) => !open)}
+            onBackdropClick={() => setOpen((open) => !open)}
+            data={[]}
+          />
         </div>
       </Section>
     </main>

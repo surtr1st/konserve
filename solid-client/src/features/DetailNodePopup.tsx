@@ -1,23 +1,32 @@
 import { Modal } from '../components';
-import { Node, NodeCreator } from '.';
-import { For, createSignal } from 'solid-js';
+import { Leaf, LeafCreator } from '.';
+import { For } from 'solid-js';
+import { TDetailNodePopup } from '../types';
 
-export function DetailNodePopup() {
-  const [nodes, _] = createSignal([
-    { id: 1, name: 'Keyboard Cat' },
-    { id: 2, name: 'Maru' },
-    { id: 3, name: 'Henri The Existential Cat' },
-  ]);
+export function DetailNodePopup({
+  open,
+  onClose,
+  onBackdropClick,
+  data,
+}: TDetailNodePopup) {
   return (
     <Modal
-      open={() => true}
+      open={() => open()}
       className='bg-bnt-light dark:bg-bnt-dark'
       label='Detail Account Node'
-      onClose={() => false}
+      onClose={onClose}
+      onBackdropClick={onBackdropClick}
     >
       <div class='grid grid-cols-1'>
-        <For each={nodes()}>{() => <Node className='w-[400px] h-52' />}</For>
-        <NodeCreator />
+        <For each={data}>
+          {(account) => (
+            <Leaf
+              username={account.username}
+              password={account.password}
+            />
+          )}
+        </For>
+        <LeafCreator />
       </div>
     </Modal>
   );

@@ -12,11 +12,12 @@ export function Node({ src, onView, onViewDetail, className }: Partial<TNode>) {
     <div
       title='View'
       class={clsxName}
+      onclick={onView}
     >
-      <picture onclick={onView}>
+      <picture>
         <source src={src} />
       </picture>
-      <div class='absolute top-0 right-0 flex flex-col m-2'>
+      <div class='absolute top-0 right-0 z-20 flex flex-col m-2'>
         <Button
           title='View detail'
           fill='bg-primary'

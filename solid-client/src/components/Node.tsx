@@ -16,7 +16,7 @@ export function Node({ src, onView, onViewDetail }: Partial<TNode>) {
           title='View detail'
           fill='bg-primary'
           hoverFill='hover:bg-secondary'
-          customClass='h-10 w-10'
+          className='h-10 w-10'
           icon={<EyeIcon />}
           onClick={onViewDetail}
         />

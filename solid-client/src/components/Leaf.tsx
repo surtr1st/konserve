@@ -74,6 +74,8 @@ export function Leaf({
             textSize='text-md'
             icon={<CopyFilledIcon />}
             onClick={onCopyUsername}
+            className='bg-neutral-700'
+            hoverFill='hover:bg-b-disabled'
           />
           <Button
             title='Copy password'
@@ -85,6 +87,8 @@ export function Leaf({
             textSize='text-md'
             icon={<CopyIcon />}
             onClick={onCopyPassword}
+            className='bg-neutral-700'
+            hoverFill='hover:bg-b-disabled'
           />
         </div>
       </div>

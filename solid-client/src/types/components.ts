@@ -1,20 +1,20 @@
 import { JSXElement } from 'solid-js';
 
 export type TButton = {
-  label?: string;
-  fill?: BackColor;
-  hoverFill?: HoveredBackColor;
-  color?: ForeColor;
-  textSize?: TextSize;
-  minWidth?: MinimumWidth;
-  maxWidth?: MaxinumWidth;
-  minHeight?: MininumHeight;
-  maxHeight?: MaxinumHeight;
-  disabled?: boolean;
-  onClick?: UnknownCallback;
-  customClass?: string;
-  icon?: JSXElement;
-  title?: string;
+  label: string;
+  fill: BackColor;
+  hoverFill: HoveredBackColor;
+  color: ForeColor;
+  textSize: TextSize;
+  minWidth: MinimumWidth;
+  maxWidth: MaxinumWidth;
+  minHeight: MininumHeight;
+  maxHeight: MaxinumHeight;
+  disabled: boolean;
+  onClick: UnknownCallback;
+  className: string;
+  icon: JSXElement;
+  title: string;
 };
 
 export type TInput = {

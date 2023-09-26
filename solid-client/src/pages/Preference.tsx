@@ -30,7 +30,29 @@ export function Preference() {
           onClick={() => navigate('/')}
         />
       </Section>
-      <section class='grid place-items-center w-[1600px] h-[90vh]'></section>
+      <Section
+        type='free'
+        className='h-[90vh] flex justify-center p-5'
+      >
+        <div class='w-[500px]'>
+          <Section
+            type='heading'
+            label='Themes'
+            className='mb-4'
+          ></Section>
+          <Section
+            type='heading'
+            label='Languages'
+            className='mb-4'
+          ></Section>
+        </div>
+        <div class='w-[500px]'>
+          <Section
+            type='heading'
+            label='Cloud Storages'
+          ></Section>
+        </div>
+      </Section>
     </main>
   );
 }

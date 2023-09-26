@@ -65,18 +65,16 @@ export function Main() {
           icon={<GearFillIcon />}
         />
       </Section>
-      <section class='grid place-items-center w-[1600px] h-[90vh]'>
-        <div
-          class={clsx(
-            'grid',
-            nodes().length >= 5 && 'grid-cols-5',
-            nodes().length < 5 && expandColumns(),
-          )}
-        >
-          <NodeCreator />
-          <For each={nodes()}>{() => <Node />}</For>
-        </div>
-      </section>
+      <Section
+        type='grid'
+        className={clsx(
+          nodes().length >= 5 && 'grid-cols-5',
+          nodes().length < 5 && expandColumns(),
+        )}
+      >
+        <NodeCreator />
+        <For each={nodes()}>{() => <Node />}</For>
+      </Section>
     </main>
   );
 }

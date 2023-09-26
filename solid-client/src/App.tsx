@@ -23,7 +23,7 @@ function App() {
         component={Preference}
       />
       <Route
-        path='/node/leaf'
+        path='/leaf'
         component={DetailNode}
       />
     </Routes>

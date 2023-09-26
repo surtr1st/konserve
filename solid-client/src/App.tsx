@@ -1,7 +1,5 @@
 import { Routes, Route } from '@solidjs/router';
-import { Main, Login, Register } from './pages';
-import { Preference } from './pages/Preference';
-import { DetailNode } from './pages/DetailNode';
+import { Main, Login, Register, Preference, DetailNode } from './pages';
 
 function App() {
   return (

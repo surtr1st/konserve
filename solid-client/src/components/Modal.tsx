@@ -35,7 +35,7 @@ export function Modal({
           <div
             class={clsx(
               className &&
-                `flex w-full justify-between items-center h-20 p-3 sticky top-0 z-20 ${className}`,
+                `flex w-full justify-between items-center h-20 pl-7 pr-3 sticky top-0 z-20 ${className}`,
             )}
           >
             <h3 class='text-2xl font-semibold'>{label}</h3>

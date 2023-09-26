@@ -31,3 +31,23 @@
   background: #181818;
   color: #FFFFFF;
 }
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #bdbdbd;
+  border-radius: 2rem;
+}
+
+
+::-webkit-scrollbar-track {
+  width: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+::-webkit-scrollbar-thumb {
+  background-color: #181818;
+  border-radius: 2rem;
+}
+}

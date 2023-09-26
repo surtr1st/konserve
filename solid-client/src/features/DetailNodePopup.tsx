@@ -12,7 +12,7 @@ export function DetailNodePopup() {
     <Modal
       open={() => true}
       className='bg-bnt-light dark:bg-bnt-dark'
-      label='Node creator'
+      label='Detail Account Node'
       onClose={() => false}
     >
       <div class='grid grid-cols-1'>

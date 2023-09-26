@@ -1,6 +1,7 @@
 import { Routes, Route } from '@solidjs/router';
 import { Main, Login, Register } from './pages';
 import { Preference } from './pages/Preference';
+import { DetailNode } from './pages/DetailNode';
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
       <Route
         path='/preferences'
         component={Preference}
+      />
+      <Route
+        path='/node/leaf'
+        component={DetailNode}
       />
     </Routes>
   );

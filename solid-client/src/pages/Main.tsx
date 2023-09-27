@@ -90,7 +90,14 @@ export function Main() {
             onBackdropClick={() => setOpen1((open) => !open)}
             onAction={() => {}}
           />
-          <For each={nodes()}>{() => <Node onView={handleOpenPopup} />}</For>
+          <For each={nodes()}>
+            {() => (
+              <Node
+                onView={handleOpenPopup}
+                onDelete={() => setOpen2((open) => !open)}
+              />
+            )}
+          </For>
           <DetailNodePopup
             open={() => open()}
             onClose={() => setOpen((open) => !open)}

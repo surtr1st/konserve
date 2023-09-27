@@ -1,12 +1,12 @@
 import { Button, Input, Modal } from '../components';
-import { TNodeCreatorPopup } from '../types';
+import { TNodeActionPopup } from '../types';
 
-export function NodeCreatorPopup({
+export function NodeActionPopup({
   open,
   onClose,
   onAdd,
   onBackdropClick,
-}: TNodeCreatorPopup) {
+}: TNodeActionPopup) {
   return (
     <Modal
       open={() => open()}

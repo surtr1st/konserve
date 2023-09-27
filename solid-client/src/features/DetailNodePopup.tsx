@@ -1,8 +1,7 @@
 import { Modal } from '../components';
-import { Leaf, LeafCreator } from '.';
+import { Leaf, LeafCreator, LeafActionPopup } from '.';
 import { For, createSignal } from 'solid-js';
 import { TDetailNodePopup } from '../types';
-import { LeafCreatorPopup } from './LeafCreatorPopup';
 
 export function DetailNodePopup({
   open,
@@ -35,7 +34,7 @@ export function DetailNodePopup({
           )}
         </For>
         <LeafCreator onAdd={openCreator} />
-        <LeafCreatorPopup
+        <LeafActionPopup
           open={() => showPopup()}
           onClose={openCreator}
           onBackdropClick={openCreator}

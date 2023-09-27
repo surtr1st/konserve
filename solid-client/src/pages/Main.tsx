@@ -6,7 +6,7 @@ import {
   DeleteNodePopup,
   Node,
   NodeCreator,
-  NodeCreatorPopup,
+  NodeActionPopup,
 } from '../features';
 import { GearFillIcon } from '../components/icons/GearFillIcon';
 import { useNavigate } from '@solidjs/router';
@@ -84,7 +84,7 @@ export function Main() {
           )}
         >
           <NodeCreator onAdd={() => setOpen1((open) => !open)} />
-          <NodeCreatorPopup
+          <NodeActionPopup
             open={() => open1()}
             onClose={() => setOpen1((open) => !open)}
             onBackdropClick={() => setOpen1((open) => !open)}

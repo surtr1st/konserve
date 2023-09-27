@@ -84,11 +84,11 @@ export type TDetailNodePopup = TDialog & {
   data: TAccount[];
 };
 
-export type TNodeCreatorPopup = TDialog & {
+export type TNodeActionPopup = TDialog & {
   onAdd: UnknownCallback;
 };
 
-export type TLeafCreatorPopup = TNodeCreatorPopup;
+export type TLeafActionPopup = TNodeActionPopup;
 
 export type TDeleteNodePopup = TDialog & {
   onAccept: BooleanCallback;

@@ -13,6 +13,7 @@ export function Modal({
   onClose,
   className,
   label,
+  bodyClass,
 }: TModal) {
   const baseClass = `${fill} ${color} ${className} drop-shadow-lg outline outline-1 outline-primary rounded rounded-xl grid place-items-center`;
   const positionClass =
@@ -46,7 +47,7 @@ export function Modal({
               &times;
             </span>
           </div>
-          {children}
+          <span class={bodyClass}>{children}</span>
         </div>
         <div
           class='bg-opacity-70 bg-bnt-dark fixed top-0 left-0 w-full h-screen z-10'

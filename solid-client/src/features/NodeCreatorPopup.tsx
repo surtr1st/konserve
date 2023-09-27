@@ -14,12 +14,13 @@ export function NodeCreatorPopup({
       label='Node Creator'
       onClose={onClose}
       onBackdropClick={onBackdropClick}
+      bodyClass='pb-10 w-[400px]'
     >
-      <div class='grid grid-cols-1'>
+      <div class='grid grid-cols-1 place-items-center gap-3'>
         <Input
           type='text'
           name='node-name'
-          label='Node Name'
+          label='Name'
           textSize='text-md'
         />
         <Button

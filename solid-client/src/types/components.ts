@@ -40,6 +40,7 @@ export type TModal = TDialog & {
   children?: JSXElement;
   className?: string;
   label?: string;
+  bodyClass?: string;
 };
 
 export type TNode = {

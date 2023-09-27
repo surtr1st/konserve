@@ -53,7 +53,7 @@ export function Register() {
           textSize='text-md'
         />
         <a
-          href='/'
+          href='/login'
           class='p-2 my-2 cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'
         >
           Already have an account? Log in here.

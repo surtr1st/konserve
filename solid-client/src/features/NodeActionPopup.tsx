@@ -13,7 +13,7 @@ export function NodeActionPopup({
     <Modal
       open={() => open()}
       className='bg-bnt-light dark:bg-bnt-dark'
-      label='Node Creator'
+      label={type === 'create' ? 'Node Creator' : 'Update Node'}
       onClose={onClose}
       onBackdropClick={onBackdropClick}
       bodyClass='pb-10 w-[400px]'

@@ -7,3 +7,4 @@ export * from './User5FillIcon';
 export * from './PasswordBoldIcon';
 export * from './CloudSun2BoldDuoTone';
 export * from './CloudyMoonBoldDuoTone';
+export * from './TargetEdit16Filled';

@@ -2,13 +2,18 @@ import test from '../assets/test-tube-bold.png';
 import clsx from 'clsx';
 import { Button } from '../components';
 import { TNode } from '../types';
-import { DeleteFilledIcon, EyeIcon } from '../components/icons';
+import {
+  DeleteFilledIcon,
+  TargetEdit16Filled,
+  EyeIcon,
+} from '../components/icons';
 import { Match, Switch } from 'solid-js';
 
 export function Node({
   src,
   onView,
   onViewDetail,
+  onEdit,
   onDelete,
   className,
 }: Partial<TNode>) {
@@ -39,6 +44,14 @@ export function Node({
           className='h-10 w-10'
           icon={<EyeIcon />}
           onClick={onViewDetail}
+        />
+        <Button
+          title='Edit Node'
+          fill='bg-secondary'
+          hoverFill='hover:bg-b-disabled'
+          className='h-10 w-10'
+          icon={<TargetEdit16Filled />}
+          onClick={onEdit}
         />
         <Button
           title='Delete Node'

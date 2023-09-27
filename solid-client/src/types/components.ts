@@ -49,7 +49,8 @@ export type TNode = {
   src: string;
   onView: VoidCallback;
   onViewDetail: VoidCallback;
-  onDelete: BooleanCallback;
+  onEdit: VoidCallback;
+  onDelete: VoidCallback;
   className: string;
 };
 
@@ -86,7 +87,7 @@ export type TDetailNodePopup = TDialog & {
 
 export type TNodeActionPopup = TDialog & {
   onAction: UnknownCallback;
-  type: CreateOrUpdate;
+  type?: CreateOrUpdate;
 };
 
 export type TLeafActionPopup = TNodeActionPopup;

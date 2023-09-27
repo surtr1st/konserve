@@ -19,9 +19,11 @@ import { DetailNodePopup } from '../features/DetailNodePopup';
 export function Main() {
   const { isDarkMode, toggleTheme } = usePreferredTheme();
   const navigate = useNavigate();
-  const [open, setOpen] = createSignal(false);
-  const [open1, setOpen1] = createSignal(false);
-  const [open2, setOpen2] = createSignal(false);
+  const [showDetailPopup, setShowDetailPopup] = createSignal(false);
+  const [showCreator, setShowCreator] = createSignal(false);
+  const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
+  const [showDeletePopup, setShowDeletePopup] = createSignal(false);
+
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
     { id: 2, name: 'Maru' },
@@ -35,9 +37,17 @@ export function Main() {
   ]);
 
   const expandColumns = useDynamicGridColumns(nodes().length + 1);
-  const handleOpenPopup = () => {
-    setOpen(!open());
-    console.log(open());
+  const openDetailPopup = () => {
+    setShowDetailPopup(!showDetailPopup());
+  };
+  const openCreator = () => {
+    setShowCreator(!showCreator());
+  };
+  const openUpdatePopup = () => {
+    setShowUpdatePopup(!showUpdatePopup());
+  };
+  const openDeletePopup = () => {
+    setShowDeletePopup(!showDeletePopup());
   };
 
   return (
@@ -83,31 +93,39 @@ export function Main() {
             nodes().length < 5 && expandColumns,
           )}
         >
-          <NodeCreator onAdd={() => setOpen1((open) => !open)} />
+          <NodeCreator onAdd={openCreator} />
           <NodeActionPopup
-            open={() => open1()}
-            onClose={() => setOpen1((open) => !open)}
-            onBackdropClick={() => setOpen1((open) => !open)}
-            onAdd={() => {}}
+            open={() => showCreator()}
+            onClose={openCreator}
+            onBackdropClick={openCreator}
+            onAction={() => {}}
           />
           <For each={nodes()}>
             {() => (
               <Node
-                onView={handleOpenPopup}
-                onDelete={() => setOpen2((open) => !open)}
+                onView={openDetailPopup}
+                onEdit={openUpdatePopup}
+                onDelete={openDeletePopup}
               />
             )}
           </For>
+          <NodeActionPopup
+            type='update'
+            open={() => showUpdatePopup()}
+            onClose={openUpdatePopup}
+            onBackdropClick={openUpdatePopup}
+            onAction={() => {}}
+          />
           <DetailNodePopup
-            open={() => open()}
-            onClose={() => setOpen((open) => !open)}
-            onBackdropClick={() => setOpen((open) => !open)}
+            open={() => showDetailPopup()}
+            onClose={openDetailPopup}
+            onBackdropClick={openDetailPopup}
             data={accounts()}
           />
           <DeleteNodePopup
-            open={() => open2()}
-            onClose={() => setOpen2((open) => !open)}
-            onBackdropClick={() => setOpen2((open) => !open)}
+            open={() => showDeletePopup()}
+            onClose={openDeletePopup}
+            onBackdropClick={openDeletePopup}
             onAccept={() => false}
           />
         </div>

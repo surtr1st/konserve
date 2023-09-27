@@ -15,13 +15,13 @@ export function Button({
   hoverFill,
   disabled,
   onClick,
-  customClass,
+  className,
   title,
-}: TButton) {
-  const className = clsx(
+}: Partial<TButton>) {
+  const clsxName = clsx(
     'font-semibold transition-all rounded m-1 p-1 grid place-items-center',
     !disabled &&
-      `${fill} ${hoverFill} ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize} ${color} ${customClass} cursor-pointer`,
+      `${fill} ${hoverFill} ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize} ${color} ${className} cursor-pointer`,
     disabled &&
       `bg-b-disabled text-f-disabled ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize}`,
   );
@@ -29,7 +29,7 @@ export function Button({
   return (
     <button
       disabled={disabled}
-      class={className}
+      class={clsxName}
       onclick={onClick}
       title={label || title}
     >

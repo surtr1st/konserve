@@ -1,3 +1,8 @@
+export const THEME_COLORS = {
+  'dark-theme': '#181818',
+  'light-theme': '#FFFFFF',
+};
+
 export const BACKGROUND_COLORS = {
   primary: '#5849FF',
   secondary: '#6D39FF',
@@ -8,6 +13,8 @@ export const BACKGROUND_COLORS = {
   'b-disabled': '#050505',
   'bnt-white-1': '#F1F1F1',
   'bnt-white-2': '#F9F9F9',
+  'bnt-dark-1': '#242424',
+  'bnt-dark-2': '#1B1B1B',
 };
 
 export const FOREGROUND_COLORS = {

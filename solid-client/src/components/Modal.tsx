@@ -10,12 +10,16 @@ export function Modal({
   color,
   children,
   onBackdropClick,
+  onClose,
+  className,
+  label,
 }: TModal) {
-  const baseClass = `${fill} ${color} drop-shadow-lg outline outline-1 outline-primary rounded rounded-2`;
+  const baseClass = `${fill} ${color} ${className} drop-shadow-lg outline outline-1 outline-primary rounded rounded-xl grid place-items-center`;
   const positionClass =
-    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20';
-  const sizeClass = 'min-w-[500px] max-w-[700px] min-h-[200px] max-h-[700px]';
-  const className = clsx(baseClass, positionClass, sizeClass);
+    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50';
+  const sizeClass =
+    'min-w-[500px] max-w-[700px] min-h-[200px] max-h-[700px] overflow-y-auto overflow-x-hidden';
+  const clsxName = clsx(baseClass, positionClass, sizeClass);
 
   const { lock, release } = useLockScroll();
 
@@ -27,7 +31,23 @@ export function Modal({
   return (
     <Portal>
       <Show when={open()}>
-        <div class={className}>{children}</div>
+        <div class={clsxName}>
+          <div
+            class={clsx(
+              className &&
+                `flex w-full justify-between items-center rounded-t-xl h-20 pl-7 pr-3 sticky top-0 z-30 ${className}`,
+            )}
+          >
+            <h3 class='text-2xl font-semibold'>{label}</h3>
+            <span
+              class='text-bnt-dark px-5 py-3 text-center dark:text-white cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'
+              onclick={onClose}
+            >
+              &times;
+            </span>
+          </div>
+          {children}
+        </div>
         <div
           class='bg-opacity-70 bg-bnt-dark fixed top-0 left-0 w-full h-screen z-10'
           onClick={onBackdropClick}

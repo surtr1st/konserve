@@ -1,5 +1,5 @@
 import { Routes, Route } from '@solidjs/router';
-import { Main, Login, Register } from './pages';
+import { Main, Login, Register, Preference, DetailNode } from './pages';
 
 function App() {
   return (
@@ -15,6 +15,14 @@ function App() {
       <Route
         path='/register'
         component={Register}
+      />
+      <Route
+        path='/preferences'
+        component={Preference}
+      />
+      <Route
+        path='/node'
+        component={DetailNode}
       />
     </Routes>
   );

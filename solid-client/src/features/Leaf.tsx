@@ -1,16 +1,17 @@
 import clsx from 'clsx';
-import { createSignal } from 'solid-js';
+import { Show, createSignal } from 'solid-js';
 import { TLeaf } from '../types';
-import { Button } from '.';
+import { Button } from '../components';
 import {
   CopyFilledIcon,
   CopyIcon,
   DeleteFilledIcon,
   PasswordBoldIcon,
   User5FillIcon,
-} from './icons';
+} from '../components/icons';
 
 export function Leaf({
+  type,
   username,
   password,
   onCopyUsername,
@@ -20,10 +21,18 @@ export function Leaf({
   const [censor, setCensor] = createSignal(true);
   const uncencor = () => setCensor(!censor());
 
+  const clsxName = clsx(
+    'relative flex flex-col items-center w-[500px] h-60 m-2 rounded-lg cursor-pointer transition-all',
+    type === 'minimal' &&
+      'border border-bnt-dark-2 bg-white hover:bg-bnt-white-1 dark:bg-bnt-dark dark:hover:bg-bnt-dark-1',
+    type === 'full' &&
+      'border border-primary bg-white hover:bg-bnt-white-1 dark:bg-bnt-dark dark:hover:bg-bnt-dark-1',
+  );
+
   return (
     <div
       title='View'
-      class='relative flex flex-col items-center w-[500px] h-60 m-2 rounded-lg border border-primary bg-transparent hover:bg-bnt-dark cursor-pointer transition-all'
+      class={clsxName}
     >
       <div class='w-full h-24 bg-none flex text-left justify-center items-end text-[24px] gap-1 mt-10'>
         <span>
@@ -33,19 +42,21 @@ export function Leaf({
               {username}
             </h3>
           </span>
-          <span class='flex items-center gap-2'>
-            <PasswordBoldIcon />
-            <h3
-              onclick={uncencor}
-              class={clsx(
-                'p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30',
-                censor() && 'blur-lg',
-                !censor() && 'blur-none',
-              )}
-            >
-              {password}
-            </h3>
-          </span>
+          <Show when={type !== 'minimal'}>
+            <span class='flex items-center gap-2'>
+              <PasswordBoldIcon />
+              <h3
+                onclick={uncencor}
+                class={clsx(
+                  'p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30',
+                  censor() && 'blur-lg',
+                  !censor() && 'blur-none',
+                )}
+              >
+                {password}
+              </h3>
+            </span>
+          </Show>
         </span>
       </div>
       <div class='absolute bottom-0 flex justify-around m-2 w-full'>
@@ -66,8 +77,6 @@ export function Leaf({
         <div class='flex'>
           <Button
             title='Copy username'
-            fill='bg-bnt-dark'
-            hoverFill='hover:bg-b-disabled'
             minWidth='min-w-lg'
             maxWidth='max-w-xl'
             minHeight='min-h-md'
@@ -76,11 +85,11 @@ export function Leaf({
             textSize='text-md'
             icon={<CopyFilledIcon />}
             onClick={onCopyUsername}
+            className='bg-neutral-700'
+            hoverFill='hover:bg-b-disabled'
           />
           <Button
             title='Copy password'
-            fill='bg-bnt-dark'
-            hoverFill='hover:bg-b-disabled'
             minWidth='min-w-lg'
             maxWidth='max-w-xl'
             minHeight='min-h-md'
@@ -89,6 +98,8 @@ export function Leaf({
             textSize='text-md'
             icon={<CopyIcon />}
             onClick={onCopyPassword}
+            className='bg-neutral-700'
+            hoverFill='hover:bg-b-disabled'
           />
         </div>
       </div>

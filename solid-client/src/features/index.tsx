@@ -5,3 +5,5 @@ export * from './NodeCreator';
 export * from './NodeActionPopup';
 export * from './DeleteNodePopup';
 export * from './LeafActionPopup';
+export * from './VerifySecretCodePopup';
+export * from './DetailNodePopup';

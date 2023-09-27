@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
+import { useNavigate } from '@solidjs/router';
 import { For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Section } from '../components';
 import {
@@ -7,20 +8,21 @@ import {
   Node,
   NodeCreator,
   NodeActionPopup,
+  VerifySecretCodePopup,
+  DetailNodePopup,
 } from '../features';
-import { GearFillIcon } from '../components/icons/GearFillIcon';
-import { useNavigate } from '@solidjs/router';
 import {
+  GearFillIcon,
   CloudSun2BoldDuoTone,
   CloudyMoonBoldDuoTone,
 } from '../components/icons';
-import { DetailNodePopup } from '../features/DetailNodePopup';
 
 export function Main() {
   const { isDarkMode, toggleTheme } = usePreferredTheme();
   const navigate = useNavigate();
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
+  const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
 
@@ -39,6 +41,9 @@ export function Main() {
   const expandColumns = useDynamicGridColumns(nodes().length + 1);
   const openDetailPopup = () => {
     setShowDetailPopup(!showDetailPopup());
+  };
+  const openVerifyPopup = () => {
+    setShowVerifyPopup(!showVerifyPopup());
   };
   const openCreator = () => {
     setShowCreator(!showCreator());
@@ -104,11 +109,17 @@ export function Main() {
             {() => (
               <Node
                 onView={openDetailPopup}
+                onViewDetail={openVerifyPopup}
                 onEdit={openUpdatePopup}
                 onDelete={openDeletePopup}
               />
             )}
           </For>
+          <VerifySecretCodePopup
+            open={() => showVerifyPopup()}
+            onClose={openVerifyPopup}
+            onBackdropClick={openVerifyPopup}
+          />
           <NodeActionPopup
             type='update'
             open={() => showUpdatePopup()}

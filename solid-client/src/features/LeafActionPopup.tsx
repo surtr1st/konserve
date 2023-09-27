@@ -1,3 +1,4 @@
+import { Match, Show, Switch } from 'solid-js';
 import { Modal, Input, Button } from '../components';
 import { TLeafActionPopup } from '../types';
 
@@ -5,7 +6,8 @@ export function LeafActionPopup({
   open,
   onClose,
   onBackdropClick,
-  onAdd,
+  onAction,
+  type = 'create',
 }: TLeafActionPopup) {
   return (
     <Modal
@@ -31,19 +33,45 @@ export function LeafActionPopup({
           label='Password'
           textSize='text-md'
         />
-        <div class='flex justify-center items-center gap-x-3'>
-          <Button
+        <Show when={type === 'update'}>
+          <Input
+            type='password'
+            name='confirm-password'
+            label='Confirm Password'
             textSize='text-md'
-            label='Add'
-            title='Add account'
-            fill='bg-primary'
-            hoverFill='hover:bg-secondary'
-            minWidth='min-w-lg'
-            maxWidth='max-w-xl'
-            minHeight='min-h-md'
-            maxHeight='max-h-2xl'
-            onClick={onAdd}
           />
+        </Show>
+        <div class='flex justify-center items-center gap-x-3'>
+          <Switch>
+            <Match when={type === 'create'}>
+              <Button
+                textSize='text-md'
+                label='Add'
+                title='Add account'
+                fill='bg-primary'
+                hoverFill='hover:bg-secondary'
+                minWidth='min-w-lg'
+                maxWidth='max-w-xl'
+                minHeight='min-h-md'
+                maxHeight='max-h-2xl'
+                onClick={onAction}
+              />
+            </Match>
+            <Match when={type === 'update'}>
+              <Button
+                textSize='text-md'
+                label='Update'
+                title='Update account'
+                fill='bg-primary'
+                hoverFill='hover:bg-secondary'
+                minWidth='min-w-lg'
+                maxWidth='max-w-xl'
+                minHeight='min-h-md'
+                maxHeight='max-h-2xl'
+                onClick={onAction}
+              />
+            </Match>
+          </Switch>
           <Button
             textSize='text-md'
             label='Cancel'

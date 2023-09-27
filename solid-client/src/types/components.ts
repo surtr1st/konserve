@@ -85,7 +85,8 @@ export type TDetailNodePopup = TDialog & {
 };
 
 export type TNodeActionPopup = TDialog & {
-  onAdd: UnknownCallback;
+  onAction: UnknownCallback;
+  type: CreateOrUpdate;
 };
 
 export type TLeafActionPopup = TNodeActionPopup;

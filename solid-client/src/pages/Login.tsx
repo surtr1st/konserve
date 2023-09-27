@@ -11,18 +11,12 @@ export function Login() {
             name='username'
             label='Username'
             textSize='text-lg'
-            color='text-fnt-dark'
-            fill='bg-bnt-white-1'
-            hoverFill='hover:bg-bnt-white-2'
           />
           <Input
             type='password'
             name='password'
             label='Password'
             textSize='text-lg'
-            color='text-fnt-dark'
-            fill='bg-bnt-white-1'
-            hoverFill='hover:bg-bnt-white-2'
           />
         </div>
       </section>

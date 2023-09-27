@@ -25,9 +25,6 @@ export type TInput = {
   type: 'text' | 'email' | 'password';
   readonly: boolean;
   disabled: boolean;
-  fill: BackColor;
-  hoverFill: HoveredBackColor;
-  color: ForeColor;
   textSize: TextSize;
 };
 

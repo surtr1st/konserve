@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Section } from '../components';
-import { Node, NodeCreator } from '../features';
+import { Node, NodeCreator, NodeCreatorPopup } from '../features';
 import { GearFillIcon } from '../components/icons/GearFillIcon';
 import { useNavigate } from '@solidjs/router';
 import {
@@ -15,6 +15,7 @@ export function Main() {
   const { isDarkMode, toggleTheme } = usePreferredTheme();
   const navigate = useNavigate();
   const [open, setOpen] = createSignal(false);
+  const [open1, setOpen1] = createSignal(false);
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
     { id: 2, name: 'Maru' },
@@ -76,7 +77,13 @@ export function Main() {
             nodes().length < 5 && expandColumns,
           )}
         >
-          <NodeCreator />
+          <NodeCreator onAdd={() => setOpen1((open) => !open)} />
+          <NodeCreatorPopup
+            open={() => open1()}
+            onClose={() => setOpen1((open) => !open)}
+            onBackdropClick={() => setOpen1((open) => !open)}
+            onAction={() => {}}
+          />
           <For each={nodes()}>{() => <Node onView={handleOpenPopup} />}</For>
           <DetailNodePopup
             open={() => open()}

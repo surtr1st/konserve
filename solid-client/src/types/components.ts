@@ -1,5 +1,11 @@
 import { JSXElement } from 'solid-js';
 
+export type TDialog = {
+  open: () => boolean;
+  onClose?: UnknownCallback;
+  onBackdropClick?: UnknownCallback;
+};
+
 export type TButton = {
   label: string;
   fill: BackColor;
@@ -28,13 +34,10 @@ export type TInput = {
   textSize: TextSize;
 };
 
-export type TModal = {
-  open: () => boolean;
+export type TModal = TDialog & {
   fill?: BackColor;
   color?: ForeColor;
   children?: JSXElement;
-  onBackdropClick?: UnknownCallback;
-  onClose: UnknownCallback;
   className?: string;
   label?: string;
 };
@@ -73,9 +76,10 @@ export type TAccount = {
   password: string;
 };
 
-export type TDetailNodePopup = {
-  open: () => boolean;
-  onClose: UnknownCallback;
-  onBackdropClick: UnknownCallback;
+export type TDetailNodePopup = TDialog & {
   data: TAccount[];
+};
+
+export type TNodeCreatorPopup = TDialog & {
+  onAction: UnknownCallback;
 };

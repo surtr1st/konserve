@@ -21,10 +21,18 @@ export function Leaf({
   const [censor, setCensor] = createSignal(true);
   const uncencor = () => setCensor(!censor());
 
+  const clsxName = clsx(
+    'relative flex flex-col items-center w-[500px] h-60 m-2 rounded-lg cursor-pointer transition-all',
+    type === 'minimal' &&
+      'border border-bnt-dark-2 bg-white hover:bg-bnt-white-1 dark:bg-bnt-dark dark:hover:bg-bnt-dark-1',
+    type === 'full' &&
+      'border border-primary bg-white hover:bg-bnt-white-1 dark:bg-bnt-dark dark:hover:bg-bnt-dark-1',
+  );
+
   return (
     <div
       title='View'
-      class='relative flex flex-col items-center w-[500px] h-60 m-2 rounded-lg border border-primary bg-white hover:bg-bnt-white-1 dark:bg-bnt-dark dark:hover:bg-bnt-dark-1 cursor-pointer transition-all'
+      class={clsxName}
     >
       <div class='w-full h-24 bg-none flex text-left justify-center items-end text-[24px] gap-1 mt-10'>
         <span>

@@ -11,17 +11,22 @@ export function Button({
   minHeight,
   maxHeight,
   textSize,
-  color,
   hoverFill,
   disabled,
   onClick,
   className,
   title,
 }: Partial<TButton>) {
+  const isLightBackground =
+    fill === 'bg-bnt-light' ||
+    fill === 'bg-bnt-white-1' ||
+    fill === 'bg-bnt-white-2';
   const clsxName = clsx(
-    'font-semibold transition-all rounded m-1 p-1 grid place-items-center',
+    `font-semibold transition-all rounded m-1 p-1 grid place-items-center ${
+      isLightBackground ? 'text-bnt-dark' : 'text-white'
+    }`,
     !disabled &&
-      `${fill} ${hoverFill} ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize} ${color} ${className} cursor-pointer`,
+      `${fill} ${hoverFill} ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize} ${className} cursor-pointer`,
     disabled &&
       `bg-b-disabled text-f-disabled ${minWidth} ${maxWidth} ${minHeight} ${maxHeight} ${textSize}`,
   );

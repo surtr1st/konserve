@@ -21,6 +21,7 @@ export function DetailNodePopup({
         <For each={data}>
           {(account) => (
             <Leaf
+              type='minimal'
               username={account.username}
               password={account.password}
             />

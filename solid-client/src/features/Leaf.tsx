@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { createSignal } from 'solid-js';
+import { Show, createSignal } from 'solid-js';
 import { TLeaf } from '../types';
 import { Button } from '../components';
 import {
@@ -11,6 +11,7 @@ import {
 } from '../components/icons';
 
 export function Leaf({
+  type,
   username,
   password,
   onCopyUsername,
@@ -33,19 +34,21 @@ export function Leaf({
               {username}
             </h3>
           </span>
-          <span class='flex items-center gap-2'>
-            <PasswordBoldIcon />
-            <h3
-              onclick={uncencor}
-              class={clsx(
-                'p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30',
-                censor() && 'blur-lg',
-                !censor() && 'blur-none',
-              )}
-            >
-              {password}
-            </h3>
-          </span>
+          <Show when={type !== 'minimal'}>
+            <span class='flex items-center gap-2'>
+              <PasswordBoldIcon />
+              <h3
+                onclick={uncencor}
+                class={clsx(
+                  'p-1 transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30',
+                  censor() && 'blur-lg',
+                  !censor() && 'blur-none',
+                )}
+              >
+                {password}
+              </h3>
+            </span>
+          </Show>
         </span>
       </div>
       <div class='absolute bottom-0 flex justify-around m-2 w-full'>

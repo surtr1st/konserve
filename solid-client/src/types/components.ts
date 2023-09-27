@@ -56,6 +56,7 @@ export type TNodeCreator = {
 export type TLeafCreator = TNodeCreator;
 
 export type TLeaf = {
+  type: 'full' | 'minimal';
   username: string;
   password: string;
   onCopyUsername: StringCallback;

@@ -20,6 +20,13 @@ export function Main() {
     { id: 2, name: 'Maru' },
     { id: 3, name: 'Henri The Existential Cat' },
   ]);
+  const [accounts, _set] = createSignal([
+    { username: 'adudarwa', password: '123' },
+    { username: 'adudarwa', password: '123' },
+    { username: 'adudarwa', password: '123' },
+    { username: 'adudarwa', password: '123' },
+  ]);
+
   const expandColumns = useDynamicGridColumns(nodes().length + 1);
   const handleOpenPopup = () => {
     setOpen(!open());
@@ -75,7 +82,7 @@ export function Main() {
             open={() => open()}
             onClose={() => setOpen((open) => !open)}
             onBackdropClick={() => setOpen((open) => !open)}
-            data={[]}
+            data={accounts()}
           />
         </div>
       </Section>

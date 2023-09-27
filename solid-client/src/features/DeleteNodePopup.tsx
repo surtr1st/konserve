@@ -46,7 +46,7 @@ export function DeleteNodePopup({
             maxWidth='max-w-xl'
             minHeight='min-h-md'
             maxHeight='max-h-2xl'
-            onClick={onAccept}
+            onClick={onClose}
           />
         </div>
       </div>

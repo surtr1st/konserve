@@ -14,10 +14,13 @@ export function Modal({
   className,
   label,
   bodyClass,
+  zIndex,
+  backdropZIndex,
 }: TModal) {
   const baseClass = `${fill} ${color} ${className} drop-shadow-lg outline outline-1 outline-primary rounded rounded-xl grid place-items-center`;
-  const positionClass =
-    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50';
+  const positionClass = `fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ${
+    zIndex || 'z-50'
+  }`;
   const sizeClass =
     'min-w-[500px] max-w-[700px] min-h-[200px] max-h-[700px] overflow-y-auto overflow-x-hidden';
   const clsxName = clsx(baseClass, positionClass, sizeClass);
@@ -50,7 +53,12 @@ export function Modal({
           <span class={bodyClass}>{children}</span>
         </div>
         <div
-          class='bg-opacity-70 bg-bnt-dark fixed top-0 left-0 w-full h-screen z-10'
+          class={clsx(
+            className &&
+              `bg-opacity-70 bg-bnt-dark fixed top-0 left-0 w-full h-screen ${
+                backdropZIndex || 'z-10'
+              }`,
+          )}
           onClick={onBackdropClick}
         ></div>
       </Show>

@@ -41,6 +41,8 @@ export type TModal = TDialog & {
   className?: string;
   label?: string;
   bodyClass?: string;
+  zIndex?: string;
+  backdropZIndex?: string;
 };
 
 export type TNode = {

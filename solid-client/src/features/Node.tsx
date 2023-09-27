@@ -18,8 +18,9 @@ export function Node({
     <div
       title='View'
       class={clsxName}
+      onclick={onView}
     >
-      <picture onclick={onView}>
+      <picture>
         <source src={src} />
       </picture>
       <div class='absolute top-0 right-0 z-10 flex flex-col m-2'>

@@ -16,7 +16,7 @@ export function Modal({
 }: TModal) {
   const baseClass = `${fill} ${color} ${className} drop-shadow-lg outline outline-1 outline-primary rounded rounded-2 grid place-items-center`;
   const positionClass =
-    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20';
+    'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50';
   const sizeClass =
     'min-w-[500px] max-w-[700px] min-h-[200px] max-h-[700px] overflow-y-auto overflow-x-hidden';
   const clsxName = clsx(baseClass, positionClass, sizeClass);
@@ -35,7 +35,7 @@ export function Modal({
           <div
             class={clsx(
               className &&
-                `flex w-full justify-between items-center h-20 pl-7 pr-3 sticky top-0 z-20 ${className}`,
+                `flex w-full justify-between items-center h-20 pl-7 pr-3 sticky top-0 z-40 ${className}`,
             )}
           >
             <h3 class='text-2xl font-semibold'>{label}</h3>

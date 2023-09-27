@@ -17,7 +17,7 @@ export function Node({ src, onView, onViewDetail, className }: Partial<TNode>) {
       <picture>
         <source src={src} />
       </picture>
-      <div class='absolute top-0 right-0 z-20 flex flex-col m-2'>
+      <div class='absolute top-0 right-0 z-10 flex flex-col m-2'>
         <Button
           title='View detail'
           fill='bg-primary'

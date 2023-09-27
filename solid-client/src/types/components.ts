@@ -1,5 +1,11 @@
 import { JSXElement } from 'solid-js';
 
+export type TDialog = {
+  open: () => boolean;
+  onClose?: UnknownCallback;
+  onBackdropClick?: UnknownCallback;
+};
+
 export type TButton = {
   label: string;
   fill: BackColor;
@@ -25,27 +31,26 @@ export type TInput = {
   type: 'text' | 'email' | 'password';
   readonly: boolean;
   disabled: boolean;
-  fill: BackColor;
-  hoverFill: HoveredBackColor;
-  color: ForeColor;
   textSize: TextSize;
 };
 
-export type TModal = {
-  open: () => boolean;
+export type TModal = TDialog & {
   fill?: BackColor;
   color?: ForeColor;
   children?: JSXElement;
-  onBackdropClick?: UnknownCallback;
-  onClose: UnknownCallback;
   className?: string;
   label?: string;
+  bodyClass?: string;
+  zIndex?: string;
+  backdropZIndex?: string;
 };
 
 export type TNode = {
   src: string;
   onView: VoidCallback;
   onViewDetail: VoidCallback;
+  onEdit: VoidCallback;
+  onDelete: VoidCallback;
   className: string;
 };
 
@@ -76,9 +81,14 @@ export type TAccount = {
   password: string;
 };
 
-export type TDetailNodePopup = {
-  open: () => boolean;
-  onClose: UnknownCallback;
-  onBackdropClick: UnknownCallback;
+export type TDetailNodePopup = TDialog & {
   data: TAccount[];
 };
+
+export type TNodeActionPopup = TDialog & {
+  type?: CreateOrUpdate;
+};
+
+export type TLeafActionPopup = TNodeActionPopup;
+export type TVerifySecretCodePopup = TDialog;
+export type TDeleteNodePopup = TDialog;

@@ -11,18 +11,12 @@ export function Register() {
             name='username'
             label='Username'
             textSize='text-lg'
-            color='text-fnt-dark'
-            fill='bg-bnt-white-1'
-            hoverFill='hover:bg-bnt-white-2'
           />
           <Input
             type='email'
             name='email'
             label='E-Mail'
             textSize='text-lg'
-            color='text-fnt-dark'
-            fill='bg-bnt-white-1'
-            hoverFill='hover:bg-bnt-white-2'
           />
         </div>
         <div class='w-[500px] p-10'>
@@ -31,27 +25,18 @@ export function Register() {
             name='password'
             label='Password'
             textSize='text-lg'
-            color='text-fnt-dark'
-            fill='bg-bnt-white-1'
-            hoverFill='hover:bg-bnt-white-2'
           />
           <Input
             type='password'
             name='password'
             label='Confirm Password'
             textSize='text-lg'
-            color='text-fnt-dark'
-            fill='bg-bnt-white-1'
-            hoverFill='hover:bg-bnt-white-2'
           />
           <Input
             type='text'
             name='display-name'
             label='Display Name'
             textSize='text-lg'
-            color='text-fnt-dark'
-            fill='bg-bnt-white-1'
-            hoverFill='hover:bg-bnt-white-2'
           />
         </div>
       </section>
@@ -68,7 +53,7 @@ export function Register() {
           textSize='text-md'
         />
         <a
-          href='/'
+          href='/login'
           class='p-2 my-2 cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'
         >
           Already have an account? Log in here.

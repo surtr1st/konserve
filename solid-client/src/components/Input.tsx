@@ -6,9 +6,6 @@ export function Input({
   type,
   name,
   textSize,
-  hoverFill,
-  fill,
-  color,
   readonly,
   disabled,
   value,
@@ -16,7 +13,7 @@ export function Input({
   label,
 }: Partial<TInput>) {
   const baseClass = `w-full h-[54px] ${textSize} rounded rounded-md transition-all px-3 my-2 border-0 outline-none`;
-  const defaultClass = `${color} ${fill} ${hoverFill} hover:outline-1 hover:outline-primary focus:outline-1 focus:outline-primary`;
+  const defaultClass = `bg-bnt-white-1 hover:bg-bnt-white-2 dark:bg-bnt-dark-2 dark:hover:bg-bnt-dark-1 hover:outline-1 hover:outline-primary focus:outline-1 focus:bg-bnt-white-2 focus:outline-primary dark:focus:bg-bnt-dark-1 dark:caret-bnt-white-1`;
   const classDisabled = clsx(
     baseClass,
     !disabled && defaultClass,
@@ -25,7 +22,7 @@ export function Input({
   const classReadOnly = clsx(
     baseClass,
     !readonly && defaultClass,
-    readonly && 'text-primary bg-transparent outline-1 outline-primary',
+    readonly && 'text-primary bg-transparent outline-1 outline-b-disabled',
   );
 
   return (

@@ -1,20 +1,31 @@
 import clsx from 'clsx';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
+import { useNavigate } from '@solidjs/router';
 import { For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Section } from '../components';
-import { Node, NodeCreator } from '../features';
-import { GearFillIcon } from '../components/icons/GearFillIcon';
-import { useNavigate } from '@solidjs/router';
 import {
+  DeleteNodePopup,
+  Node,
+  NodeCreator,
+  NodeActionPopup,
+  VerifySecretCodePopup,
+  DetailNodePopup,
+} from '../features';
+import {
+  GearFillIcon,
   CloudSun2BoldDuoTone,
   CloudyMoonBoldDuoTone,
 } from '../components/icons';
-import { DetailNodePopup } from '../features/DetailNodePopup';
 
 export function Main() {
   const { isDarkMode, toggleTheme } = usePreferredTheme();
   const navigate = useNavigate();
-  const [open, setOpen] = createSignal(false);
+  const [showDetailPopup, setShowDetailPopup] = createSignal(false);
+  const [showCreator, setShowCreator] = createSignal(false);
+  const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
+  const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
+  const [showDeletePopup, setShowDeletePopup] = createSignal(false);
+
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
     { id: 2, name: 'Maru' },
@@ -28,9 +39,20 @@ export function Main() {
   ]);
 
   const expandColumns = useDynamicGridColumns(nodes().length + 1);
-  const handleOpenPopup = () => {
-    setOpen(!open());
-    console.log(open());
+  const openDetailPopup = () => {
+    setShowDetailPopup(!showDetailPopup());
+  };
+  const openVerifyPopup = () => {
+    setShowVerifyPopup(!showVerifyPopup());
+  };
+  const openCreator = () => {
+    setShowCreator(!showCreator());
+  };
+  const openUpdatePopup = () => {
+    setShowUpdatePopup(!showUpdatePopup());
+  };
+  const openDeletePopup = () => {
+    setShowDeletePopup(!showDeletePopup());
   };
 
   return (
@@ -76,13 +98,43 @@ export function Main() {
             nodes().length < 5 && expandColumns,
           )}
         >
-          <NodeCreator />
-          <For each={nodes()}>{() => <Node onView={handleOpenPopup} />}</For>
+          <NodeCreator onAdd={openCreator} />
+          <NodeActionPopup
+            open={() => showCreator()}
+            onClose={openCreator}
+            onBackdropClick={openCreator}
+          />
+          <For each={nodes()}>
+            {() => (
+              <Node
+                onView={openDetailPopup}
+                onViewDetail={openVerifyPopup}
+                onEdit={openUpdatePopup}
+                onDelete={openDeletePopup}
+              />
+            )}
+          </For>
+          <VerifySecretCodePopup
+            open={() => showVerifyPopup()}
+            onClose={openVerifyPopup}
+            onBackdropClick={openVerifyPopup}
+          />
+          <NodeActionPopup
+            type='update'
+            open={() => showUpdatePopup()}
+            onClose={openUpdatePopup}
+            onBackdropClick={openUpdatePopup}
+          />
           <DetailNodePopup
-            open={() => open()}
-            onClose={() => setOpen((open) => !open)}
-            onBackdropClick={() => setOpen((open) => !open)}
+            open={() => showDetailPopup()}
+            onClose={openDetailPopup}
+            onBackdropClick={openDetailPopup}
             data={accounts()}
+          />
+          <DeleteNodePopup
+            open={() => showDeletePopup()}
+            onClose={openDeletePopup}
+            onBackdropClick={openDeletePopup}
           />
         </div>
       </Section>

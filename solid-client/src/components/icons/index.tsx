@@ -1,3 +1,4 @@
+export * from './GearFillIcon';
 export * from './EyeIcon';
 export * from './CopyFilledIcon';
 export * from './CopyIcon';
@@ -7,3 +8,4 @@ export * from './User5FillIcon';
 export * from './PasswordBoldIcon';
 export * from './CloudSun2BoldDuoTone';
 export * from './CloudyMoonBoldDuoTone';
+export * from './TargetEdit16Filled';

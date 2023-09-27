@@ -103,7 +103,6 @@ export function Main() {
             open={() => showCreator()}
             onClose={openCreator}
             onBackdropClick={openCreator}
-            onAction={() => {}}
           />
           <For each={nodes()}>
             {() => (
@@ -125,7 +124,6 @@ export function Main() {
             open={() => showUpdatePopup()}
             onClose={openUpdatePopup}
             onBackdropClick={openUpdatePopup}
-            onAction={() => {}}
           />
           <DetailNodePopup
             open={() => showDetailPopup()}
@@ -137,7 +135,6 @@ export function Main() {
             open={() => showDeletePopup()}
             onClose={openDeletePopup}
             onBackdropClick={openDeletePopup}
-            onAccept={() => false}
           />
         </div>
       </Section>

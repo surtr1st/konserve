@@ -38,7 +38,6 @@ export function DetailNodePopup({
           open={() => showPopup()}
           onClose={openCreator}
           onBackdropClick={openCreator}
-          onAction={() => {}}
         />
       </div>
     </Modal>

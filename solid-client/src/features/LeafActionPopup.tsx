@@ -6,9 +6,11 @@ export function LeafActionPopup({
   open,
   onClose,
   onBackdropClick,
-  onAction,
   type = 'create',
 }: TLeafActionPopup) {
+  const onCreate = () => {};
+  const onUpdate = () => {};
+
   return (
     <Modal
       open={() => open()}
@@ -54,7 +56,7 @@ export function LeafActionPopup({
                 maxWidth='max-w-xl'
                 minHeight='min-h-md'
                 maxHeight='max-h-2xl'
-                onClick={onAction}
+                onClick={onCreate}
               />
             </Match>
             <Match when={type === 'update'}>
@@ -68,7 +70,7 @@ export function LeafActionPopup({
                 maxWidth='max-w-xl'
                 minHeight='min-h-md'
                 maxHeight='max-h-2xl'
-                onClick={onAction}
+                onClick={onUpdate}
               />
             </Match>
           </Switch>

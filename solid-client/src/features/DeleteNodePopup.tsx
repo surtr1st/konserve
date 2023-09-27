@@ -5,8 +5,9 @@ export function DeleteNodePopup({
   open,
   onClose,
   onBackdropClick,
-  onAccept,
 }: TDeleteNodePopup) {
+  const onAccept = () => {};
+
   return (
     <Modal
       open={() => open()}

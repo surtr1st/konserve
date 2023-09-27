@@ -86,13 +86,9 @@ export type TDetailNodePopup = TDialog & {
 };
 
 export type TNodeActionPopup = TDialog & {
-  onAction: UnknownCallback;
   type?: CreateOrUpdate;
 };
 
 export type TLeafActionPopup = TNodeActionPopup;
 export type TVerifySecretCodePopup = TDialog;
-
-export type TDeleteNodePopup = TDialog & {
-  onAccept: BooleanCallback;
-};
+export type TDeleteNodePopup = TDialog;

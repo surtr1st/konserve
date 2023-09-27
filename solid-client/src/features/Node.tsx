@@ -1,7 +1,9 @@
+import test from '../assets/test-tube-bold.png';
 import clsx from 'clsx';
 import { Button } from '../components';
 import { TNode } from '../types';
 import { DeleteFilledIcon, EyeIcon } from '../components/icons';
+import { Match, Switch } from 'solid-js';
 
 export function Node({
   src,
@@ -18,11 +20,17 @@ export function Node({
     <div
       title='View'
       class={clsxName}
-      onclick={onView}
     >
-      <picture>
-        <source src={src} />
-      </picture>
+      <div
+        class='grid place-items-center h-full'
+        onclick={onView}
+      >
+        <Switch>
+          <Match when={!src}>
+            <img src={test} />
+          </Match>
+        </Switch>
+      </div>
       <div class='absolute top-0 right-0 z-10 flex flex-col m-2'>
         <Button
           title='View detail'

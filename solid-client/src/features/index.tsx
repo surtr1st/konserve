@@ -3,3 +3,4 @@ export * from './Node';
 export * from './LeafCreator';
 export * from './NodeCreator';
 export * from './NodeCreatorPopup';
+export * from './DeleteNodePopup';

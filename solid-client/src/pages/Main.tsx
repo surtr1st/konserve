@@ -2,7 +2,12 @@ import clsx from 'clsx';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Section } from '../components';
-import { Node, NodeCreator, NodeCreatorPopup } from '../features';
+import {
+  DeleteNodePopup,
+  Node,
+  NodeCreator,
+  NodeCreatorPopup,
+} from '../features';
 import { GearFillIcon } from '../components/icons/GearFillIcon';
 import { useNavigate } from '@solidjs/router';
 import {
@@ -16,6 +21,7 @@ export function Main() {
   const navigate = useNavigate();
   const [open, setOpen] = createSignal(false);
   const [open1, setOpen1] = createSignal(false);
+  const [open2, setOpen2] = createSignal(false);
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
     { id: 2, name: 'Maru' },
@@ -90,6 +96,12 @@ export function Main() {
             onClose={() => setOpen((open) => !open)}
             onBackdropClick={() => setOpen((open) => !open)}
             data={accounts()}
+          />
+          <DeleteNodePopup
+            open={() => open2()}
+            onClose={() => setOpen2((open) => !open)}
+            onBackdropClick={() => setOpen2((open) => !open)}
+            onAccept={() => false}
           />
         </div>
       </Section>

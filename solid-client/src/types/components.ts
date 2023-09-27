@@ -84,3 +84,7 @@ export type TDetailNodePopup = TDialog & {
 export type TNodeCreatorPopup = TDialog & {
   onAction: UnknownCallback;
 };
+
+export type TDeleteNodePopup = TDialog & {
+  onAccept: BooleanCallback;
+};

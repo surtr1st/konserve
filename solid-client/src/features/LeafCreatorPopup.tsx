@@ -1,12 +1,12 @@
-import { Button, Input, Modal } from '../components';
-import { TNodeCreatorPopup } from '../types';
+import { Modal, Input, Button } from '../components';
+import { TLeafCreatorPopup } from '../types';
 
-export function NodeCreatorPopup({
+export function LeafCreatorPopup({
   open,
   onClose,
-  onAdd,
   onBackdropClick,
-}: TNodeCreatorPopup) {
+  onAdd,
+}: TLeafCreatorPopup) {
   return (
     <Modal
       open={() => open()}

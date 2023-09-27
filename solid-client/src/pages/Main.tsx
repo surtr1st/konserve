@@ -88,7 +88,7 @@ export function Main() {
             open={() => open1()}
             onClose={() => setOpen1((open) => !open)}
             onBackdropClick={() => setOpen1((open) => !open)}
-            onAction={() => {}}
+            onAdd={() => {}}
           />
           <For each={nodes()}>
             {() => (

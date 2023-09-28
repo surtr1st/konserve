@@ -1,6 +1,9 @@
 import { Elysia } from "elysia";
 import { cookie } from "@elysiajs/cookie";
 import { jwt } from "@elysiajs/jwt";
+import { useDrizzle } from "../config";
+import { users } from "../db/schema";
+import { and, eq } from "drizzle-orm";
 
 type AuthParams = {
   username: string;
@@ -23,35 +26,46 @@ export const auth = new Elysia()
   .use(cookie())
   .post(
     "/auth",
-    async ({ jwt, body, setCookie }) => {
-      const {} = body as AuthParams;
-      const token = await jwt.sign(JWT_CONFIG);
-      setCookie("jwt.auth", token, {
-        httpOnly: true,
-        maxAge: MAX_AGE,
-      });
-      return token;
+    async ({ set, request, jwt, setCookie }) => {
+      const authHeader = request.headers.get("authorization");
+      const token = authHeader && authHeader.split(" ")[1];
+
+      if (!token) {
+        const accessToken = await jwt.sign(JWT_CONFIG);
+        setCookie("jwt.auth", accessToken, {
+          httpOnly: true,
+          maxAge: MAX_AGE,
+        });
+        return {
+          accessToken,
+        };
+      }
+
+      const payload = (await jwt.verify(token as string)) as JWTAuthPayload;
+      if (!payload) {
+        set.status = 403;
+        return "Invalid token or your token has been expired.";
+      }
+
+      return "Authorized";
     },
     {
-      beforeHandle: async ({ jwt, set, request }) => {
-        const authHeader = request.headers.get("authorization");
-        const token = authHeader && authHeader.split(" ")[1];
+      beforeHandle: async ({ set, body }) => {
+        const { username, password } = body as AuthParams;
+        const db = useDrizzle();
 
-        if (!token) {
-          set.status = 401;
-          return "Unauthorized";
+        const [user] = await db
+          .select()
+          .from(users)
+          .where(
+            and(eq(users.username, username), eq(users.password, password)),
+          )
+          .limit(1);
+
+        if (!user) {
+          set.status = 404;
+          return "User not found!";
         }
-
-        const payload = (await jwt.verify(token)) as JWTAuthPayload;
-        if (!payload) {
-          set.status = 403;
-          return "Invalid token or your token has been expired.";
-        }
-
-        return {
-          message: "Authenticated",
-          user: payload,
-        };
       },
     },
   );

@@ -1,6 +1,9 @@
-GET http://localhost:3000/sign/@test_signing
+POST http://localhost:3000/auth
 
-HTTP 200
-[Asserts]
-jsonpath "$.count" > 0
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiand0Iiwic2VjcmV0IjoiRW5kbGVzcyBQYWluIn0.8S4fInly9feZVbFuhdNSSggDR3peRDVqwWVUIRcK0Fk
+{
+  "username": "test@uname",
+  "password": "test@pwd"
+}
 

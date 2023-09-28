@@ -1,5 +1,7 @@
-import { Database } from "bun:sqlite";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient, Config } from "@libsql/client";
 
-export function createDatabase(name = ":memory:") {
-  return new Database(name);
+export function useDrizzle(config: Config) {
+  const client = createClient(config);
+  return drizzle(client);
 }

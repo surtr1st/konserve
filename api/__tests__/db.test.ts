@@ -18,7 +18,7 @@ test("Select first user in table from drizzle", async () => {
     authToken: TURSO_AUTH_TOKEN,
   });
   const result = await db.query.users.findFirst();
-  expect(result).toBe({
+  expect(result).toEqual({
     uid: 1,
     email: "test@1",
     username: "test@uname",

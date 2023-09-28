@@ -1,15 +1,21 @@
 {
   "name": "konserve",
-  "version": "1.0.50",
+  "version": "0.1.9",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/cookie": "^0.7.0",
+    "@elysiajs/cors": "^0.7.1",
+    "@elysiajs/jwt": "^0.7.0",
+    "@libsql/client": "^0.3.5",
+    "drizzle-orm": "^0.28.6",
     "elysia": "latest"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "drizzle-kit": "^0.19.13"
   },
   "module": "src/index.js"
 }

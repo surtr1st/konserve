@@ -1,19 +1,10 @@
 import { Elysia } from "elysia";
-import { cookie } from "@elysiajs/cookie";
 import { jwt } from "@elysiajs/jwt";
+import { cookie } from "@elysiajs/cookie";
+import { and, eq } from "drizzle-orm";
 import { useDrizzle } from "../config";
 import { users } from "../db/schema";
-import { and, eq } from "drizzle-orm";
-
-type AuthParams = {
-  username: string;
-  password: string;
-};
-
-type JWTAuthPayload = {
-  userId: string;
-  username: string;
-};
+import { Auth } from "../models";
 
 const MAX_AGE = 86400;
 const JWT_CONFIG = {
@@ -41,7 +32,7 @@ export const auth = new Elysia()
         };
       }
 
-      const payload = (await jwt.verify(token as string)) as JWTAuthPayload;
+      const payload = await jwt.verify(token as string);
       if (!payload) {
         set.status = 403;
         return "Invalid token or your token has been expired.";
@@ -50,8 +41,9 @@ export const auth = new Elysia()
       return "Authorized";
     },
     {
+      body: Auth,
       beforeHandle: async ({ set, body }) => {
-        const { username, password } = body as AuthParams;
+        const { username, password } = body;
         const db = useDrizzle();
 
         const [user] = await db

@@ -5,11 +5,12 @@ import { and, eq } from "drizzle-orm";
 import { useDrizzle } from "../config";
 import { users } from "../db/schema";
 import { Auth } from "../models";
+import { JWT_SECRET } from "../config";
 
 const MAX_AGE = 86400;
 const JWT_CONFIG = {
   name: "jwt",
-  secret: "Endless Pain",
+  secret: JWT_SECRET,
 };
 
 export const auth = new Elysia()

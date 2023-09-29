@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { auth } from "./services";
+import { auth } from "./routes";
 
 const app = new Elysia().use(auth).listen(3000);
 

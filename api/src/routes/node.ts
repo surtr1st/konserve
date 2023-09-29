@@ -3,16 +3,15 @@ import { useDrizzle } from "../config";
 import { nodes } from "../db/schema";
 import { Node } from "../models";
 
-const db = useDrizzle();
-
 export const node = new Elysia().group("/node", (node) =>
   node
-    .get("/", async () => await db.select().from(nodes))
+    .state({ db: useDrizzle() })
+    .get("/", async ({ store }) => await store.db.select().from(nodes))
     .post(
       "/",
-      async ({ body }) => {
+      async ({ body, store }) => {
         const { name, userId } = body;
-        return await db.insert(nodes).values({ name, userId });
+        return await store.db.insert(nodes).values({ name, userId });
       },
       {
         body: Node,

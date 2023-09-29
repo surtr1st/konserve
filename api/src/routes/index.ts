@@ -1,2 +1,2 @@
-export * from "./auth.routes";
-export * from "./node.routes";
+export * from "./auth";
+export * from "./node";

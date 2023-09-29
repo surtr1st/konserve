@@ -1,2 +1,2 @@
-export * from "./auth.models";
-export * from "./node.models";
+export * from "./auth";
+export * from "./node";

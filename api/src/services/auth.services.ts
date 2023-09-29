@@ -16,9 +16,10 @@ const JWT_CONFIG = {
 export const auth = new Elysia()
   .use(jwt(JWT_CONFIG))
   .use(cookie())
+  .state({ userId: 0 })
   .post(
     "/auth",
-    async ({ set, request, jwt, setCookie }) => {
+    async ({ set, request, store, jwt, setCookie }) => {
       const authHeader = request.headers.get("authorization");
       const token = authHeader && authHeader.split(" ")[1];
 
@@ -30,6 +31,7 @@ export const auth = new Elysia()
         });
         return {
           accessToken,
+          userId: store.userId,
         };
       }
 
@@ -43,7 +45,7 @@ export const auth = new Elysia()
     },
     {
       body: Auth,
-      beforeHandle: async ({ set, body }) => {
+      beforeHandle: async ({ set, body, store }) => {
         const { username, password } = body;
         const db = useDrizzle();
 
@@ -54,6 +56,7 @@ export const auth = new Elysia()
             and(eq(users.username, username), eq(users.password, password)),
           )
           .limit(1);
+        store.userId = user.uid;
 
         if (!user) {
           set.status = 404;

@@ -5,13 +5,7 @@ import { and, eq } from "drizzle-orm";
 import { useDrizzle } from "../config";
 import { users } from "../db/schema";
 import { Auth } from "../models";
-import { JWT_SECRET } from "../config";
-
-const MAX_AGE = 86400;
-const JWT_CONFIG = {
-  name: "jwt",
-  secret: JWT_SECRET,
-};
+import { JWT_CONFIG, MAX_AGE } from "../config";
 
 export const auth = new Elysia()
   .use(jwt(JWT_CONFIG))

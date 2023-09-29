@@ -5,3 +5,5 @@ export const Node = t.Object({
   name: t.String(),
   userId: t.Integer(),
 });
+
+export const NodeDTO = t.Partial(t.Omit(Node, ["id"]));

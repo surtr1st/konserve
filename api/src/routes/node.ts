@@ -5,13 +5,13 @@ import { Node } from "../models";
 
 export const node = new Elysia().group("/node", (node) =>
   node
-    .state({ db: useDrizzle() })
-    .get("/", async ({ store }) => await store.db.select().from(nodes))
+    .decorate("db", useDrizzle())
+    .get("/", async ({ db }) => await db.select().from(nodes))
     .post(
       "/",
-      async ({ body, store }) => {
+      async ({ body, db }) => {
         const { name, userId } = body;
-        return await store.db.insert(nodes).values({ name, userId });
+        return await db.insert(nodes).values({ name, userId });
       },
       {
         body: Node,

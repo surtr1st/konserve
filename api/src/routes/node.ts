@@ -1,11 +1,13 @@
 import { Elysia } from "elysia";
-import { useDrizzle } from "../config";
 import { nodes } from "../db/schema";
 import { NodeDTO } from "../models";
+import { services } from "../plugins";
+import { nodeMiddleware } from "../middlewares";
 
 export const node = new Elysia().group("/node", (node) =>
   node
-    .decorate("db", useDrizzle())
+    .use(services)
+    .use(nodeMiddleware)
     .get("/", async ({ db }) => await db.select().from(nodes))
     .post(
       "/",
@@ -16,17 +18,7 @@ export const node = new Elysia().group("/node", (node) =>
       },
       {
         body: NodeDTO,
-        beforeHandle: ({ set, body }) => {
-          const { name, userId } = body;
-          if (!name || name.length === 0) {
-            set.status = 404;
-            return { message: "Please provide the name!" };
-          }
-          if (!userId) {
-            set.status = 404;
-            return { message: "Unknown node owner!" };
-          }
-        },
+        beforeHandle: ({ validateBody }) => [validateBody()],
       },
     ),
 );

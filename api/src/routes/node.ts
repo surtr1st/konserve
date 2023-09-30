@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
 import { nodes } from "../db/schema";
-import { NodeDTO } from "../models";
 import { services } from "../plugins";
 import { nodeMiddleware } from "../middlewares";
+import { eq } from "drizzle-orm";
 
 export const node = new Elysia().group("/node", (node) =>
   node
@@ -17,8 +17,38 @@ export const node = new Elysia().group("/node", (node) =>
         return await db.insert(nodes).values({ name, userId });
       },
       {
-        body: NodeDTO,
         beforeHandle: ({ validateBody }) => [validateBody()],
+      },
+    )
+    .put(
+      "/:id",
+      async ({ params, body, db }) => {
+        const { id } = params;
+        const { name, userId } = body;
+        return await db
+          .update(nodes)
+          .set({ name, userId })
+          .where(eq(nodes.id, parseInt(id)))
+          .returning({ updatedId: nodes.id });
+      },
+      {
+        beforeHandle: ({ validateBody, isIntParams }) => [
+          validateBody(),
+          isIntParams(),
+        ],
+      },
+    )
+    .delete(
+      "/:id",
+      async ({ params, db }) => {
+        const { id } = params;
+        return await db
+          .delete(nodes)
+          .where(eq(nodes.id, parseInt(id)))
+          .returning({ deletedId: nodes.id });
+      },
+      {
+        beforeHandle: ({ isIntParams }) => isIntParams(),
       },
     ),
 );

@@ -1,4 +1,4 @@
-import { t } from "elysia";
+import { Elysia, t } from "elysia";
 
 export const Node = t.Object({
   id: t.Integer(),
@@ -7,3 +7,7 @@ export const Node = t.Object({
 });
 
 export const NodeDTO = t.Partial(t.Omit(Node, ["id"]));
+
+export const guardNode = new Elysia().guard({
+  body: NodeDTO,
+});

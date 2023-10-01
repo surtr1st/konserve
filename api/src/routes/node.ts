@@ -1,11 +1,11 @@
 import { Elysia } from "elysia";
-import { nodeMiddleware } from "../middlewares";
-import { nodeController } from "../controllers/node";
+import { nodeMiddlewares } from "../middlewares";
+import { nodeControllers } from "../controllers/node";
 
 export const node = new Elysia().group("/node", (node) =>
   node
-    .use(nodeController)
-    .use(nodeMiddleware)
+    .use(nodeControllers)
+    .use(nodeMiddlewares)
     .get("/", ({ getNodes }) => getNodes())
     .onBeforeHandle(({ validateBody }) => validateBody())
     .post("/", ({ createNode }) => createNode())

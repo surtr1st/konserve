@@ -4,7 +4,7 @@ import { databaseServices } from "../plugins";
 import { nodes } from "../db/schema";
 import { guardNode } from "../models";
 
-export const nodeController = new Elysia({ name: "node@controller" })
+export const nodeControllers = new Elysia({ name: "node@controllers" })
   .use(guardNode)
   .use(databaseServices)
   .derive(({ set, params, body, db }) => {

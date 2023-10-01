@@ -1,3 +1,3 @@
 import { Elysia } from "elysia";
 
-export const auth = new Elysia().derive(({}) => {});
+export const node = new Elysia({ name: "node@controller" }).derive(({}) => {});

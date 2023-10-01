@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
 import { nodeMiddlewares } from "../middlewares";
-import { nodeControllers } from "../controllers/node";
+import { nodeControllers } from "../controllers";
 
-export const node = new Elysia().group("/node", (node) =>
+export const node = new Elysia({ name: "node@routes" }).group("/node", (node) =>
   node
     .use(nodeControllers)
     .use(nodeMiddlewares)

@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { databaseServices } from "$plugins";
 import { nodes } from "$db/schema";
 import { nodeModel } from "$models";
@@ -21,8 +21,10 @@ export const nodeControllers = new Elysia({ name: "node@controllers" })
       const { name, userId } = body;
       const [result] = await db
         .update(nodes)
-        .set({ name, userId })
-        .where(eq(nodes.id, parseInt(id)))
+        .set({ name })
+        .where(
+          and(eq(nodes.id, parseInt(id)), eq(nodes.userId, userId as number)),
+        )
         .returning({ updatedId: nodes.id });
       return result;
     };

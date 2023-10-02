@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { nodeDto } from "../models";
+import { nodeDto } from "$models";
 
 export const nodeMiddlewares = new Elysia({ name: "node@middlewares" })
   .use(nodeDto)

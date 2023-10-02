@@ -16,11 +16,11 @@ export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
 
       if (!username || username.length === 0) {
         set.status = 406;
-        return "Username is empty!";
+        return { message: "Username is empty!" };
       }
       if (!password || password.length === 0) {
         set.status = 406;
-        return "Password is empty!";
+        return { message: "Password is empty!" };
       }
 
       const [user] = await db
@@ -31,7 +31,7 @@ export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
 
       if (!user) {
         set.status = 404;
-        return "User not found!";
+        return { message: "User not found!" };
       }
 
       store.userId = user.uid;

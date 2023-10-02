@@ -30,10 +30,8 @@ export const authControllers = new Elysia({ name: "auth@controllers" })
       const payload = await jwt.verify(token as string);
       if (!payload) {
         set.status = 403;
-        return "Invalid token or your token has been expired.";
+        return { message: "Invalid token or your token has been expired." };
       }
-
-      return "Authorized";
     };
     return { authenticate };
   });

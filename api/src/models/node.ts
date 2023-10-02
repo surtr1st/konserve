@@ -8,6 +8,10 @@ export const Node = t.Object({
 
 export const NodeDTO = t.Partial(t.Omit(Node, ["id"]));
 
-export const guardNode = new Elysia().guard({
-  body: NodeDTO,
+export const nodeModel = new Elysia().model({
+  "node.entity": Node,
+});
+
+export const nodeDto = new Elysia().model({
+  "node.dto": NodeDTO,
 });

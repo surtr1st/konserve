@@ -1,19 +1,19 @@
-import { Elysia, NotFoundError, ParseError } from "elysia";
-import { nodeModel } from "$models";
+import { leafModel } from "$models";
+import Elysia, { NotFoundError, ParseError } from "elysia";
 
-export const nodeMiddlewares = new Elysia({ name: "node@middlewares" })
-  .use(nodeModel)
-  .guard({ body: "node.dto" })
+export const leafMiddlewares = new Elysia({ name: "leaf@middlewares" })
+  .use(leafModel)
+  .guard({ body: "leaf.dto" })
   .derive(({ set, body, params }) => {
     const validateBody = () => {
-      const { name, userId } = body;
-      if (!name) {
+      const { username, nodeId } = body;
+      if (!username) {
         set.status = 404;
         throw new NotFoundError("Please provide the name!");
       }
-      if (!userId) {
+      if (!nodeId) {
         set.status = 404;
-        throw new NotFoundError("Unknown node owner!");
+        throw new NotFoundError("Unknown leaf owner, please provide its node!");
       }
     };
     const isIntParams = () => {

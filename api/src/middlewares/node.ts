@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
-import { nodeDto } from "$models";
+import { nodeModel } from "$models";
 
 export const nodeMiddlewares = new Elysia({ name: "node@middlewares" })
-  .use(nodeDto)
+  .use(nodeModel)
   .guard({ body: "node.dto" })
   .derive(({ set, body, params }) => {
     const validateBody = () => {

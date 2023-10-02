@@ -7,5 +7,7 @@ export const Leaf = t.Object({
   nodeId: t.Integer(),
 });
 export const LeafDTO = t.Partial(t.Omit(Leaf, ["id"]));
-export const leafModel = new Elysia().guard({ body: Leaf });
-export const leafDto = new Elysia().guard({ body: LeafDTO });
+export const leafModel = new Elysia().model({
+  "leaf.entity": Leaf,
+  "leaf.dto": LeafDTO,
+});

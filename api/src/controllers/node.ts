@@ -2,10 +2,10 @@ import { Elysia } from "elysia";
 import { eq } from "drizzle-orm";
 import { databaseServices } from "$plugins";
 import { nodes } from "$db/schema";
-import { nodeDto } from "$models";
+import { nodeModel } from "$models";
 
 export const nodeControllers = new Elysia({ name: "node@controllers" })
-  .use(nodeDto)
+  .use(nodeModel)
   .use(databaseServices)
   .guard({ body: "node.dto" })
   .derive(({ set, params, body, db }) => {

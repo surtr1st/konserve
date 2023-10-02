@@ -24,18 +24,20 @@ export const userControllers = new Elysia({ name: "user@controllers" })
     };
     const updateUser = async () => {
       const { id } = params;
-      return await db
+      const [result] = await db
         .update(users)
         .set({ ...body })
         .where(eq(users.uid, id))
         .returning({ updateId: users.uid });
+      return result;
     };
     const deleteUser = async () => {
       const { id } = params;
-      return await db
+      const [result] = await db
         .delete(users)
         .where(eq(users.uid, id))
         .returning({ deleteId: users.uid });
+      return result;
     };
     return { getUsers, createUser, updateUser, deleteUser };
   });

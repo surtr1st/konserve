@@ -1,10 +1,10 @@
 import { userModel } from "$models";
-import Elysia, { NotFoundError } from "elysia";
+import Elysia, { NotFoundError, ParseError } from "elysia";
 
 export const userMiddlewares = new Elysia({ name: "user@middlewares" })
   .use(userModel)
   .guard({ body: "user.dto" })
-  .derive(({ set, body }) => {
+  .derive(({ set, body, params }) => {
     const validateBody = () => {
       const { email, username, password } = body;
       if (!email) {
@@ -20,5 +20,13 @@ export const userMiddlewares = new Elysia({ name: "user@middlewares" })
         throw new NotFoundError("Please provide password!");
       }
     };
-    return { validateBody };
+    const isIntParams = () => {
+      const { id } = params;
+      const regex = new RegExp(/[0-9]/);
+      if (!regex.test(id)) {
+        set.status = 400;
+        throw new ParseError("Invalid params type!");
+      }
+    };
+    return { validateBody, isIntParams };
   });

@@ -14,11 +14,11 @@ export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
     const validateUser = async () => {
       const { username, password } = body;
 
-      if (!username || username.length === 0) {
+      if (!username) {
         set.status = 404;
         throw new NotFoundError("Username is empty!");
       }
-      if (!password || password.length === 0) {
+      if (!password) {
         set.status = 404;
         throw new NotFoundError("Password is empty!");
       }

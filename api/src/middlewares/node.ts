@@ -1,4 +1,4 @@
-import { OptionalHandler, RouteSchema } from "elysia";
+import { OptionalHandler } from "elysia";
 import { NodeDTO } from "$models";
 
 // export const nodeMiddlewares = new Elysia({ name: "node@middlewares" })
@@ -32,21 +32,18 @@ export const isIntParams: OptionalHandler<any, any> = ({ params, set }) => {
   const regex = new RegExp(/[0-9]/);
   if (!regex.test(id)) {
     set.status = 406;
-    return { message: "Invalid params type!" };
+    throw new Error("Invalid params type!");
   }
 };
 
-export const validateBody: OptionalHandler<RouteSchema, any> = ({
-  body,
-  set,
-}) => {
+export const validateBody: OptionalHandler<any, any> = ({ body, set }) => {
   const { name, userId } = body as typeof NodeDTO.properties;
   if (!name || name.length === 0) {
     set.status = 404;
-    return { message: "Please provide the name!" };
+    throw new Error("Please provide the name!");
   }
   if (!userId) {
     set.status = 404;
-    return { message: "Unknown node owner!" };
+    throw new Error("Unknown node owner!");
   }
 };

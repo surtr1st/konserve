@@ -19,7 +19,7 @@ export const leafControllers = new Elysia({ name: "leaf@controllers" })
       return result.rowsAffected;
     };
     const updateLeaf = async () => {
-      const { id, node } = query;
+      const { id, nodeId } = query;
       const { username, password } = body;
       const [result] = await db
         .update(leaves)
@@ -27,7 +27,7 @@ export const leafControllers = new Elysia({ name: "leaf@controllers" })
         .where(
           and(
             eq(leaves.id, parseInt(id as string)),
-            eq(leaves.nodeId, parseInt(node as string)),
+            eq(leaves.nodeId, parseInt(nodeId as string)),
           ),
         )
         .returning({ updatedId: leaves.id });

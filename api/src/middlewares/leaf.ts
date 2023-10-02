@@ -4,7 +4,7 @@ import Elysia, { NotFoundError, ParseError } from "elysia";
 export const leafMiddlewares = new Elysia({ name: "leaf@middlewares" })
   .use(leafModel)
   .guard({ body: "leaf.dto" })
-  .derive(({ set, body, params }) => {
+  .derive(({ set, body, params, query }) => {
     const validateBody = () => {
       const { username, nodeId } = body;
       if (!username) {
@@ -24,5 +24,16 @@ export const leafMiddlewares = new Elysia({ name: "leaf@middlewares" })
         throw new ParseError("Invalid params type!");
       }
     };
-    return { validateBody, isIntParams };
+    const validateQuery = () => {
+      const { id, nodeId } = query;
+      if (!id) {
+        set.status = 404;
+        throw new NotFoundError("Unknown leaf!");
+      }
+      if (!nodeId) {
+        set.status = 404;
+        throw new NotFoundError("Unknown leaf owner, please provide its node!");
+      }
+    };
+    return { validateBody, isIntParams, validateQuery };
   });

@@ -18,7 +18,8 @@ create table leaves (
   id        integer primary key,
   username  text,
   password  text,
-  foreign key (id) references nodes (id)
+  node_id   integer,
+  foreign key (node_id) references nodes (id)
 );
 
 

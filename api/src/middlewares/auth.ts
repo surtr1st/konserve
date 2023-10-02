@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import { Elysia, NotFoundError } from "elysia";
 import { and, eq } from "drizzle-orm";
 import { users } from "$db/schema";
 import { authModel } from "$models";
@@ -15,12 +15,12 @@ export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
       const { username, password } = body;
 
       if (!username || username.length === 0) {
-        set.status = 406;
-        return { message: "Username is empty!" };
+        set.status = 404;
+        throw new NotFoundError("Username is empty!");
       }
       if (!password || password.length === 0) {
-        set.status = 406;
-        return { message: "Password is empty!" };
+        set.status = 404;
+        throw new NotFoundError("Password is empty!");
       }
 
       const [user] = await db
@@ -31,7 +31,7 @@ export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
 
       if (!user) {
         set.status = 404;
-        return { message: "User not found!" };
+        throw new NotFoundError("User not found!");
       }
 
       store.userId = user.uid;

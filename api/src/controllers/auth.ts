@@ -16,7 +16,9 @@ export const authControllers = new Elysia({ name: "auth@controllers" })
       const token = authHeader && authHeader.split(" ")[1];
 
       if (!token) {
-        const accessToken = await jwt.sign(JWT_CONFIG);
+        const accessToken = await jwt.sign({
+          whologin: `User#${store.userId}`,
+        });
         setCookie("jwt.auth", accessToken, {
           httpOnly: true,
           maxAge: MAX_AGE,

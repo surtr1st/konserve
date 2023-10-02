@@ -1,27 +1,40 @@
 import { Elysia } from "elysia";
 import { and, eq } from "drizzle-orm";
 import { users } from "../db/schema";
-import { guardAuth } from "../models";
+import { authModel } from "../models";
 import { databaseServices } from "../plugins";
+import { authState } from "../states";
 
 export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
-  .use(guardAuth)
+  .use(authState)
+  .use(authModel)
   .use(databaseServices)
+  .guard({ body: "auth" })
   .derive(({ set, body, db, store }) => {
     const validateUser = async () => {
       const { username, password } = body;
+
+      if (!username || username.length === 0) {
+        set.status = 406;
+        return "Username is empty!";
+      }
+      if (!password || password.length === 0) {
+        set.status = 406;
+        return "Password is empty!";
+      }
 
       const [user] = await db
         .select()
         .from(users)
         .where(and(eq(users.username, username), eq(users.password, password)))
         .limit(1);
-      store.userId = user.uid;
 
       if (!user) {
         set.status = 404;
         return "User not found!";
       }
+
+      store.userId = user.uid;
     };
     return { validateUser };
   });

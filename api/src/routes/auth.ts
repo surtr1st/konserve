@@ -5,5 +5,6 @@ import { authMiddlewares } from "../middlewares";
 export const auth = new Elysia({ name: "auth@routes" })
   .use(authControllers)
   .use(authMiddlewares)
-  .onBeforeHandle(({ validateUser }) => validateUser())
-  .post("/auth", ({ authenticate }) => authenticate());
+  .post("/auth", ({ authenticate }) => authenticate(), {
+    beforeHandle: ({ validateUser }) => validateUser(),
+  });

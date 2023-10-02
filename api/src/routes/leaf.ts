@@ -2,13 +2,22 @@ import { leafControllers } from "$controllers";
 import { leafMiddlewares } from "$middlewares";
 import Elysia from "elysia";
 
-export const leafRoutes = new Elysia({ name: "leaf@routes" })
+export const leaf = new Elysia({ name: "leaf@routes" })
   .use(leafControllers)
   .use(leafMiddlewares)
   .get("/leaves", ({ getLeaves }) => getLeaves())
   .group("/leaf", (leaf) =>
     leaf
-      .post("/", ({ createLeaf }) => createLeaf())
-      .put("/", ({ updateLeaf }) => updateLeaf())
-      .delete("/:id", ({ deleteLeaf }) => deleteLeaf()),
+      .post("/", ({ createLeaf }) => createLeaf(), {
+        beforeHandle: ({ validateBody }) => validateBody(),
+      })
+      .put("/", ({ updateLeaf }) => updateLeaf(), {
+        beforeHandle: [
+          ({ validateQuery }) => validateQuery(),
+          ({ validateBody }) => validateBody(),
+        ],
+      })
+      .delete("/:id", ({ deleteLeaf }) => deleteLeaf(), {
+        beforeHandle: ({ isIntParams }) => isIntParams(),
+      }),
   );

@@ -1,5 +1,5 @@
 import { Elysia } from "elysia";
-import { nodeMiddlewares } from "$middlewares";
+import { isIntParams, validateBody } from "$middlewares";
 import { nodeControllers } from "$controllers";
 
 export const node = new Elysia({ name: "node@routes" })
@@ -7,14 +7,13 @@ export const node = new Elysia({ name: "node@routes" })
   .get("/nodes", ({ getNodes }) => getNodes())
   .group("/node", (node) =>
     node
-      .use(nodeMiddlewares)
       .post("/", ({ createNode }) => createNode(), {
-        beforeHandle: ({ validateBody }) => validateBody(),
+        beforeHandle: validateBody,
       })
-      .onBeforeHandle(({ isIntParams }) => isIntParams())
-      .onBeforeHandle(({ validateBody }) => validateBody())
-      .put("/:id", ({ updateNode }) => updateNode())
+      .put("/:id", ({ updateNode }) => updateNode(), {
+        beforeHandle: [isIntParams, validateBody],
+      })
       .delete("/:id", ({ deleteNode }) => deleteNode(), {
-        beforeHandle: ({ isIntParams }) => isIntParams(),
+        beforeHandle: isIntParams,
       }),
   );

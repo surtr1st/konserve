@@ -13,7 +13,8 @@ export const nodeControllers = new Elysia({ name: "node@controllers" })
     const createNode = async () => {
       set.status = 201;
       const { name, userId } = body;
-      return await db.insert(nodes).values({ name, userId });
+      const result = await db.insert(nodes).values({ name, userId });
+      return result.rowsAffected;
     };
     const updateNode = async () => {
       const { id } = params;

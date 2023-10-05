@@ -12,7 +12,7 @@ export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
   .use(encrypt)
   .use(errorHandlers)
   .guard({ body: "auth" })
-  .derive(({ body, db, store, hash, isMatch }) => {
+  .derive(({ body, db, store, isMatch }) => {
     const verifyUser = async () => {
       const { username, password } = body;
 
@@ -27,8 +27,8 @@ export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
       }
 
       const isUserMatch = await isMatch(
+        password as string,
         user.password as string,
-        await hash(password as string),
       );
 
       if (!isUserMatch) {

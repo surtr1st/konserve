@@ -6,5 +6,12 @@ export const auth = new Elysia({ name: "auth@routes" })
   .use(authControllers)
   .use(authMiddlewares)
   .post("/auth", ({ authenticate }) => authenticate(), {
-    beforeHandle: ({ validateUser }) => validateUser(),
+    beforeHandle: [
+      ({ body, validateBodyProps }) =>
+        validateBodyProps({
+          requestBody: body,
+          requiredKeys: ["username", "password"],
+        }),
+      ({ verifyUser }) => verifyUser(),
+    ],
   });

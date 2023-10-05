@@ -12,6 +12,10 @@ export const nodeMiddlewares = new Elysia({ name: "node@middlewares" })
         validateBodyProps({
           requestBody: body,
           requiredKeys: ["name", "userId"],
+          responseError: {
+            name: "Please provide the name!",
+            userId: "Unknown node owner!",
+          },
         }),
     };
   });

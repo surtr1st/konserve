@@ -11,6 +11,10 @@ export const auth = new Elysia({ name: "auth@routes" })
         validateBodyProps({
           requestBody: body,
           requiredKeys: ["username", "password"],
+          responseError: {
+            username: "Username is empty!",
+            password: "Password is empty!",
+          },
         }),
       ({ verifyUser }) => verifyUser(),
     ],

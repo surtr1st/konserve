@@ -10,13 +10,20 @@ export const leafMiddlewares = new Elysia({ name: "leaf@middlewares" })
     const verifyRequestBody = () =>
       validateBodyProps({
         requestBody: body,
-        requiredKeys: ["username", "nodeId"],
+        requiredKeys: ["username"],
+        responseError: {
+          username: "Please provide the name",
+        },
       });
 
     const verifyRequestQueries = () =>
       validateQueries({
         requestQueries: query,
         requiredKeys: ["id", "nodeId"],
+        responseError: {
+          id: "Unknown leaf!",
+          nodeId: "Unknown leaf owner! Please provide its node!",
+        },
       });
 
     return { verifyRequestBody, verifyRequestQueries };

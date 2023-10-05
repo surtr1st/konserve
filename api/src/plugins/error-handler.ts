@@ -1,14 +1,16 @@
 import { Elysia, NotFoundError, ParseError } from "elysia";
 import { camelCaseToTitleCase } from "helpers";
 
-type OptionalErrorResponse = {
-  responseError?: string;
-};
+type OptionalErrorResponse<T> = T extends string
+  ? {
+      responseError?: Record<T, string>;
+    }
+  : never;
 
 type TBodyValidation<
   TBodySchema,
   TSchemaKey extends keyof TBodySchema,
-> = OptionalErrorResponse & {
+> = OptionalErrorResponse<TSchemaKey> & {
   requestBody: TBodySchema;
   requiredKeys: TSchemaKey[];
 };
@@ -16,7 +18,7 @@ type TBodyValidation<
 type TQueryValidation<
   TQuery,
   TQueryKey extends keyof TQuery,
-> = OptionalErrorResponse & {
+> = OptionalErrorResponse<TQueryKey> & {
   requestQueries: TQuery;
   requiredKeys: TQueryKey[];
 };
@@ -31,9 +33,9 @@ export const errorHandlers = new Elysia({
   }: TBodyValidation<TBodySchema, keyof TBodySchema>) => {
     for (const key of requiredKeys) {
       if (!requestBody[key]) {
-        const message = `${camelCaseToTitleCase(key.toString())} ${
-          responseError || "is required!"
-        }`;
+        const message =
+          responseError?.[key as string] ||
+          `${camelCaseToTitleCase(key.toString())} is required!`;
         throw new NotFoundError(message);
       }
     }
@@ -46,9 +48,9 @@ export const errorHandlers = new Elysia({
   }: TQueryValidation<TQuery, keyof TQuery>) => {
     for (const key of requiredKeys) {
       if (!requestQueries[key]) {
-        const message = `${camelCaseToTitleCase(key.toString())} ${
-          responseError || "is required!"
-        }`;
+        const message =
+          responseError?.[key as string] ||
+          `${camelCaseToTitleCase(key.toString())} is required!`;
         throw new NotFoundError(message);
       }
     }

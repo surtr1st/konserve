@@ -1,4 +1,5 @@
 import { Elysia, NotFoundError, ParseError } from "elysia";
+import { camelCaseToTitleCase } from "helpers";
 
 type OptionalErrorResponse = {
   responseError?: string;
@@ -30,7 +31,9 @@ export const errorHandlers = new Elysia({
   }: TBodyValidation<TBodySchema, keyof TBodySchema>) => {
     for (const key of requiredKeys) {
       if (!requestBody[key]) {
-        const message = `${key.toString()} ${responseError || "is required!"}`;
+        const message = `${camelCaseToTitleCase(key.toString())} ${
+          responseError || "is required!"
+        }`;
         throw new NotFoundError(message);
       }
     }
@@ -43,7 +46,9 @@ export const errorHandlers = new Elysia({
   }: TQueryValidation<TQuery, keyof TQuery>) => {
     for (const key of requiredKeys) {
       if (!requestQueries[key]) {
-        const message = `${key.toString()} ${responseError || "is required!"}`;
+        const message = `${camelCaseToTitleCase(key.toString())} ${
+          responseError || "is required!"
+        }`;
         throw new NotFoundError(message);
       }
     }

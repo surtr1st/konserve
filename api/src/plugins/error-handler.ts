@@ -1,5 +1,5 @@
 import { Elysia, NotFoundError, ParseError } from "elysia";
-import { camelCaseToTitleCase } from "helpers";
+import { camelCaseToTitleCase } from "$helpers";
 
 type OptionalErrorResponse<T> = T extends string
   ? {

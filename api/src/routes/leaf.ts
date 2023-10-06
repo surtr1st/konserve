@@ -5,12 +5,7 @@ import { leafMiddlewares } from "$middlewares";
 export const leaf = new Elysia({ name: "leaf@routes" })
   .use(leafControllers)
   .use(leafMiddlewares)
-  .get("/leaves", ({ getLeaves }) => getLeaves(), {
-    beforeHandle: [
-      ({ verifyUserSecret }) => verifyUserSecret(),
-      ({ isStateLocked }) => isStateLocked(),
-    ],
-  })
+  .get("/leaves", ({ getLeaves }) => getLeaves())
   .group("/leaf", (leaf) =>
     leaf
       .post("/", ({ createLeaf }) => createLeaf(), {

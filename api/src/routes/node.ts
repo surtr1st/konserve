@@ -5,7 +5,12 @@ import { nodeControllers } from "$controllers";
 export const node = new Elysia({ name: "node@routes" })
   .use(nodeControllers)
   .use(nodeMiddlewares)
-  .get("/nodes", ({ getNodes }) => getNodes())
+  .get("/nodes", ({ getNodes }) => getNodes(), {
+    beforeHandle: [
+      ({ verifyUserSecret }) => verifyUserSecret(),
+      ({ isStateLocked }) => isStateLocked(),
+    ],
+  })
   .group("/node", (node) =>
     node
       .post("/", ({ createNode }) => createNode(), {

@@ -2,14 +2,14 @@ import { Elysia, NotFoundError } from "elysia";
 import { and, eq } from "drizzle-orm";
 import { users } from "$db/schema";
 import { authModel } from "$models";
-import { databaseServices, encrypt, errorHandlers } from "$plugins";
+import { databaseServices, cryptoServices, errorHandlers } from "$plugins";
 import { authState } from "$states";
 
 export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
   .use(authState)
   .use(authModel)
   .use(databaseServices)
-  .use(encrypt)
+  .use(cryptoServices)
   .use(errorHandlers)
   .guard({ body: "auth" })
   .derive(({ body, db, store, isMatch }) => {

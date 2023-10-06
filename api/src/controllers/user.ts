@@ -1,13 +1,13 @@
 import Elysia from "elysia";
 import { users } from "$db/schema";
 import { userModel } from "$models";
-import { databaseServices, encrypt } from "$plugins";
+import { databaseServices, cryptoServices } from "$plugins";
 import { eq } from "drizzle-orm";
 
 export const userControllers = new Elysia({ name: "user@controllers" })
   .use(userModel)
   .use(databaseServices)
-  .use(encrypt)
+  .use(cryptoServices)
   .guard({ body: "user.dto" })
   .derive(({ set, body, params, db, hash }) => {
     const getUsers = async () => await db.select().from(users);

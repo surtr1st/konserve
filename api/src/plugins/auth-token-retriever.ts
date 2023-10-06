@@ -7,7 +7,8 @@ export const authTokenRetriever = new Elysia({
     const authHeader = request.headers.get("authorization");
     return {
       accessToken: authHeader && authHeader.split(" ")[1],
-      secretCode: authHeader && authHeader.split(" ")[2],
+      userId: authHeader && authHeader.split(" ")[2],
+      secretCode: authHeader && authHeader.split(" ")[3],
     };
   };
   return { useAuthToken };

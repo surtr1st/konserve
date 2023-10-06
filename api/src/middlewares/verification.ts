@@ -31,5 +31,11 @@ export const verification = new Elysia({
         }
       }
     };
-    return { verifySecretCode };
+
+    const isStateLocked = () => {
+      if (store.locked) {
+        throw new Error("You've been locked due to over incorrect verifying!");
+      }
+    };
+    return { verifySecretCode, isStateLocked };
   });

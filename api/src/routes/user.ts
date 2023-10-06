@@ -1,6 +1,6 @@
+import Elysia from "elysia";
 import { userControllers } from "$controllers";
 import { userMiddlewares } from "$middlewares";
-import Elysia from "elysia";
 
 export const user = new Elysia({ name: "user@routes" })
   .use(userControllers)
@@ -9,15 +9,15 @@ export const user = new Elysia({ name: "user@routes" })
   .group("/user", (user) =>
     user
       .post("/register", ({ createUser }) => createUser(), {
-        beforeHandle: ({ validateBody }) => validateBody(),
+        beforeHandle: ({ verifyRequestBody }) => verifyRequestBody(),
       })
       .put("/:id", ({ updateUser }) => updateUser(), {
         beforeHandle: [
           ({ isIntParams }) => isIntParams(),
-          ({ validateBody }) => validateBody(),
+          ({ verifyRequestBody }) => verifyRequestBody(),
         ],
       })
       .delete("/:id", ({ deleteUser }) => deleteUser(), {
-        beforeHandle: ({ validateBody }) => validateBody(),
+        beforeHandle: ({ isIntParams }) => isIntParams(),
       }),
   );

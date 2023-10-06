@@ -1,28 +1,31 @@
-import { Elysia, NotFoundError, ParseError } from "elysia";
+import { Elysia } from "elysia";
 import { nodeModel } from "$models";
+import { authTokenRetriever, errorHandlers } from "$plugins";
+import { verification } from "./verification";
 
 export const nodeMiddlewares = new Elysia({ name: "node@middlewares" })
   .use(nodeModel)
+  .use(errorHandlers)
+  .use(authTokenRetriever)
+  .use(verification)
   .guard({ body: "node.dto" })
-  .derive(({ set, body, params }) => {
-    const validateBody = () => {
-      const { name, userId } = body;
-      if (!name) {
-        set.status = 404;
-        throw new NotFoundError("Please provide the name!");
-      }
-      if (!userId) {
-        set.status = 404;
-        throw new NotFoundError("Unknown node owner!");
-      }
+  .derive(({ body, validateBodyProps, useAuthToken, verifySecretCode }) => {
+    return {
+      verifyUserSecret: async () => {
+        const { userId, secretCode } = useAuthToken();
+        await verifySecretCode(
+          parseInt(userId as string),
+          secretCode as string,
+        );
+      },
+      verifyRequestBody: () =>
+        validateBodyProps({
+          requestBody: body,
+          requiredKeys: ["name", "userId"],
+          responseError: {
+            name: "Please provide the name!",
+            userId: "Unknown node owner!",
+          },
+        }),
     };
-    const isIntParams = () => {
-      const { id } = params;
-      const regex = new RegExp(/[0-9]/);
-      if (!regex.test(id)) {
-        set.status = 400;
-        throw new ParseError("Invalid params type!");
-      }
-    };
-    return { validateBody, isIntParams };
   });

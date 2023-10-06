@@ -1,5 +1,6 @@
 import { users } from "$db/schema";
 import { cryptoServices, databaseServices } from "$plugins";
+import { secretCodeState } from "$states";
 import { eq } from "drizzle-orm";
 import Elysia, { NotFoundError } from "elysia";
 
@@ -8,10 +9,7 @@ export const verification = new Elysia({
 })
   .use(databaseServices)
   .use(cryptoServices)
-  .state({
-    verifyCount: 0,
-    locked: false,
-  })
+  .use(secretCodeState)
   .derive(({ db, isMatch, store }) => {
     const verifySecretCode = async (userId: number, secret: string) => {
       const [user] = await db

@@ -13,7 +13,7 @@ export const authControllers = new Elysia({ name: "auth@controllers" })
   .use(authTokenRetriever)
   .derive(({ set, store, jwt, setCookie, useAuthToken }) => {
     const authenticate = async () => {
-      const token = useAuthToken();
+      const { accessToken: token } = useAuthToken();
 
       if (!token) {
         const accessToken = await jwt.sign({

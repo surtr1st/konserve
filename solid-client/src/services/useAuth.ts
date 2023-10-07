@@ -1,22 +1,19 @@
-import { useLocalStore } from '../hooks';
-
-const BASE_URL = 'http://localhost:3000/api';
-
-type TAuthParams = {
-  username: string;
-  password: string;
-};
+import { BASE_URL } from '.';
+import { useFetchClient, useLocalStore } from '../hooks';
 
 export function useAuth() {
   const authenticate = ({ username, password }: TAuthParams) => {
     const [auth, setAuth] = useLocalStore<TAuthHeaders>('auth', {});
-    fetch(`${BASE_URL}/auth`, {
-      headers: {
-        Authorization: `Bearer ${auth.bearer}`,
-        'Content-Type': 'application/json',
+    const { onPost, useDefaultHeaders } = useFetchClient();
+    onPost<TAuthParams>(
+      `${BASE_URL}/auth`,
+      {
+        headers: useDefaultHeaders({
+          authContent: { bearer: auth.bearer as string },
+        }),
       },
-      body: JSON.stringify({ username, password }),
-    })
+      { username, password },
+    )
       .then(async (res) => {
         const { accessToken: bearer, userId: user } = await res.json();
         setAuth({ bearer, user });

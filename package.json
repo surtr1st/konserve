@@ -1,0 +1,8 @@
+{
+    "name": "konserve",
+    "version": "0.3.0",
+    "workspaces": ["apps/*", "packages/*"],
+    "devDependencies": {
+        "bun-types": "latest"
+    }
+}

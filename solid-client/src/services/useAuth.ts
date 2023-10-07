@@ -9,9 +9,7 @@ type TAuthParams = {
 
 export function useAuth() {
   const authenticate = ({ username, password }: TAuthParams) => {
-    const [auth, setAuth] = useLocalStore<
-      Omit<Partial<TAuthContent>, 'secret'>
-    >('id', {});
+    const [auth, setAuth] = useLocalStore<TAuthHeaders>('auth', {});
     fetch(`${BASE_URL}/auth`, {
       headers: {
         Authorization: `Bearer ${auth.bearer}`,
@@ -26,5 +24,10 @@ export function useAuth() {
       .catch((err) => console.error(err));
   };
 
-  return { authenticate };
+  const isAuth = () => {
+    const [auth, _] = useLocalStore<TAuthHeaders>('auth', {});
+    return auth.bearer || auth.user ? true : false;
+  };
+
+  return { authenticate, isAuth };
 }

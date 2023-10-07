@@ -7,3 +7,4 @@ declare type TRequestHeaders = {
   authContent: TAuthContent;
   headers: HeadersInit;
 };
+declare type TAuthHeaders = Omit<Partial<TAuthContent>, 'secret'>;

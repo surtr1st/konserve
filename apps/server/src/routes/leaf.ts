@@ -1,6 +1,6 @@
 import Elysia from "elysia";
-import { leafControllers } from "$controllers";
-import { leafMiddlewares } from "$middlewares";
+import { leafControllers } from "../controllers";
+import { leafMiddlewares } from "../middlewares";
 
 export const leaf = new Elysia({ name: "leaf@routes" })
   .use(leafControllers)

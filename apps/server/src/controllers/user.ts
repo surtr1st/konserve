@@ -1,7 +1,7 @@
 import Elysia from "elysia";
-import { users } from "$db/schema";
-import { userModel } from "$models";
-import { databaseServices, cryptoServices } from "$plugins";
+import { users } from "../db/schema";
+import { userModel } from "../models";
+import { databaseServices, cryptoServices } from "../plugins";
 import { eq } from "drizzle-orm";
 
 export const userControllers = new Elysia({ name: "user@controllers" })

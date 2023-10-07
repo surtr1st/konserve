@@ -1,6 +1,6 @@
-import { leaves } from "$db/schema";
-import { leafModel } from "$models";
-import { databaseServices } from "$plugins";
+import { leaves } from "../db/schema";
+import { leafModel } from "../models";
+import { databaseServices } from "../plugins";
 import { Elysia } from "elysia";
 import { and, eq } from "drizzle-orm";
 

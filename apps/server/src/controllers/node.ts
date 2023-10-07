@@ -1,8 +1,8 @@
 import { Elysia } from "elysia";
 import { and, eq } from "drizzle-orm";
-import { databaseServices } from "$plugins";
-import { nodes } from "$db/schema";
-import { nodeModel } from "$models";
+import { databaseServices } from "../plugins";
+import { nodes } from "../db/schema";
+import { nodeModel } from "../models";
 
 export const nodeControllers = new Elysia({ name: "node@controllers" })
   .use(nodeModel)

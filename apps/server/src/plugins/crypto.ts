@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 import { AES, enc } from "crypto-js";
-import { FILE_DEST, FILE_XDATA } from "$config";
+import { FILE_DEST, FILE_XDATA } from "../config";
 
 export const cryptoServices = new Elysia({ name: "crypto@services" })
   .decorate(

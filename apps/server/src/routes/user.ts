@@ -1,6 +1,6 @@
 import Elysia from "elysia";
-import { userControllers } from "$controllers";
-import { userMiddlewares } from "$middlewares";
+import { userControllers } from "../controllers";
+import { userMiddlewares } from "../middlewares";
 
 export const user = new Elysia({ name: "user@routes" })
   .use(userControllers)

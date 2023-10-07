@@ -44,3 +44,14 @@ yarn-error.log*
 **/*.log
 package-lock.json
 **/*.bun
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

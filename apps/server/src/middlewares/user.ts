@@ -1,5 +1,5 @@
-import { userModel } from "$models";
-import { errorHandlers } from "$plugins";
+import { userModel } from "../models";
+import { errorHandlers } from "../plugins";
 import { Elysia } from "elysia";
 
 export const userMiddlewares = new Elysia({ name: "user@middlewares" })

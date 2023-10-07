@@ -13,10 +13,7 @@ test("Read Turso's auth token from .env", () => {
 });
 
 test("Select first user in table from drizzle", async () => {
-  const db = useDrizzle({
-    url: DB_NAME as string,
-    authToken: TURSO_AUTH_TOKEN,
-  });
+  const db = useDrizzle();
   const result = await db.query.users.findFirst();
   expect(result).toEqual({
     uid: 1,

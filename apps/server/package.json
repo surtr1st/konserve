@@ -1,5 +1,5 @@
 {
-  "name": "konserve",
+  "name": "server",
   "version": "0.3.2",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,5 +19,5 @@
     "bun-types": "latest",
     "drizzle-kit": "^0.19.13"
   },
-  "module": "src/index.js"
+  "module": "src/index.ts"
 }

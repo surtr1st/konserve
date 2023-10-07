@@ -1,6 +1,6 @@
 import { Elysia } from "elysia";
-import { nodeModel } from "$models";
-import { authTokenRetriever, errorHandlers } from "$plugins";
+import { nodeModel } from "../models";
+import { authTokenRetriever, errorHandlers } from "../plugins";
 import { verification } from "./verification";
 
 export const nodeMiddlewares = new Elysia({ name: "node@middlewares" })

@@ -1,6 +1,6 @@
-import { users } from "$db/schema";
-import { cryptoServices, databaseServices } from "$plugins";
-import { secretCodeState } from "$states";
+import { users } from "../db/schema";
+import { cryptoServices, databaseServices } from "../plugins";
+import { secretCodeState } from "../states";
 import { eq } from "drizzle-orm";
 import Elysia, { NotFoundError } from "elysia";
 

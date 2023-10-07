@@ -1,9 +1,9 @@
 import { Elysia } from "elysia";
 import { jwt } from "@elysiajs/jwt";
 import { cookie } from "@elysiajs/cookie";
-import { JWT_CONFIG, MAX_AGE } from "$config";
-import { authTokenRetriever, databaseServices } from "$plugins";
-import { authState } from "$states";
+import { JWT_CONFIG, MAX_AGE } from "../config";
+import { authTokenRetriever, databaseServices } from "../plugins";
+import { authState } from "../states";
 
 export const authControllers = new Elysia({ name: "auth@controllers" })
   .use(cookie())

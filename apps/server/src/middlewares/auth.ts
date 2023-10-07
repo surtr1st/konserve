@@ -1,9 +1,9 @@
 import { Elysia, NotFoundError } from "elysia";
 import { and, eq } from "drizzle-orm";
-import { users } from "$db/schema";
-import { authModel } from "$models";
-import { databaseServices, cryptoServices, errorHandlers } from "$plugins";
-import { authState } from "$states";
+import { users } from "../db/schema";
+import { authModel } from "../models";
+import { databaseServices, cryptoServices, errorHandlers } from "../plugins";
+import { authState } from "../states";
 
 export const authMiddlewares = new Elysia({ name: "auth@middlewares" })
   .use(authState)

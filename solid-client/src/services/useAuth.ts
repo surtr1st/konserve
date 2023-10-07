@@ -11,6 +11,7 @@ export function useAuth() {
         headers: useDefaultHeaders({
           authContent: { bearer: auth.bearer as string },
         }),
+        credentials: 'include',
       },
       { username, password },
     )

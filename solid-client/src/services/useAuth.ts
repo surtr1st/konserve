@@ -15,6 +15,7 @@ export function useAuth() {
     //   },
     //   { username, password },
     fetch(`${BASE_URL}/auth`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     })

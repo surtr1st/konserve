@@ -5,16 +5,19 @@ export function useAuth() {
   const authenticate = ({ username, password }: TAuthParams) => {
     const [auth, setAuth] = useLocalStore<TAuthHeaders>('auth', {});
     const { onPost, useDefaultHeaders } = useFetchClient();
-    onPost<TAuthParams>(
-      `${BASE_URL}/auth`,
-      {
-        headers: useDefaultHeaders({
-          authContent: { bearer: auth.bearer as string },
-        }),
-        credentials: 'include',
-      },
-      { username, password },
-    )
+    // onPost<TAuthParams>(
+    //   `${BASE_URL}/auth`,
+    //   {
+    //     headers: useDefaultHeaders({
+    //       authContent: { bearer: auth.bearer as string },
+    //     }),
+    //     credentials: 'include',
+    //   },
+    //   { username, password },
+    fetch(`${BASE_URL}/auth`, {
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    })
       .then(async (res) => {
         const { accessToken: bearer, userId: user } = await res.json();
         setAuth({ bearer, user });

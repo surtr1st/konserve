@@ -1,3 +1,5 @@
+import { useLocalStore } from '../hooks';
+
 const BASE_URL = 'http://localhost:3000/api';
 
 type TAuthParams = {
@@ -7,18 +9,19 @@ type TAuthParams = {
 
 export function useAuth() {
   const authenticate = ({ username, password }: TAuthParams) => {
-    const bearerToken = localStorage.getItem('token');
+    const [auth, setAuth] = useLocalStore<
+      Omit<Partial<TAuthContent>, 'secret'>
+    >('id', {});
     fetch(`${BASE_URL}/auth`, {
       headers: {
-        Authorization: `Bearer ${bearerToken}`,
+        Authorization: `Bearer ${auth.bearer}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, password }),
     })
       .then(async (res) => {
-        const { accessToken, userId } = await res.json();
-        localStorage.setItem('token', accessToken);
-        localStorage.setItem('user', userId);
+        const { accessToken: bearer, userId: user } = await res.json();
+        setAuth({ bearer, user });
       })
       .catch((err) => console.error(err));
   };

@@ -1,6 +1,23 @@
 import { Button, Input } from '../components';
+import { useAuth } from '../services';
 
 export function Login() {
+  const { authenticate } = useAuth();
+  let username:
+    | HTMLInputElement
+    | ((el: HTMLInputElement) => undefined)
+    | undefined = undefined;
+  let password:
+    | HTMLInputElement
+    | ((el: HTMLInputElement) => undefined)
+    | undefined = undefined;
+
+  const login = () => {
+    const unwrapUsername = (username as HTMLInputElement).value;
+    const unwrapPassword = (password as HTMLInputElement).value;
+    authenticate({ username: unwrapUsername, password: unwrapPassword });
+  };
+
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
       <section class='grid place-items-center'>
@@ -11,12 +28,14 @@ export function Login() {
             name='username'
             label='Username'
             textSize='text-lg'
+            ref={username}
           />
           <Input
             type='password'
             name='password'
             label='Password'
             textSize='text-lg'
+            ref={password}
           />
         </div>
       </section>
@@ -31,6 +50,7 @@ export function Login() {
           minHeight='min-h-md'
           maxHeight='max-h-2xl'
           textSize='text-md'
+          onClick={login}
         />
         <a
           href='/register'

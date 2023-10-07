@@ -1,10 +1,10 @@
 import { BASE_URL } from '.';
-import { useFetchClient, useLocalStore } from '../hooks';
+import { useLocalStore } from '../hooks';
 
 export function useAuth() {
   const authenticate = ({ username, password }: TAuthParams) => {
-    const [auth, setAuth] = useLocalStore<TAuthHeaders>('auth', {});
-    const { onPost, useDefaultHeaders } = useFetchClient();
+    const [_, setAuth] = useLocalStore<TAuthHeaders>('auth', {});
+    // const { onPost, useDefaultHeaders } = useFetchClient();
     // onPost<TAuthParams>(
     //   `${BASE_URL}/auth`,
     //   {

@@ -6,7 +6,7 @@ import { CORS_ORIGIN } from "$config";
 new Elysia()
   .use(
     cors({
-      origin: CORS_ORIGIN || true,
+      origin: "http://localhost:5173",
       allowedHeaders: ["Content-Type", "Accept", "Authorization"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     }),

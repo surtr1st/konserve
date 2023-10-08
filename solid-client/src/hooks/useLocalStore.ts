@@ -1,4 +1,3 @@
-import { createEffect } from 'solid-js';
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
 export function useLocalStore<T extends object>(
@@ -9,7 +8,7 @@ export function useLocalStore<T extends object>(
   const [state, setState] = createStore<T>(
     localState ? JSON.parse(localState) : init,
   );
-  createEffect(() => localStorage.setItem(name, JSON.stringify(state)));
+  localStorage.setItem(name, JSON.stringify(state));
   return [state, setState];
 }
 

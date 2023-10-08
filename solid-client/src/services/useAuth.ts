@@ -9,7 +9,9 @@ export function useAuth() {
       `${BASE_URL}/auth`,
       {
         headers: useDefaultHeaders({
-          authContent: { bearer: auth.bearer as string },
+          authContent: {
+            bearer: auth.bearer as string,
+          },
         }),
         credentials: 'include',
       },

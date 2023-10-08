@@ -5,10 +5,10 @@ export function useFetchClient() {
   }: Partial<TRequestHeaders>) => {
     const defaultHeaders = {
       Accept: 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${authContent?.bearer || ''} ${
         authContent?.user || ''
       } ${authContent?.secret || ''}`,
-      'Content-Type': 'application/json',
     } satisfies HeadersInit;
     return headers || defaultHeaders;
   };

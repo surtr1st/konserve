@@ -1,11 +1,14 @@
 import { Elysia } from "elysia";
 import { auth, leaf, node, user } from "$routes";
 import { cors } from "@elysiajs/cors";
+import { CORS_ORIGIN } from "$config";
+
+const useWildcard = () => true;
 
 new Elysia()
   .use(
     cors({
-      origin: () => true,
+      origin: CORS_ORIGIN || useWildcard(),
       credentials: true,
       allowedHeaders: ["Content-Type", "Accept", "Authorization"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],

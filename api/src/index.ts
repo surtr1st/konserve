@@ -6,6 +6,7 @@ new Elysia()
   .use(
     cors({
       origin: () => true,
+      credentials: true,
       allowedHeaders: ["Content-Type", "Accept", "Authorization"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     }),

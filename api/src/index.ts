@@ -9,7 +9,6 @@ new Elysia()
   .use(
     cors({
       origin: CORS_ORIGIN || useWildcard(),
-      credentials: true,
       allowedHeaders: ["Content-Type", "Accept", "Authorization"],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     }),

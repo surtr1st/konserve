@@ -1,10 +1,6 @@
 import clsx from 'clsx';
-// import { useAuth } from '../services';
-import {
-  useDynamicGridColumns,
-  useFetchClient,
-  usePreferredTheme,
-} from '../hooks';
+import { useAuth } from '../services';
+import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { useNavigate } from '@solidjs/router';
 import { onMount, For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Section } from '../components';
@@ -21,7 +17,6 @@ import {
   CloudSun2BoldDuoTone,
   CloudyMoonBoldDuoTone,
 } from '../components/icons';
-import { BASE_URL } from '../services';
 
 export function Main() {
   const navigate = useNavigate();
@@ -31,7 +26,6 @@ export function Main() {
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
-  const { onGet } = useFetchClient();
 
   const [nodes, _] = createSignal([
     { id: 1, name: 'Keyboard Cat' },
@@ -63,13 +57,10 @@ export function Main() {
   };
 
   onMount(() => {
-    //   const { isAuth } = useAuth();
-    //   const navigate = useNavigate();
-    //   console.log(isAuth());
-    //   if (!isAuth()) navigate('/login');
-    onGet(`${BASE_URL}/users`)
-      .then((res) => console.log(res))
-      .catch((err) => console.error(err));
+    const { isAuth } = useAuth();
+    const navigate = useNavigate();
+    console.log(isAuth());
+    if (!isAuth()) navigate('/login');
   });
 
   return (

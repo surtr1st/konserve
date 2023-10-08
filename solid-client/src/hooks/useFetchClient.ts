@@ -18,14 +18,14 @@ export function useFetchClient() {
 
   const onPost = <T>(
     url: string,
-    init?: RequestInit,
+    init?: Omit<RequestInit, 'body'>,
     body?: T,
   ): Promise<Response> =>
     fetch(url, { method: 'POST', ...init, body: JSON.stringify(body) });
 
   const onPut = <T>(
     url: string,
-    init?: RequestInit,
+    init?: Omit<RequestInit, 'body'>,
     body?: T,
   ): Promise<Response> =>
     fetch(url, { method: 'PUT', ...init, body: JSON.stringify(body) });

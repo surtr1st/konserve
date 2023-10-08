@@ -4,13 +4,15 @@ import { useFetchClient, useLocalStore } from '../hooks';
 export function useAuth() {
   const authenticate = ({ username, password }: TAuthParams) => {
     const [auth, setAuth] = useLocalStore<TAuthHeaders>('auth', {});
-    const { onPost, useDefaultHeaders } = useFetchClient();
+    const { onPost } = useFetchClient();
     onPost<TAuthParams>(
       `${BASE_URL}/auth`,
       {
-        headers: useDefaultHeaders({
-          authContent: { bearer: auth.bearer as string },
-        }),
+        headers: {
+          Authorization: `Bearer ${auth.bearer}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
       },
       { username, password },
     )

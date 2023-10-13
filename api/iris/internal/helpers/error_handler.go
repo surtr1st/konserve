@@ -44,9 +44,9 @@ func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (code int32, messa
 	for key := range object {
 		value := reflect.ValueOf(object[key])
 		isEmpty := value.String() == ""
-		excluded := excludes[key] != key
+		required := excludes[key] != key
 
-		if isEmpty && excluded {
+		if isEmpty && required {
 			var hasMessage bool = handler.Response != nil
 			var response string = handler.Response[key]
 			defaultMessage := fmt.Sprintf("%s is empty!", key)

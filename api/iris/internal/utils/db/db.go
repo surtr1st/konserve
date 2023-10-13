@@ -1,15 +1,15 @@
 package db
 
 import (
-  "gorm.io/gorm"
-  "gorm.io/driver/sqlite"
-  "konserve/api/internal/constants"
+	"database/sql"
+	"konserve/api/internal/constants"
+
+	_ "github.com/libsql/libsql-client-go/libsql"
 )
 
-func UseGORM() *gorm.DB {
-  gormConfig := &gorm.Config { }
+func UseTurso() *sql.DB {
   connectionString := constants.TURSO_URL
-  db, err := gorm.Open(sqlite.Open(connectionString), gormConfig)
+  db, err := sql.Open("libsql", connectionString)
   if err != nil {
     panic("Failed to connect database!")
   }

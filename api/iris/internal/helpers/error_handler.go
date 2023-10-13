@@ -27,7 +27,7 @@ const (
 )
 
 func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (code int32, message string) {
-	t := utils.Ternary{}
+	t := utils.Ternary[string]{}
 	user := ctx.Values().Get(handler.Store).(T)
 	requestBody, err := json.Marshal(user)
 	if err != nil {

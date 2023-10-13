@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
 
 	"github.com/kataras/iris/v12"
@@ -15,18 +16,18 @@ func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 		ctx.StopWithError(iris.StatusInternalServerError, readErr)
 		return
 	}
-	if body.Email == "" {
-		ctx.StopWithJSON(iris.StatusNotFound, iris.Map{"message": "Email is empty!"})
+
+	store := "user"
+	response := map[string]string{"email": "Email is empty! Please provide it!", "username": "Username is empty! Please provide it!", "password": "Password is empty!"}
+
+	ctx.Values().Set(store, body)
+	handler := helpers.ErrorHandler[models.User]{Store: store, Response: response}
+	code, message := handler.ValidateBody(ctx)
+
+	if code != 0 {
+		ctx.StopWithJSON(iris.StatusNotFound, iris.Map{"message": message})
 		return
 	}
-	if body.Username == "" {
-		ctx.StopWithJSON(iris.StatusNotFound, iris.Map{"message": "Username is empty!"})
-		return
-	}
-	if body.Password == "" {
-		ctx.StopWithJSON(iris.StatusNotFound, iris.Map{"message": "Password is empty!"})
-		return
-	}
-	ctx.Values().Set("user", body)
+
 	ctx.Next()
 }

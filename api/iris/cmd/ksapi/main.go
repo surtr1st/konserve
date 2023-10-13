@@ -17,10 +17,15 @@ func main() {
   }
   api := app.Party("/api")
   api.UseRouter(cors.New(corsOptions))
+  handleUser(api)
+  app.Listen(":4000")
+}
 
+func handleUser(route iris.Party)  {
   user := controllers.UserController {}
   userMiddleware := middlewares.UserMiddleware {}
-  api.Get("/users", user.RetrieveUsers)
-  api.Post("/user/register", userMiddleware.ValidateBody, user.CreateUser)
-  app.Listen(":4000")
+  route.Get("/users", user.RetrieveUsers)
+  route.Post("/user/register", userMiddleware.ValidateBody, user.CreateUser)
+  route.Put("/user/{id:int32}")
+  route.Delete("/user")
 }

@@ -39,7 +39,7 @@ func (service UserService) CreateUser(newUser models.User) (int64, error) {
 }
 
 func (service UserService) UpdateUser(data models.User) (int64, error) {
-	result := db.Save(data)
+	result := db.Where(models.User{Uid: data.Uid}).Omit("uid").Save(data)
 	err := result.Error
 	if err != nil {
 		return 0, err
@@ -53,7 +53,7 @@ func (service UserService) DeleteUser(uid int32) (int64, error) {
 		return 0, findErr
 	}
 
-	result := db.Delete(target)
+	result := db.Delete(&target, uid)
 	err := result.Error
 	if err != nil {
 		return 0, err

@@ -3,6 +3,11 @@ module konserve/api
 go 1.21
 
 require (
+	github.com/iris-contrib/middleware/cors v0.0.0-20230925171251-c76f4baec331
+	github.com/kataras/iris/v12 v12.2.7
+)
+
+require (
 	github.com/BurntSushi/toml v1.3.2 // indirect
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/CloudyKit/jet/v6 v6.2.0 // indirect
@@ -20,7 +25,6 @@ require (
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kataras/blocks v0.0.8 // indirect
 	github.com/kataras/golog v0.1.9 // indirect
-	github.com/kataras/iris/v12 v12.2.7 // indirect
 	github.com/kataras/jwt v0.1.10 // indirect
 	github.com/kataras/pio v0.0.12 // indirect
 	github.com/kataras/sitemap v0.0.6 // indirect

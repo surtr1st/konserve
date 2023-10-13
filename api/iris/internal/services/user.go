@@ -28,12 +28,37 @@ func (service UserService) FindUser(uid int32) (models.User, error) {
 	return user, nil
 }
 
+func (service UserService) FindByUsername(username string) (models.User, error) {
+	var user models.User
+
+	result := service.DB.Where(models.User{Username: username}).Find(&user)
+	err := result.Error
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (service UserService) FindByEmail(email string) (int32, error) {
+	var user models.User
+
+	result := service.DB.Where(models.User{Email: email}).Find(&user)
+	err := result.Error
+	if err != nil {
+		return 0, nil
+	}
+
+	return user.Uid, nil
+}
+
 func (service UserService) CreateUser(user models.User) (int64, error) {
 	result := service.DB.Omit("uid").Create(user)
 	err := result.Error
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }
 

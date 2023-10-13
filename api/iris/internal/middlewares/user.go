@@ -3,6 +3,7 @@ package middlewares
 import (
 	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
+	"strconv"
 
 	"github.com/kataras/iris/v12"
 )
@@ -26,9 +27,10 @@ func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 
 	store := "user"
 	response := map[string]string{"email": EMAIL, "username": USERNAME, "password": PASSWORD}
+	excludeProps := map[string]string{"uid": "uid", "displayName": "displayName", "secretCode": "secretCode"}
 
 	ctx.Values().Set(store, body)
-	handler := helpers.ErrorHandler[models.User]{Store: store, Response: response}
+	handler := helpers.ErrorHandler[models.User]{Store: store, Response: response, Excludes: excludeProps}
 	code, message := handler.ValidateBody(ctx)
 
 	if code != 0 {
@@ -36,5 +38,18 @@ func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 		return
 	}
 
+	ctx.Next()
+}
+
+func (middleware UserMiddleware) ValidateParams(ctx iris.Context) {
+	requiredParams := "id"
+	handler := helpers.ErrorHandler[any]{Params: requiredParams}
+	code, message := handler.IsIntParams(ctx)
+	if code != 0 {
+		ctx.StopWithJSON(iris.StatusConflict, iris.Map{"message": message})
+		return
+	}
+	param, _ := strconv.Atoi(ctx.Params().Get(requiredParams))
+	ctx.Values().Set("userId", int32(param))
 	ctx.Next()
 }

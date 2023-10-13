@@ -3,7 +3,6 @@ package main
 import (
   "github.com/kataras/iris/v12"
   "github.com/iris-contrib/middleware/cors"
-  "konserve/api/internal/services/user"
 ) 
 
 func main() {
@@ -16,14 +15,5 @@ func main() {
   }
   api := app.Party("/api")
   api.UseRouter(cors.New(corsOptions))
-  api.Get("/users",func (ctx iris.Context) {
-    users, err := user.Users()
-    if err != nil {
-      message := iris.Map { "message": err.Error() }
-      ctx.JSON(message)
-      return
-    }
-    ctx.JSON(users)
-  })
   app.Listen(":4000")
 }

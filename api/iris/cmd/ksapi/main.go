@@ -19,6 +19,7 @@ func main() {
 	api := app.Party("/api")
 	api.UseRouter(cors.New(corsOptions))
 	handleUser(api)
+	handleNode(api)
 	app.Listen(":4000")
 }
 
@@ -29,4 +30,9 @@ func handleUser(route iris.Party) {
 	route.Post("/user/register", middleware.ValidateBody, user.CreateUser)
 	route.Put("/user/{id}", middleware.ValidateParams, middleware.ValidateBody, user.UpdateUser)
 	route.Delete("/user/{id}", middleware.ValidateParams, user.DeleteUser)
+}
+
+func handleNode(route iris.Party) {
+	node := controllers.NodeController{}
+	route.Get("/nodes", node.RetrieveNodes)
 }

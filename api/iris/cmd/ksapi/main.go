@@ -18,9 +18,16 @@ func main() {
 	}
 	api := app.Party("/api")
 	api.UseRouter(cors.New(corsOptions))
+	handleAuth(api)
 	handleUser(api)
 	handleNode(api)
 	app.Listen(":4000")
+}
+
+func handleAuth(route iris.Party) {
+	auth := controllers.AuthController{}
+	middleware := middlewares.AuthMiddleware{}
+	route.Post("/auth", middleware.VerifyUser, auth.Authenticate)
 }
 
 func handleUser(route iris.Party) {

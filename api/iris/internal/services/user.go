@@ -21,7 +21,7 @@ func (service UserService) Users() ([]models.User, error) {
 
 func (service UserService) FindUser(uid int32) (models.User, error) {
 	var user models.User
-	result := db.Where(models.User{Uid: uid}).Find(&user)
+	result := db.Find(&user, uid)
 	err := result.Error
 	if err != nil {
 		return user, err

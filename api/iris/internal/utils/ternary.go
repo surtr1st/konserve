@@ -2,7 +2,7 @@ package utils
 
 type Ternary struct{}
 
-func (t Ternary) AssignAfterCompare(ok bool, truthyValue string, falsyValue string) string {
+func (t Ternary) AssignAfterCondition(ok bool, truthyValue string, falsyValue string) string {
 	if !ok {
 		return falsyValue
 	}

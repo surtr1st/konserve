@@ -20,7 +20,7 @@ export function usePreferredTheme() {
 
   const setDefaultTheme = (e: MediaQueryListEvent) => {
     const darkTheme = e.matches;
-    setIsDarkMode((value) => (value = darkTheme));
+    setIsDarkMode(darkTheme);
     if (root) {
       const containsLightTheme = root.classList.contains(CLASS_LIGHT);
       const containsDarkTheme = root.classList.contains(CLASS_DARK);

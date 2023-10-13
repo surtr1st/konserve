@@ -1,7 +1,8 @@
 import clsx from 'clsx';
+import { useAuth } from '../services';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { useNavigate } from '@solidjs/router';
-import { For, createSignal, Match, Switch } from 'solid-js';
+import { onMount, For, createSignal, Match, Switch } from 'solid-js';
 import { Button, Section } from '../components';
 import {
   DeleteNodePopup,
@@ -18,8 +19,8 @@ import {
 } from '../components/icons';
 
 export function Main() {
-  const { isDarkMode, toggleTheme } = usePreferredTheme();
   const navigate = useNavigate();
+  const { isDarkMode, toggleTheme } = usePreferredTheme();
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
@@ -54,6 +55,13 @@ export function Main() {
   const openDeletePopup = () => {
     setShowDeletePopup(!showDeletePopup());
   };
+
+  onMount(() => {
+    const { isAuth } = useAuth();
+    const navigate = useNavigate();
+    console.log(isAuth());
+    if (!isAuth()) navigate('/login');
+  });
 
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>

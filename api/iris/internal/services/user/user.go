@@ -9,9 +9,12 @@ import (
 
 const (
   RETRIEVE_USERS  = "SELECT uid, email, username, password, display_name, secret_code FROM users"
+  INSERT_USER     = "INSERT INTO users (email, username, password, display_name, secret_code) VALUES (?, ?, ?, ?, ?)"
 )
 
-func Users() ([]user.User, error) {
+type UserService struct {}
+
+func (service UserService) Users() ([]user.User, error) {
   turso := db.UseTurso()
   rows, err := turso.Query(RETRIEVE_USERS)
   if err != nil {
@@ -37,4 +40,17 @@ func Users() ([]user.User, error) {
   defer turso.Close()
 
   return users, nil
+}
+
+func (service UserService) CreateUser(newUser user.User) (int64, error) {
+  turso := db.UseTurso()
+
+  result, err := turso.Exec(INSERT_USER, newUser)
+  if err != nil {
+    return 0, err
+  }
+  response, _ := result.LastInsertId()
+  defer turso.Close()
+
+  return response, nil
 }

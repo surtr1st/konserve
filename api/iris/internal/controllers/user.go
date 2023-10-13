@@ -29,7 +29,14 @@ func (ctrl UserController) RetrieveUsers(ctx iris.Context) {
 }
 
 func (ctrl UserController) CreateUser(ctx iris.Context) {
+	encrypt := utils.Encrypto{}
 	user := ctx.Values().Get("user").(models.User)
+	hashedPassword, hashErr := encrypt.Hash(user.Password)
+	if hashErr != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, hashErr)
+		return
+	}
+	user.Password = hashedPassword
 	_, err := ctrl.useService().CreateUser(user)
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)

@@ -1,4 +1,4 @@
-package tokenize
+package utils
 
 import "github.com/kataras/iris/v12/middleware/jwt"
 

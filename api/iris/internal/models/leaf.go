@@ -1,4 +1,4 @@
-package leaf
+package models
 
 type Leaf struct {
   Id         int32     `json:"id"`

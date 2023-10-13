@@ -1,10 +1,9 @@
-package user
+package services
 
 import (
 	"database/sql"
-	"konserve/api/internal/models/user"
-	"konserve/api/internal/utils/db"
-	"konserve/api/internal/utils/ternary"
+	"konserve/api/internal/models"
+	"konserve/api/internal/utils"
 )
 
 const (
@@ -14,19 +13,19 @@ const (
 
 type UserService struct {}
 
-func (service UserService) Users() ([]user.User, error) {
-  turso := db.UseTurso()
+func (service UserService) Users() ([]models.User, error) {
+  turso := utils.UseTurso()
   rows, err := turso.Query(RETRIEVE_USERS)
   if err != nil {
     return nil, err
   }
   defer rows.Close()
 
-  var users []user.User
-  t := ternary.Ternary {}
+  var users []models.User
+  t := utils.Ternary {}
 
   for rows.Next() {
-    var user user.User
+    var user models.User
     var displayName sql.NullString
     var secretCode sql.NullString
     if err := rows.Scan(&user.Uid, &user.Email, &user.Username, &user.Password, &displayName, &secretCode); err != nil {
@@ -42,8 +41,8 @@ func (service UserService) Users() ([]user.User, error) {
   return users, nil
 }
 
-func (service UserService) CreateUser(newUser user.User) (int64, error) {
-  turso := db.UseTurso()
+func (service UserService) CreateUser(newUser models.User) (int64, error) {
+  turso := utils.UseTurso()
 
   result, err := turso.Exec(INSERT_USER, newUser)
   if err != nil {

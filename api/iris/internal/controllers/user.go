@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
@@ -36,6 +37,7 @@ func (ctrl UserController) CreateUser(ctx iris.Context) {
 
 func (ctrl UserController) UpdateUser(ctx iris.Context) {
 	t := utils.Ternary[string]{}
+	v := helpers.Validate{}
 	target := ctx.Values().Get("user").(models.User)
 	userId := ctx.Values().Get("userId").(int32)
 
@@ -48,12 +50,8 @@ func (ctrl UserController) UpdateUser(ctx iris.Context) {
 	foundUser.Email = target.Email
 	foundUser.Username = target.Username
 	foundUser.Password = target.Password
-
-	isDisplayNameEmpty := target.DisplayName == ""
-	isSecretCodeEmpty := target.SecretCode == ""
-
-	foundUser.DisplayName = t.AssignAfterCondition(!isDisplayNameEmpty, target.DisplayName, foundUser.DisplayName)
-	foundUser.SecretCode = t.AssignAfterCondition(!isSecretCodeEmpty, target.SecretCode, foundUser.SecretCode)
+	foundUser.DisplayName = t.AssignAfterCondition(!v.IsEmpty(target.DisplayName), target.DisplayName, foundUser.DisplayName)
+	foundUser.SecretCode = t.AssignAfterCondition(!v.IsEmpty(target.SecretCode), target.SecretCode, foundUser.SecretCode)
 
 	_, err := service.UpdateUser(foundUser)
 	if err != nil {

@@ -16,6 +16,7 @@ type ErrorHandler[T any] struct {
 	Store    string
 	Response ErrorResponse
 	Params   string
+	Excludes map[string]string
 }
 
 const (
@@ -39,10 +40,13 @@ func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (code int32, messa
 		return UNMARSHAL_ERROR, err.Error()
 	}
 
+	excludes := handler.Excludes
 	for key := range object {
 		value := reflect.ValueOf(object[key])
 		isEmpty := value.String() == ""
-		if isEmpty {
+		excluded := excludes[key] != key
+
+		if isEmpty && excluded {
 			var hasMessage bool = handler.Response != nil
 			var response string = handler.Response[key]
 			defaultMessage := fmt.Sprintf("%s is empty!", key)
@@ -63,6 +67,6 @@ func (handler ErrorHandler[T]) IsIntParams(ctx iris.Context) (code int32, messag
 }
 
 func (handler ErrorHandler[T]) isNumber(value string) bool {
-	match, _ := regexp.MatchString("[0-9]", value)
+	match, _ := regexp.MatchString("^[0-9]*$", value)
 	return match
 }

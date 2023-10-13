@@ -1,11 +1,10 @@
 package utils
 
-type Ternary struct {}
+type Ternary[T any] struct{}
 
-func (t Ternary) AssignAfterCompare(ok bool, truthyValue string, falsyValue string) string {
-  if !ok {
-    return falsyValue
-  }
-  return truthyValue
+func (t Ternary[T]) AssignAfterCondition(ok bool, truthyValue T, falsyValue T) T {
+	if !ok {
+		return falsyValue
+	}
+	return truthyValue
 }
-

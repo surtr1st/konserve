@@ -11,18 +11,18 @@ import (
 )
 
 func UseTurso() *gorm.DB {
-  config := &gorm.Config {}
-  connectionString := constants.TURSO_URL
+	config := &gorm.Config{}
+	connectionString := constants.TURSO_URL
 
-  turso, connectErr := sql.Open("libsql", connectionString)
-  if connectErr != nil {
-    panic("Failed to connect Turso!")
-  }
+	turso, connectErr := sql.Open("libsql", connectionString)
+	if connectErr != nil {
+		panic("Failed to connect Turso!")
+	}
 
-  db, err := gorm.Open(sqlite.Dialector { DriverName: "libsql", Conn: turso }, config)
-  if err != nil {
-    panic("Failed to connect database!")
-  }
+	db, err := gorm.Open(sqlite.Dialector{DriverName: "libsql", Conn: turso}, config)
+	if err != nil {
+		panic("Failed to connect database!")
+	}
 
-  return db
+	return db
 }

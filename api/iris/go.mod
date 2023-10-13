@@ -6,6 +6,7 @@ require (
 	github.com/iris-contrib/middleware/cors v0.0.0-20230925171251-c76f4baec331
 	github.com/kataras/iris/v12 v12.2.7
 	github.com/libsql/libsql-client-go v0.0.0-20231009080222-ee74a605841b
+	golang.org/x/crypto v0.13.0
 	gorm.io/driver/sqlite v1.5.4
 	gorm.io/gorm v1.25.5
 )
@@ -50,7 +51,6 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/yosssi/ace v0.0.5 // indirect
-	golang.org/x/crypto v0.13.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.15.0 // indirect
 	golang.org/x/sys v0.12.0 // indirect

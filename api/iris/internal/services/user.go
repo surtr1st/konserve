@@ -28,8 +28,8 @@ func (service UserService) FindUser(uid int32) (models.User, error) {
 	return user, nil
 }
 
-func (service UserService) CreateUser(newUser models.User) (int64, error) {
-	result := service.DB.Omit("uid").Create(newUser)
+func (service UserService) CreateUser(user models.User) (int64, error) {
+	result := service.DB.Omit("uid").Create(user)
 	err := result.Error
 	if err != nil {
 		return 0, err
@@ -37,8 +37,8 @@ func (service UserService) CreateUser(newUser models.User) (int64, error) {
 	return result.RowsAffected, nil
 }
 
-func (service UserService) UpdateUser(data models.User) (int64, error) {
-	result := service.DB.Where(models.User{Uid: data.Uid}).Omit("uid").Save(data)
+func (service UserService) UpdateUser(user models.User) (int64, error) {
+	result := service.DB.Where(models.User{Uid: user.Uid}).Omit("uid").Save(user)
 	err := result.Error
 	if err != nil {
 		return 0, err

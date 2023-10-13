@@ -3,7 +3,8 @@ package utils
 import "github.com/kataras/iris/v12/middleware/jwt"
 
 type TokenClaims struct {
-	Claims string `json:"claims"`
+	jwt.Claims
+	UserId string `json:"userId"`
 }
 
 func GenerateToken(signer *jwt.Signer, claims TokenClaims) ([]byte, error) {

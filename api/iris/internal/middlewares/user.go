@@ -9,6 +9,13 @@ import (
 
 type UserMiddleware struct{}
 
+// Response error messages
+const (
+	EMAIL    = "Email is empty! Please provide it!"
+	USERNAME = "Username is empty! Please provide it!"
+	PASSWORD = "Password is empty!"
+)
+
 func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 	var body models.User
 	readErr := ctx.ReadJSON(&body)
@@ -18,7 +25,7 @@ func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 	}
 
 	store := "user"
-	response := map[string]string{"email": "Email is empty! Please provide it!", "username": "Username is empty! Please provide it!", "password": "Password is empty!"}
+	response := map[string]string{"email": EMAIL, "username": USERNAME, "password": PASSWORD}
 
 	ctx.Values().Set(store, body)
 	handler := helpers.ErrorHandler[models.User]{Store: store, Response: response}

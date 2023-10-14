@@ -16,6 +16,8 @@ FROM scratch
 
 COPY --from=builder /go/bin/main /main
 
-ENTRYPOINT [ "/main" ]
+CMD [ "go run", "./cmd/main.go" ]
+
+EXPOSE 4000
 
 

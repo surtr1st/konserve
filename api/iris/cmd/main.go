@@ -31,13 +31,13 @@ func handleAuth(route iris.Party) {
 	auth := controllers.AuthController{}
 	middleware := middlewares.AuthMiddleware{}
 	signer := jwt.NewSigner(jwt.HS256, utils.SigKey, time.Minute)
-	verifier := jwt.NewVerifier(jwt.HS256, utils.SigKey)
-	verifier.WithDefaultBlocklist()
-	verifyToken := verifier.Verify(func() interface{} {
-		return new(utils.TokenClaims)
-	})
-	route.Post("/auth", middleware.GenerateToken(signer), middleware.VerifyUser, auth.Authenticate)
-	route.Use(verifyToken)
+	// verifier := jwt.NewVerifier(jwt.HS256, utils.SigKey)
+	// verifier.WithDefaultBlocklist()
+	// verifyToken := verifier.Verify(func() interface{} {
+	// 	return new(utils.TokenClaims)
+	// })
+	route.Post("/auth", middleware.VerifyUser, middleware.GenerateToken(signer), auth.Authenticate)
+	// route.Use(verifyToken)
 }
 
 func handleUser(route iris.Party) {

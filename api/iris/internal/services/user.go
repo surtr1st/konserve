@@ -68,6 +68,7 @@ func (service UserService) UpdateUser(user models.User) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }
 
@@ -82,5 +83,6 @@ func (service UserService) DeleteUser(uid int32) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }

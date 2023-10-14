@@ -15,6 +15,7 @@ func (service NodeService) Nodes() ([]models.Node, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return nodes, nil
 }
 
@@ -25,6 +26,7 @@ func (service NodeService) FindNode(uid int32) (models.Node, error) {
 	if err != nil {
 		return node, err
 	}
+
 	return node, nil
 }
 
@@ -34,6 +36,7 @@ func (service NodeService) CreateNode(node models.Node) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }
 
@@ -43,6 +46,7 @@ func (service NodeService) UpdateNode(node models.Node) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }
 
@@ -57,5 +61,6 @@ func (service NodeService) DeleteNode(id int32) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }

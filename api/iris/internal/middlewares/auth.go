@@ -7,6 +7,7 @@ import (
 	"konserve/api/internal/utils"
 
 	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/middleware/jwt"
 )
 
 type AuthMiddleware struct{}
@@ -46,4 +47,17 @@ func (m AuthMiddleware) VerifyUser(ctx iris.Context) {
 	ctx.Values().Set("userId", user.Uid)
 
 	ctx.Next()
+}
+
+func (middleware AuthMiddleware) GenerateToken(signer *jwt.Signer) iris.Handler {
+	return func(ctx iris.Context) {
+		claims := utils.TokenClaims{UserId: 17}
+		token, err := signer.Sign(claims)
+		if err != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, err)
+			return
+		}
+		ctx.Values().Set("accessToken", string(token))
+		ctx.Next()
+	}
 }

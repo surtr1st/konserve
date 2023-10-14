@@ -1,9 +1,10 @@
 package middlewares
 
 import (
+	"errors"
+	"konserve/api/internal/constants/kinds"
 	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
-	"strconv"
 
 	"github.com/kataras/iris/v12"
 )
@@ -31,10 +32,10 @@ func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 
 	ctx.Values().Set(store, body)
 	handler := helpers.ErrorHandler[models.User]{Store: store, Response: response, Excludes: excludeProps}
-	code, message := handler.ValidateBody(ctx)
 
-	if code != 0 {
-		ctx.StopWithJSON(iris.StatusNotFound, iris.Map{"message": message})
+	kind, message := handler.ValidateBody(ctx)
+	if kind != kinds.EMPTY {
+		ctx.StopWithError(iris.StatusNotFound, errors.New(message))
 		return
 	}
 
@@ -44,12 +45,15 @@ func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 func (middleware UserMiddleware) ValidateParams(ctx iris.Context) {
 	requiredParams := "id"
 	handler := helpers.ErrorHandler[any]{Params: requiredParams}
-	code, message := handler.IsIntParams(ctx)
-	if code != 0 {
-		ctx.StopWithJSON(iris.StatusConflict, iris.Map{"message": message})
+
+	kind, message := handler.IsIntParams(ctx)
+	if kind != kinds.EMPTY {
+		ctx.StopWithError(iris.StatusConflict, errors.New(message))
 		return
 	}
-	param, _ := strconv.Atoi(ctx.Params().Get(requiredParams))
-	ctx.Values().Set("userId", int32(param))
+
+	value, _ := ctx.Params().GetInt32(requiredParams)
+	ctx.Values().Set("userId", value)
+
 	ctx.Next()
 }

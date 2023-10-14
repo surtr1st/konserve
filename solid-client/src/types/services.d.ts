@@ -12,3 +12,10 @@ declare type TAuthParams = {
   username: string;
   password: string;
 };
+declare type TUserParams = {
+  email: string;
+  username: string;
+  password: string;
+  displayName: string;
+  secretCode: string;
+};

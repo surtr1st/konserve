@@ -11,7 +11,7 @@ import (
 )
 
 func UseTurso() *gorm.DB {
-	config := &gorm.Config{}
+	config := &gorm.Config{SkipDefaultTransaction: true}
 	connectionString := constants.TURSO_URL
 
 	turso, connectErr := sql.Open("libsql", connectionString)

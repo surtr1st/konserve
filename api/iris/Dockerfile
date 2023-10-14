@@ -16,7 +16,7 @@ FROM scratch
 
 COPY --from=builder /go/bin/main /main
 
-CMD [ "go run", "./cmd/main.go" ]
+CMD [ "/main" ]
 
 EXPOSE 4000
 

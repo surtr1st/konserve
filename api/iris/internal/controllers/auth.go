@@ -16,12 +16,13 @@ func (ctrl AuthController) Authenticate(ctx iris.Context) {
 	v := helpers.Validate{}
 
 	authHeader := fmt.Sprintf("%s %s", ctx.Request().Header.Get("Authorization"), " ")
-	token := t.AssignAfterCondition(v.IsEmpty(authHeader), "", strings.Split(authHeader, " ")[1])
+	tokenString := strings.Split(authHeader, " ")[1]
+	token := t.AssignAfterCondition(v.IsEmpty(authHeader), "", tokenString)
 
 	if v.IsEmpty(token) {
-		userId := ctx.Values().Get("userId").(int32)
-		accessToken := ctx.Values().Get("accessToken").(string)
-		ctx.JSON(iris.Map{"accessToken": accessToken, "userId": userId})
+		userId, _ := ctx.Values().GetInt32("userId")
+		accessToken := ctx.Values().GetString("accessToken")
+		ctx.JSON(iris.Map{"userId": userId, "accessToken": accessToken})
 		return
 	}
 }

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
@@ -29,28 +28,31 @@ func (ctrl UserController) RetrieveUsers(ctx iris.Context) {
 }
 
 func (ctrl UserController) CreateUser(ctx iris.Context) {
-	encrypt := utils.Encrypto{}
+	encrypt := utils.Encrypt{}
 	user := ctx.Values().Get("user").(models.User)
+
 	hashedPassword, hashErr := encrypt.Hash(user.Password)
 	if hashErr != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, hashErr)
 		return
 	}
+
 	user.Password = hashedPassword
 	_, err := ctrl.useService().CreateUser(user)
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
-	message := iris.Map{"message": "Created new user!"}
-	ctx.JSON(message)
+
+	ctx.StatusCode(iris.StatusCreated)
 }
 
 func (ctrl UserController) UpdateUser(ctx iris.Context) {
 	t := utils.Ternary[string]{}
 	v := helpers.Validate{}
+
 	target := ctx.Values().Get("user").(models.User)
-	userId := ctx.Values().Get("userId").(int32)
+	userId, _ := ctx.Values().GetInt32("userId")
 
 	foundUser, findErr := ctrl.useService().FindUser(userId)
 	if findErr != nil {
@@ -69,17 +71,18 @@ func (ctrl UserController) UpdateUser(ctx iris.Context) {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
-	message := iris.Map{"message": fmt.Sprintf("Updated user %d", foundUser.Uid)}
-	ctx.JSON(message)
+
+	ctx.StatusCode(iris.StatusOK)
 }
 
 func (ctrl UserController) DeleteUser(ctx iris.Context) {
-	userId := ctx.Values().Get("userId").(int32)
+	userId, _ := ctx.Values().GetInt32("userId")
+
 	_, err := ctrl.useService().DeleteUser(userId)
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
-	message := iris.Map{"message": fmt.Sprintf("Deleted user %d", userId)}
-	ctx.JSON(message)
+
+	ctx.StatusCode(iris.StatusOK)
 }

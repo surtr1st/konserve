@@ -2,7 +2,7 @@ package utils
 
 import (
 	"database/sql"
-	"konserve/api/internal/constants"
+	"konserve/api/internal/constants/env"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -12,7 +12,7 @@ import (
 
 func UseTurso() *gorm.DB {
 	config := &gorm.Config{SkipDefaultTransaction: true}
-	connectionString := constants.TURSO_URL
+	connectionString := env.TURSO_URL
 
 	turso, connectErr := sql.Open("libsql", connectionString)
 	if connectErr != nil {

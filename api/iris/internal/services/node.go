@@ -11,8 +11,8 @@ type NodeService struct{ DB *gorm.DB }
 func (service NodeService) Nodes() ([]models.Node, error) {
 	var nodes []models.Node
 	result := service.DB.Find(&nodes)
-	err := result.Error
-	if err != nil {
+
+	if err := result.Error; err != nil {
 		return nil, err
 	}
 
@@ -22,8 +22,8 @@ func (service NodeService) Nodes() ([]models.Node, error) {
 func (service NodeService) Find(uid int32) (models.Node, error) {
 	var node models.Node
 	result := service.DB.Find(&node, uid)
-	err := result.Error
-	if err != nil {
+
+	if err := result.Error; err != nil {
 		return node, err
 	}
 
@@ -32,8 +32,8 @@ func (service NodeService) Find(uid int32) (models.Node, error) {
 
 func (service NodeService) Create(node models.Node) (int64, error) {
 	result := service.DB.Omit("id").Create(&node)
-	err := result.Error
-	if err != nil {
+
+	if err := result.Error; err != nil {
 		return 0, err
 	}
 
@@ -41,9 +41,9 @@ func (service NodeService) Create(node models.Node) (int64, error) {
 }
 
 func (service NodeService) Update(node models.Node) (int64, error) {
-	result := service.DB.Where(models.User{Uid: node.Id}).Omit("id").Save(node)
-	err := result.Error
-	if err != nil {
+	result := service.DB.Where(models.Node{Id: node.Id}).Omit("id", "uid").Save(node)
+
+	if err := result.Error; err != nil {
 		return 0, err
 	}
 
@@ -57,8 +57,8 @@ func (service NodeService) Delete(id int32) (int64, error) {
 	}
 
 	result := service.DB.Delete(&target, id)
-	err := result.Error
-	if err != nil {
+
+	if err := result.Error; err != nil {
 		return 0, err
 	}
 

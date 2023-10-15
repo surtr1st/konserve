@@ -16,5 +16,7 @@ const (
 	MISSING_EMAIL       = "Email is empty! Please provide it!"
 	MISSING_USERNAME    = "Username is empty! Please provide it!"
 	MISSING_PASSWORD    = "Password is empty!"
+	MISSING_NODE_NAME   = "Node name is empty!"
+	MISSING_NODE_OWNER  = "Unknown node owner!"
 	INVALID_PARAMS_TYPE = "Params should be a number value!"
 )

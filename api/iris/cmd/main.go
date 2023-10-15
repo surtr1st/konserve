@@ -3,12 +3,9 @@ package main
 import (
 	"konserve/api/internal/controllers"
 	"konserve/api/internal/middlewares"
-	"konserve/api/internal/utils"
-	"time"
 
 	"github.com/iris-contrib/middleware/cors"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/jwt"
 )
 
 func main() {
@@ -30,14 +27,8 @@ func main() {
 func handleAuth(route iris.Party) {
 	auth := controllers.AuthController{}
 	middleware := middlewares.AuthMiddleware{}
-	signer := jwt.NewSigner(jwt.HS256, utils.SigKey, time.Minute)
-	// verifier := jwt.NewVerifier(jwt.HS256, utils.SigKey)
-	// verifier.WithDefaultBlocklist()
-	// verifyToken := verifier.Verify(func() interface{} {
-	// 	return new(utils.TokenClaims)
-	// })
-	// route.Use(verifyToken)
-	route.Post("/auth", middleware.VerifyUser, middleware.GenerateToken(signer), auth.Authenticate)
+	route.Use(middleware.VerifyToken)
+	route.Post("/auth", middleware.VerifyUser, middleware.GenerateToken, auth.Authenticate)
 }
 
 func handleUser(route iris.Party) {

@@ -2,14 +2,14 @@ package localization
 
 // Error Response
 const (
-	EMPTY_STRING              = "The value is not visible."
+	EMPTY_STRING              = "The value does not exist."
 	NOT_FOUND                 = ""
-	EMAIL_FORMAT_VIOLATED     = "Invalid format of email."
-	USERNAME_INCORRECT        = "Invalid or inexistent username."
-	PASSWORD_INCORRECT        = "Password is incorrect! Please re-check your password again."
+	EMAIL_FORMAT_VIOLATED     = "Email is in the wrong format."
+	USERNAME_INCORRECT        = "Unknown or null and void username."
+	PASSWORD_INCORRECT        = "Password is wrong! Please verify your password again."
 	TURSO_CONNECTION_ERROR    = "Failed to connect Turso!"
 	DATABASE_CONNECTION_ERROR = "Failed to connect database!"
-	UNAUTHORIZED              = "Unauthorized! Your token has been expired or does not exist."
+	UNAUTHORIZED              = "Unauthorized! Your token is either nonexistent or has already expired."
 )
 
 // Validate Response

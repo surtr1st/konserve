@@ -12,15 +12,18 @@ import (
 
 type ErrorResponse map[string]string
 
+type Exclude map[string]string
+
 type ErrorHandler[T any] struct {
-	Store    string
-	Response ErrorResponse
-	Params   string
-	Excludes map[string]string
+	Store         string
+	ErrorResponse ErrorResponse
+	Params        string
+	Excludes      Exclude
 }
 
 func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, message string) {
-	t := utils.Ternary[string]{}
+	ternary := utils.Ternary[string]{}
+
 	user := ctx.Values().Get(handler.Store).(T)
 
 	requestBody, err := json.Marshal(user)
@@ -41,11 +44,11 @@ func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, messa
 		required := excludes[key] != key
 
 		if isEmpty && required {
-			hasMessage := handler.Response != nil
-			response := handler.Response[key]
+			hasMessage := handler.ErrorResponse != nil
+			response := handler.ErrorResponse[key]
 			defaultMessage := fmt.Sprintf("%s is empty!", key)
 
-			return kinds.EMPTY_FIELD, t.AssignAfterCondition(hasMessage, response, defaultMessage)
+			return kinds.EMPTY_FIELD, ternary.AssignAfterCondition(hasMessage, response, defaultMessage)
 		}
 	}
 
@@ -53,12 +56,14 @@ func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, messa
 }
 
 func (handler ErrorHandler[T]) IsIntParams(ctx iris.Context) (kind int32, message string) {
-	v := Validate{}
+	validate := UseValidate()
+
 	params := handler.Params
 	param := ctx.Params().Get(params)
 
-	if !v.IsNumber(param) {
+	if !validate.Is(param).Number() {
 		return kinds.NON_DIGITS, "Params should be a number value!"
 	}
+
 	return kinds.EMPTY, ""
 }

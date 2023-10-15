@@ -2,13 +2,30 @@ package helpers
 
 import "regexp"
 
-type Validate struct{}
-
-func (v Validate) IsEmpty(value string) bool {
-	return value == ""
+type iValidateBuilder interface {
+	Is(value any) validate
+	Empty() bool
+	Number() bool
 }
 
-func (v Validate) IsNumber(value string) bool {
-	match, _ := regexp.MatchString("^[0-9]*$", value)
+type validate struct {
+	target string
+}
+
+func UseValidate() validate {
+	return validate{}
+}
+
+func (v *validate) Is(value string) *validate {
+	v.target = value
+	return v
+}
+
+func (v validate) Empty() bool {
+	return v.target == ""
+}
+
+func (v validate) Number() bool {
+	match, _ := regexp.MatchString("^[0-9]*$", v.target)
 	return match
 }

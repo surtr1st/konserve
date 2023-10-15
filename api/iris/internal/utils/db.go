@@ -13,7 +13,10 @@ import (
 
 func UseTurso() *gorm.DB {
 	driverName := "libsql"
-	config := &gorm.Config{SkipDefaultTransaction: true}
+	config := &gorm.Config{
+		SkipDefaultTransaction: true,
+		PrepareStmt:            true,
+	}
 	connectionString := env.TURSO_URL
 
 	turso, connectErr := sql.Open(driverName, connectionString)

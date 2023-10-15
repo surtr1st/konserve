@@ -14,9 +14,9 @@ type UserMiddleware struct{}
 
 func (middleware UserMiddleware) VerifyBody(ctx iris.Context) {
 	var body models.User
-	readError := ctx.ReadJSON(&body)
-	if readError != nil {
-		ctx.StopWithError(iris.StatusInternalServerError, readError)
+
+	if err := ctx.ReadJSON(&body); err != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
 

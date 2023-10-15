@@ -17,8 +17,8 @@ type AuthMiddleware struct{}
 
 func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 	var account models.Account
-	err := ctx.ReadJSON(&account)
-	if err != nil {
+
+	if err := ctx.ReadJSON(&account); err != nil {
 		ctx.StopWithJSON(iris.StatusInternalServerError, err)
 		return
 	}

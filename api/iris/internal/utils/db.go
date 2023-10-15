@@ -3,6 +3,7 @@ package utils
 import (
 	"database/sql"
 	"konserve/api/internal/constants/env"
+	locale "konserve/api/pkg/localization"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -11,17 +12,18 @@ import (
 )
 
 func UseTurso() *gorm.DB {
+	driverName := "libsql"
 	config := &gorm.Config{SkipDefaultTransaction: true}
 	connectionString := env.TURSO_URL
 
-	turso, connectErr := sql.Open("libsql", connectionString)
+	turso, connectErr := sql.Open(driverName, connectionString)
 	if connectErr != nil {
-		panic("Failed to connect Turso!")
+		panic(locale.TURSO_CONNECTION_ERROR)
 	}
 
-	db, err := gorm.Open(sqlite.Dialector{DriverName: "libsql", Conn: turso}, config)
+	db, err := gorm.Open(sqlite.Dialector{DriverName: driverName, Conn: turso}, config)
 	if err != nil {
-		panic("Failed to connect database!")
+		panic(locale.DATABASE_CONNECTION_ERROR)
 	}
 
 	return db

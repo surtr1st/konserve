@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"konserve/api/internal/constants/kinds"
 	"konserve/api/internal/utils"
+	locale "konserve/api/pkg/localization"
 	"reflect"
 
 	"github.com/kataras/iris/v12"
@@ -62,7 +63,7 @@ func (handler ErrorHandler[T]) IsIntParams(ctx iris.Context) (kind int32, messag
 	param := ctx.Params().Get(params)
 
 	if !validate.Is(param).Number() {
-		return kinds.NON_DIGITS, "Params should be a number value!"
+		return kinds.NON_DIGITS, locale.INVALID_PARAMS_TYPE
 	}
 
 	return kinds.EMPTY, ""

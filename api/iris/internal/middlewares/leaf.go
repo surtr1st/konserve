@@ -25,7 +25,7 @@ func (middlware LeafMiddleware) VerifyBody(ctx iris.Context) {
 	excludeProps := map[string]string{"id": "id"}
 
 	ctx.Values().Set(store, body)
-	handler := utils.ErrorHandler[models.Node]{Store: store, ErrorResponse: errorResponse, Excludes: excludeProps}
+	handler := utils.ErrorHandler[models.Leaf]{Store: store, ErrorResponse: errorResponse, Excludes: excludeProps}
 
 	kind, message := handler.ValidateBody(ctx)
 	if kind != kinds.EMPTY {

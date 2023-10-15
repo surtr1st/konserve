@@ -38,8 +38,8 @@ func (controller UserController) CreateUser(ctx iris.Context) {
 	}
 
 	user.Password = hashedPassword
-	_, err := controller.useService().Create(user)
-	if err != nil {
+
+	if _, err := controller.useService().Create(user); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
@@ -66,8 +66,7 @@ func (controller UserController) UpdateUser(ctx iris.Context) {
 	foundUser.DisplayName = ternary.When(!validate.Is(target.DisplayName).Empty()).Assign(target.DisplayName).Else(foundUser.DisplayName)
 	foundUser.SecretCode = ternary.When(!validate.Is(target.SecretCode).Empty()).Assign(target.SecretCode).Else(foundUser.SecretCode)
 
-	_, err := controller.useService().Update(foundUser)
-	if err != nil {
+	if _, err := controller.useService().Update(foundUser); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
@@ -78,8 +77,7 @@ func (controller UserController) UpdateUser(ctx iris.Context) {
 func (controller UserController) DeleteUser(ctx iris.Context) {
 	userId, _ := ctx.Values().GetInt32("userId")
 
-	_, err := controller.useService().Delete(userId)
-	if err != nil {
+	if _, err := controller.useService().Delete(userId); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}

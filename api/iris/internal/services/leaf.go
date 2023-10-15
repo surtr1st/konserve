@@ -10,7 +10,7 @@ type LeafService struct{ DB *gorm.DB }
 
 func (service LeafService) Leaves() ([]models.Leaf, error) {
 	var leaves []models.Leaf
-	result := service.DB.Find(&leaves)
+	result := service.DB.Table("leaves").Find(&leaves)
 
 	if err := result.Error; err != nil {
 		return nil, err
@@ -21,7 +21,7 @@ func (service LeafService) Leaves() ([]models.Leaf, error) {
 
 func (service LeafService) Find(id int32) (models.Leaf, error) {
 	var leaf models.Leaf
-	result := service.DB.Find(&leaf, id)
+	result := service.DB.Table("leaves").Find(&leaf, id)
 
 	if err := result.Error; err != nil {
 		return leaf, err
@@ -31,7 +31,7 @@ func (service LeafService) Find(id int32) (models.Leaf, error) {
 }
 
 func (service LeafService) Create(leaf models.Leaf) (int64, error) {
-	result := service.DB.Omit("id").Create(&leaf)
+	result := service.DB.Table("leaves").Omit("id").Create(&leaf)
 
 	if err := result.Error; err != nil {
 		return 0, err
@@ -41,7 +41,7 @@ func (service LeafService) Create(leaf models.Leaf) (int64, error) {
 }
 
 func (service LeafService) Update(leaf models.Leaf) (int64, error) {
-	result := service.DB.Where(models.Leaf{Id: leaf.Id}).Omit("id", "nodeId").Save(leaf)
+	result := service.DB.Table("leaves").Where(models.Leaf{Id: leaf.Id}).Omit("id", "nodeId").Save(leaf)
 
 	if err := result.Error; err != nil {
 		return 0, err
@@ -56,7 +56,7 @@ func (service LeafService) Delete(id int32) (int64, error) {
 		return 0, findErr
 	}
 
-	result := service.DB.Delete(&target, id)
+	result := service.DB.Table("leaves").Delete(&target, id)
 	if err := result.Error; err != nil {
 		return 0, err
 	}

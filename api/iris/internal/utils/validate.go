@@ -1,12 +1,6 @@
-package helpers
+package utils
 
 import "regexp"
-
-type iValidateBuilder interface {
-	Is(value any) validate
-	Empty() bool
-	Number() bool
-}
 
 type validate struct {
 	target string

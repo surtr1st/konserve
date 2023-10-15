@@ -1,10 +1,9 @@
-package helpers
+package utils
 
 import (
 	"encoding/json"
 	"fmt"
 	"konserve/api/internal/constants/kinds"
-	"konserve/api/internal/utils"
 	locale "konserve/api/pkg/localization"
 	"reflect"
 
@@ -23,7 +22,7 @@ type ErrorHandler[T any] struct {
 }
 
 func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, message string) {
-	ternary := utils.UseTernary[string]()
+	ternary := UseTernary[string]()
 
 	user := ctx.Values().Get(handler.Store).(T)
 

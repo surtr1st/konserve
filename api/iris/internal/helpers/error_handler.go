@@ -22,7 +22,7 @@ type ErrorHandler[T any] struct {
 }
 
 func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, message string) {
-	ternary := utils.Ternary[string]{}
+	ternary := utils.UseTernary[string]()
 
 	user := ctx.Values().Get(handler.Store).(T)
 
@@ -48,7 +48,7 @@ func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, messa
 			response := handler.ErrorResponse[key]
 			defaultMessage := fmt.Sprintf("%s is empty!", key)
 
-			return kinds.EMPTY_FIELD, ternary.AssignAfterCondition(hasMessage, response, defaultMessage)
+			return kinds.EMPTY_FIELD, ternary.When(hasMessage).Assign(response).Else(defaultMessage)
 		}
 	}
 

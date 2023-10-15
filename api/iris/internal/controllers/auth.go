@@ -12,14 +12,14 @@ import (
 type AuthController struct{}
 
 func (controller AuthController) Authenticate(ctx iris.Context) {
-	ternary := utils.Ternary[string]{}
+	ternary := utils.UseTernary[string]()
 	validate := helpers.UseValidate()
 
 	authHeader := fmt.Sprintf("%s %s", ctx.Request().Header.Get("Authorization"), " ")
 	tokenString := strings.Split(authHeader, " ")[1]
 	nilToken := validate.Is(authHeader).Empty()
 
-	token := ternary.AssignAfterCondition(nilToken, "", tokenString)
+	token := ternary.When(nilToken).Assign("").Else(tokenString)
 
 	if validate.Is(token).Empty() {
 		userId, _ := ctx.Values().GetInt32("userId")

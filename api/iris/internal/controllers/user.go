@@ -48,7 +48,7 @@ func (controller UserController) CreateUser(ctx iris.Context) {
 }
 
 func (controller UserController) UpdateUser(ctx iris.Context) {
-	ternary := utils.Ternary[string]{}
+	ternary := utils.UseTernary[string]()
 	validate := helpers.UseValidate()
 
 	target := ctx.Values().Get("user").(models.User)
@@ -63,8 +63,8 @@ func (controller UserController) UpdateUser(ctx iris.Context) {
 	foundUser.Email = target.Email
 	foundUser.Username = target.Username
 	foundUser.Password = target.Password
-	foundUser.DisplayName = ternary.AssignAfterCondition(!validate.Is(target.DisplayName).Empty(), target.DisplayName, foundUser.DisplayName)
-	foundUser.SecretCode = ternary.AssignAfterCondition(!validate.Is(target.SecretCode).Empty(), target.SecretCode, foundUser.SecretCode)
+	foundUser.DisplayName = ternary.When(!validate.Is(target.DisplayName).Empty()).Assign(target.DisplayName).Else(foundUser.DisplayName)
+	foundUser.SecretCode = ternary.When(!validate.Is(target.SecretCode).Empty()).Assign(target.SecretCode).Else(foundUser.SecretCode)
 
 	_, err := controller.useService().Update(foundUser)
 	if err != nil {

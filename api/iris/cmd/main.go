@@ -51,5 +51,9 @@ func handleUser(route iris.Party) {
 
 func handleNode(route iris.Party) {
 	node := controllers.NodeController{}
+	middleware := middlewares.NodeMiddleware{}
 	route.Get("/nodes", node.RetrieveNodes)
+	route.Post("/node", middleware.VerifyBody, node.CreateNode)
+	route.Put("/node/{id}", middleware.VerifyParams, middleware.VerifyBody, node.UpdateNode)
+	route.Delete("/user/{id}", middleware.VerifyParams, node.DeleteNode)
 }

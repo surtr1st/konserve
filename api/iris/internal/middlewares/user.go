@@ -3,8 +3,8 @@ package middlewares
 import (
 	"errors"
 	"konserve/api/internal/constants/kinds"
-	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
+	"konserve/api/internal/utils"
 	locale "konserve/api/pkg/localization"
 
 	"github.com/kataras/iris/v12"
@@ -25,7 +25,7 @@ func (middleware UserMiddleware) VerifyBody(ctx iris.Context) {
 	excludeProps := map[string]string{"uid": "uid", "displayName": "displayName", "secretCode": "secretCode"}
 
 	ctx.Values().Set(store, body)
-	handler := helpers.ErrorHandler[models.User]{Store: store, ErrorResponse: errorResponse, Excludes: excludeProps}
+	handler := utils.ErrorHandler[models.User]{Store: store, ErrorResponse: errorResponse, Excludes: excludeProps}
 
 	kind, message := handler.ValidateBody(ctx)
 	if kind != kinds.EMPTY {
@@ -38,7 +38,7 @@ func (middleware UserMiddleware) VerifyBody(ctx iris.Context) {
 
 func (middleware UserMiddleware) VerifyParams(ctx iris.Context) {
 	requiredParams := "id"
-	handler := helpers.ErrorHandler[any]{Params: requiredParams}
+	handler := utils.ErrorHandler[any]{Params: requiredParams}
 
 	kind, message := handler.IsIntParams(ctx)
 	if kind != kinds.EMPTY {

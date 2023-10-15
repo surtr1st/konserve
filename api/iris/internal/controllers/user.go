@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
@@ -49,7 +48,7 @@ func (controller UserController) CreateUser(ctx iris.Context) {
 
 func (controller UserController) UpdateUser(ctx iris.Context) {
 	ternary := utils.UseTernary[string]()
-	validate := helpers.UseValidate()
+	validate := utils.UseValidate()
 
 	target := ctx.Values().Get("user").(models.User)
 	userId, _ := ctx.Values().GetInt32("userId")

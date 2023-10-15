@@ -3,7 +3,6 @@ package localization
 // Error Response
 const (
 	EMPTY_STRING              = "The value does not exist."
-	NOT_FOUND                 = ""
 	EMAIL_FORMAT_VIOLATED     = "Email is in the wrong format."
 	USERNAME_INCORRECT        = "Unknown or null and void username."
 	PASSWORD_INCORRECT        = "Password is wrong! Please verify your password again."

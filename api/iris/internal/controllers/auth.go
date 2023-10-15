@@ -23,6 +23,7 @@ func (controller AuthController) Authenticate(ctx iris.Context) {
 	if validate.Is(token).Empty() {
 		userId, _ := ctx.Values().GetInt32("userId")
 		accessToken := ctx.Values().GetString("accessToken")
+
 		ctx.JSON(iris.Map{"userId": userId, "accessToken": accessToken})
 		return
 	}

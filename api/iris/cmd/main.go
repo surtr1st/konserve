@@ -19,8 +19,16 @@ func main() {
 	api := app.Party("/api")
 	api.UseRouter(cors.New(corsOptions))
 	handleAuth(api)
-	handleUser(api)
-	handleNode(api)
+
+	userRoutes := api.Party("/users")
+	handleUser(userRoutes)
+
+	nodeRoutes := api.Party("/nodes")
+	handleNode(nodeRoutes)
+
+	leafRoutes := api.Party("/leaves")
+	handleLeaf(leafRoutes)
+
 	app.Listen(":4000")
 }
 
@@ -34,17 +42,26 @@ func handleAuth(route iris.Party) {
 func handleUser(route iris.Party) {
 	user := controllers.UserController{}
 	middleware := middlewares.UserMiddleware{}
-	route.Get("/users", user.RetrieveUsers)
-	route.Post("/user/register", middleware.VerifyBody, user.CreateUser)
-	route.Put("/user/{id}", middleware.VerifyParams, middleware.VerifyBody, user.UpdateUser)
-	route.Delete("/user/{id}", middleware.VerifyParams, user.DeleteUser)
+	route.Get("/", user.RetrieveUsers)
+	route.Post("/register", middleware.VerifyBody, user.CreateUser)
+	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, user.UpdateUser)
+	route.Delete("/{id}", middleware.VerifyParams, user.DeleteUser)
 }
 
 func handleNode(route iris.Party) {
 	node := controllers.NodeController{}
 	middleware := middlewares.NodeMiddleware{}
-	route.Get("/nodes", node.RetrieveNodes)
-	route.Post("/node", middleware.VerifyBody, node.CreateNode)
-	route.Put("/node/{id}", middleware.VerifyParams, middleware.VerifyBody, node.UpdateNode)
-	route.Delete("/node/{id}", middleware.VerifyParams, node.DeleteNode)
+	route.Get("/", node.RetrieveNodes)
+	route.Post("/", middleware.VerifyBody, node.CreateNode)
+	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, node.UpdateNode)
+	route.Delete("/{id}", middleware.VerifyParams, node.DeleteNode)
+}
+
+func handleLeaf(route iris.Party) {
+	leaf := controllers.LeafController{}
+	middleware := middlewares.LeafMiddleware{}
+	route.Get("/", leaf.RetrieveLeaves)
+	route.Post("/", middleware.VerifyBody, leaf.CreateLeaf)
+	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, leaf.UpdateLeaf)
+	route.Delete("/{id}", middleware.VerifyParams, leaf.DeleteLeaf)
 }

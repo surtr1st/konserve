@@ -1,7 +1,7 @@
 create table users (
   uid           integer primary key,
   email         text unique,
-  username      text,
+  username      text unique,
   password      text,
   display_name  text unique,
   secret_code   text
@@ -22,4 +22,5 @@ create table leaves (
   foreign key (node_id) references nodes (id)
 );
 
+CREATE INDEX idx_username on leaves (username);
 

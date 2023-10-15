@@ -40,7 +40,7 @@ func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, messa
 
 	for key := range object {
 		value := reflect.ValueOf(object[key])
-		isEmpty := value.String() == ""
+		isEmpty := value.String() == "" || value.IsZero()
 		required := excludes[key] != key
 
 		if isEmpty && required {

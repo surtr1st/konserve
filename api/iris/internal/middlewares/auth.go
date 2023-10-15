@@ -21,7 +21,7 @@ func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 	var account models.Account
 
 	if err := ctx.ReadJSON(&account); err != nil {
-		ctx.StopWithJSON(iris.StatusInternalServerError, err)
+		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
 
@@ -39,9 +39,9 @@ func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 		return
 	}
 
-	user, findError := service.FindByUsername(account.Username)
-	if findError != nil {
-		ctx.StopWithJSON(iris.StatusInternalServerError, findError)
+	user, err := service.FindByUsername(account.Username)
+	if err != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
 

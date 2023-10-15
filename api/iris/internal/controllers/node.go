@@ -29,12 +29,7 @@ func (controller NodeController) RetrieveNodes(ctx iris.Context) {
 func (controller NodeController) CreateNode(ctx iris.Context) {
 	node := ctx.Values().Get("node").(models.Node)
 
-	newNode := models.Node{
-		Name: node.Name,
-		Uid:  node.Uid,
-	}
-
-	if _, err := controller.useService().Create(newNode); err != nil {
+	if _, err := controller.useService().Create(node); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
@@ -44,11 +39,11 @@ func (controller NodeController) CreateNode(ctx iris.Context) {
 
 func (controller NodeController) UpdateNode(ctx iris.Context) {
 	target := ctx.Values().Get("node").(models.Node)
-	nodeId, _ := ctx.Values().GetInt32("nodeId")
+	id, _ := ctx.Values().GetInt32("nodeId")
 
-	foundNode, findErr := controller.useService().Find(nodeId)
-	if findErr != nil {
-		ctx.StopWithError(iris.StatusInternalServerError, findErr)
+	foundNode, err := controller.useService().Find(id)
+	if err != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
 
@@ -62,9 +57,9 @@ func (controller NodeController) UpdateNode(ctx iris.Context) {
 }
 
 func (controller NodeController) DeleteNode(ctx iris.Context) {
-	nodeId, _ := ctx.Values().GetInt32("nodeId")
+	id, _ := ctx.Values().GetInt32("nodeId")
 
-	if _, err := controller.useService().Delete(nodeId); err != nil {
+	if _, err := controller.useService().Delete(id); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}

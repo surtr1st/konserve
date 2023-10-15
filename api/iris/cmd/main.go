@@ -48,3 +48,11 @@ func handleNode(route iris.Party) {
 	route.Put("/node/{id}", middleware.VerifyParams, middleware.VerifyBody, node.UpdateNode)
 	route.Delete("/node/{id}", middleware.VerifyParams, node.DeleteNode)
 }
+
+func handleLeaf(route iris.Party) {
+	leaf := controllers.LeafController{}
+	route.Get("/leaves", leaf.RetrieveLeaves)
+	route.Post("/leaf", leaf.CreateLeaf)
+	route.Put("/leaf/{id}", leaf.UpdateLeaf)
+	route.Delete("/leaf/{id}", leaf.DeleteLeaf)
+}

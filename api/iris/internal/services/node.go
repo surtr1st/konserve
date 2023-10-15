@@ -31,7 +31,7 @@ func (service NodeService) Find(uid int32) (models.Node, error) {
 }
 
 func (service NodeService) Create(node models.Node) (int64, error) {
-	result := service.DB.Omit("id").Create(node)
+	result := service.DB.Omit("id").Create(&node)
 	err := result.Error
 	if err != nil {
 		return 0, err

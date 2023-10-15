@@ -18,7 +18,6 @@ func (controller AuthController) Authenticate(ctx iris.Context) {
 	authHeader := fmt.Sprintf("%s %s", ctx.Request().Header.Get("Authorization"), " ")
 	tokenString := strings.Split(authHeader, " ")[1]
 	nilToken := validate.Is(authHeader).Empty()
-
 	token := ternary.When(nilToken).Assign("").Else(tokenString)
 
 	if validate.Is(token).Empty() {

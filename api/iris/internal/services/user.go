@@ -18,7 +18,7 @@ func (service UserService) Users() ([]models.User, error) {
 	return users, nil
 }
 
-func (service UserService) FindUser(uid int32) (models.User, error) {
+func (service UserService) Find(uid int32) (models.User, error) {
 	var user models.User
 	result := service.DB.Find(&user, uid)
 	err := result.Error
@@ -52,7 +52,7 @@ func (service UserService) FindByEmail(email string) (int32, error) {
 	return user.Uid, nil
 }
 
-func (service UserService) CreateUser(user models.User) (int64, error) {
+func (service UserService) Create(user models.User) (int64, error) {
 	result := service.DB.Omit("uid").Create(user)
 	err := result.Error
 	if err != nil {
@@ -62,17 +62,18 @@ func (service UserService) CreateUser(user models.User) (int64, error) {
 	return result.RowsAffected, nil
 }
 
-func (service UserService) UpdateUser(user models.User) (int64, error) {
+func (service UserService) Update(user models.User) (int64, error) {
 	result := service.DB.Where(models.User{Uid: user.Uid}).Omit("uid").Save(user)
 	err := result.Error
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }
 
-func (service UserService) DeleteUser(uid int32) (int64, error) {
-	target, findErr := service.FindUser(uid)
+func (service UserService) Delete(uid int32) (int64, error) {
+	target, findErr := service.Find(uid)
 	if findErr != nil {
 		return 0, findErr
 	}
@@ -82,5 +83,6 @@ func (service UserService) DeleteUser(uid int32) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }

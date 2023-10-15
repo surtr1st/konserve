@@ -1,15 +1,15 @@
 create table users (
   uid           integer primary key,
-  email         text,
+  email         text unique,
   username      text,
   password      text,
-  display_name  text,
+  display_name  text unique,
   secret_code   text
 );
 
 create table nodes (
   id    integer primary key,
-  name  text,
+  name  text unique,
   uid   integer,
   foreign key (uid) references users (uid)
 );

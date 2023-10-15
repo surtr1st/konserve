@@ -15,39 +15,43 @@ func (service NodeService) Nodes() ([]models.Node, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return nodes, nil
 }
 
-func (service NodeService) FindNode(uid int32) (models.Node, error) {
+func (service NodeService) Find(uid int32) (models.Node, error) {
 	var node models.Node
 	result := service.DB.Find(&node, uid)
 	err := result.Error
 	if err != nil {
 		return node, err
 	}
+
 	return node, nil
 }
 
-func (service NodeService) CreateNode(node models.Node) (int64, error) {
-	result := service.DB.Omit("id").Create(node)
+func (service NodeService) Create(node models.Node) (int64, error) {
+	result := service.DB.Omit("id").Create(&node)
 	err := result.Error
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }
 
-func (service NodeService) UpdateNode(node models.Node) (int64, error) {
+func (service NodeService) Update(node models.Node) (int64, error) {
 	result := service.DB.Where(models.User{Uid: node.Id}).Omit("id").Save(node)
 	err := result.Error
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }
 
-func (service NodeService) DeleteNode(id int32) (int64, error) {
-	target, findErr := service.FindNode(id)
+func (service NodeService) Delete(id int32) (int64, error) {
+	target, findErr := service.Find(id)
 	if findErr != nil {
 		return 0, findErr
 	}
@@ -57,5 +61,6 @@ func (service NodeService) DeleteNode(id int32) (int64, error) {
 	if err != nil {
 		return 0, err
 	}
+
 	return result.RowsAffected, nil
 }

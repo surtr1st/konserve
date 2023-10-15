@@ -10,22 +10,22 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
-type UserMiddleware struct{}
+type NodeMiddleware struct{}
 
-func (middleware UserMiddleware) VerifyBody(ctx iris.Context) {
-	var body models.User
+func (middlware NodeMiddleware) VerifyBody(ctx iris.Context) {
+	var body models.Node
 
 	if err := ctx.ReadJSON(&body); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
 
-	store := "user"
-	errorResponse := map[string]string{"email": locale.MISSING_EMAIL, "username": locale.MISSING_USERNAME, "password": locale.MISSING_PASSWORD}
-	excludeProps := map[string]string{"uid": "uid", "displayName": "displayName", "secretCode": "secretCode"}
+	store := "node"
+	errorResponse := map[string]string{"name": locale.MISSING_NODE_NAME, "uid": locale.MISSING_NODE_OWNER}
+	excludeProps := map[string]string{"id": "id"}
 
 	ctx.Values().Set(store, body)
-	handler := utils.ErrorHandler[models.User]{Store: store, ErrorResponse: errorResponse, Excludes: excludeProps}
+	handler := utils.ErrorHandler[models.Node]{Store: store, ErrorResponse: errorResponse, Excludes: excludeProps}
 
 	kind, message := handler.ValidateBody(ctx)
 	if kind != kinds.EMPTY {
@@ -36,7 +36,7 @@ func (middleware UserMiddleware) VerifyBody(ctx iris.Context) {
 	ctx.Next()
 }
 
-func (middleware UserMiddleware) VerifyParams(ctx iris.Context) {
+func (middleware NodeMiddleware) VerifyParams(ctx iris.Context) {
 	requiredParams := "id"
 	handler := utils.ErrorHandler[any]{Params: requiredParams}
 
@@ -47,7 +47,7 @@ func (middleware UserMiddleware) VerifyParams(ctx iris.Context) {
 	}
 
 	if value, err := ctx.Params().GetInt32(requiredParams); err == nil {
-		ctx.Values().Set("userId", value)
+		ctx.Values().Set("nodeId", value)
 	}
 
 	ctx.Next()

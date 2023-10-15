@@ -1,10 +1,15 @@
 package middlewares
 
 import (
-	"konserve/api/internal/helpers"
+	"errors"
+	"konserve/api/internal/constants/env"
+	"konserve/api/internal/constants/kinds"
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
+	locale "konserve/api/pkg/localization"
+	"strings"
+	"time"
 
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/jwt"
@@ -12,52 +17,80 @@ import (
 
 type AuthMiddleware struct{}
 
-func (m AuthMiddleware) VerifyUser(ctx iris.Context) {
+func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 	var account models.Account
-	err := ctx.ReadJSON(&account)
-	if err != nil {
+
+	if err := ctx.ReadJSON(&account); err != nil {
 		ctx.StopWithJSON(iris.StatusInternalServerError, err)
 		return
 	}
 
-	store := "account"
-	response := map[string]string{"username": USERNAME, "password": PASSWORD}
+	encrypt := utils.UseEncrypt()
 	service := services.UserService{DB: utils.UseTurso()}
-	ctx.Values().Set("account", account)
-	handler := helpers.ErrorHandler[models.Account]{Store: store, Response: response}
-	encrypt := utils.Encrypto{}
-	code, message := handler.ValidateBody(ctx)
 
-	if code != 0 {
-		ctx.StopWithJSON(iris.StatusNotFound, iris.Map{"message": message})
+	store := "account"
+	ctx.Values().Set(store, account)
+	errorResponse := map[string]string{"username": locale.MISSING_USERNAME, "password": locale.MISSING_PASSWORD}
+	handler := utils.ErrorHandler[models.Account]{Store: store, ErrorResponse: errorResponse}
+
+	kind, message := handler.ValidateBody(ctx)
+	if kind != kinds.EMPTY {
+		ctx.StopWithError(iris.StatusNotFound, errors.New(message))
 		return
 	}
 
-	user, findErr := service.FindByUsername(account.Username)
-	if findErr != nil {
-		ctx.StopWithJSON(iris.StatusInternalServerError, findErr)
+	user, findError := service.FindByUsername(account.Username)
+	if findError != nil {
+		ctx.StopWithJSON(iris.StatusInternalServerError, findError)
 		return
 	}
 
-	verifyPassword := encrypt.IsMatch([]byte(user.Password), account.Password)
-	if verifyPassword != nil {
-		ctx.StopWithJSON(iris.StatusForbidden, iris.Map{"message": "Password does not match!"})
+	matchPassword := encrypt.IsMatch([]byte(user.Password), account.Password)
+	if matchPassword != nil {
+		ctx.StopWithError(iris.StatusForbidden, errors.New(locale.PASSWORD_INCORRECT))
 		return
 	}
+
 	ctx.Values().Set("userId", user.Uid)
 
 	ctx.Next()
 }
 
-func (middleware AuthMiddleware) GenerateToken(signer *jwt.Signer) iris.Handler {
-	return func(ctx iris.Context) {
-		claims := utils.TokenClaims{UserId: 17}
-		token, err := signer.Sign(claims)
-		if err != nil {
-			ctx.StopWithError(iris.StatusInternalServerError, err)
+func (middleware AuthMiddleware) GenerateToken(ctx iris.Context) {
+	claims := utils.TokenClaims{Secret: env.JWT_SECRET}
+
+	token, err := jwt.Sign(jwt.HS256, []byte(env.SIGNATURE_KEY), claims, jwt.MaxAge(time.Minute))
+	if err != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, err)
+		return
+	}
+
+	ctx.Values().Set("accessToken", string(token))
+	ctx.Next()
+}
+
+func (middleware AuthMiddleware) VerifyToken(ctx iris.Context) {
+	validate := utils.UseValidate()
+	authHeader := utils.UseHeaderRetriever(ctx)
+	token := strings.TrimSpace(authHeader.BearerToken())
+
+	incomingRequest := ctx.Request().URL.Path
+
+	switch incomingRequest {
+	case "/api/auth":
+		if validate.Is(token).Empty() {
+			ctx.Next()
 			return
 		}
-		ctx.Values().Set("accessToken", string(token))
+	case "/api/user/register":
 		ctx.Next()
+		return
 	}
+
+	if _, err := jwt.Verify(jwt.HS256, []byte(env.SIGNATURE_KEY), []byte(token)); err != nil {
+		ctx.StopWithError(iris.StatusUnauthorized, errors.New(locale.UNAUTHORIZED))
+		return
+	}
+
+	ctx.Next()
 }

@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
@@ -12,14 +10,14 @@ import (
 
 type UserController struct{ service *services.UserService }
 
-func (ctrl *UserController) useService() *services.UserService {
-	services := &services.UserService{DB: utils.UseTurso()}
-	ctrl.service = services
-	return services
+func (controller *UserController) useService() services.UserService {
+	userService := services.UserService{DB: utils.UseTurso()}
+	controller.service = &userService
+	return userService
 }
 
-func (ctrl UserController) RetrieveUsers(ctx iris.Context) {
-	users, err := ctrl.useService().Users()
+func (controller UserController) RetrieveUsers(ctx iris.Context) {
+	users, err := controller.useService().Users()
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
@@ -28,31 +26,34 @@ func (ctrl UserController) RetrieveUsers(ctx iris.Context) {
 	ctx.JSON(users)
 }
 
-func (ctrl UserController) CreateUser(ctx iris.Context) {
-	encrypt := utils.Encrypto{}
+func (controller UserController) CreateUser(ctx iris.Context) {
+	encrypt := utils.UseEncrypt()
 	user := ctx.Values().Get("user").(models.User)
+
 	hashedPassword, hashErr := encrypt.Hash(user.Password)
 	if hashErr != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, hashErr)
 		return
 	}
+
 	user.Password = hashedPassword
-	_, err := ctrl.useService().CreateUser(user)
-	if err != nil {
+
+	if _, err := controller.useService().Create(user); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
-	message := iris.Map{"message": "Created new user!"}
-	ctx.JSON(message)
+
+	ctx.StatusCode(iris.StatusCreated)
 }
 
-func (ctrl UserController) UpdateUser(ctx iris.Context) {
-	t := utils.Ternary[string]{}
-	v := helpers.Validate{}
-	target := ctx.Values().Get("user").(models.User)
-	userId := ctx.Values().Get("userId").(int32)
+func (controller UserController) UpdateUser(ctx iris.Context) {
+	ternary := utils.UseTernary[string]()
+	validate := utils.UseValidate()
 
-	foundUser, findErr := ctrl.useService().FindUser(userId)
+	target := ctx.Values().Get("user").(models.User)
+	userId, _ := ctx.Values().GetInt32("userId")
+
+	foundUser, findErr := controller.useService().Find(userId)
 	if findErr != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, findErr)
 		return
@@ -61,25 +62,24 @@ func (ctrl UserController) UpdateUser(ctx iris.Context) {
 	foundUser.Email = target.Email
 	foundUser.Username = target.Username
 	foundUser.Password = target.Password
-	foundUser.DisplayName = t.AssignAfterCondition(!v.IsEmpty(target.DisplayName), target.DisplayName, foundUser.DisplayName)
-	foundUser.SecretCode = t.AssignAfterCondition(!v.IsEmpty(target.SecretCode), target.SecretCode, foundUser.SecretCode)
+	foundUser.DisplayName = ternary.When(!validate.Is(target.DisplayName).Empty()).Assign(target.DisplayName).Else(foundUser.DisplayName)
+	foundUser.SecretCode = ternary.When(!validate.Is(target.SecretCode).Empty()).Assign(target.SecretCode).Else(foundUser.SecretCode)
 
-	_, err := ctrl.useService().UpdateUser(foundUser)
-	if err != nil {
+	if _, err := controller.useService().Update(foundUser); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
-	message := iris.Map{"message": fmt.Sprintf("Updated user %d", foundUser.Uid)}
-	ctx.JSON(message)
+
+	ctx.StatusCode(iris.StatusOK)
 }
 
-func (ctrl UserController) DeleteUser(ctx iris.Context) {
-	userId := ctx.Values().Get("userId").(int32)
-	_, err := ctrl.useService().DeleteUser(userId)
-	if err != nil {
+func (controller UserController) DeleteUser(ctx iris.Context) {
+	userId, _ := ctx.Values().GetInt32("userId")
+
+	if _, err := controller.useService().Delete(userId); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
-	message := iris.Map{"message": fmt.Sprintf("Deleted user %d", userId)}
-	ctx.JSON(message)
+
+	ctx.StatusCode(iris.StatusOK)
 }

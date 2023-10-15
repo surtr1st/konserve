@@ -2,13 +2,17 @@ package utils
 
 import "golang.org/x/crypto/bcrypt"
 
-type Encrypto struct{}
+type encrypt struct{}
 
-func (enc Encrypto) IsMatch(compared []byte, original string) error {
+func UseEncrypt() encrypt {
+	return encrypt{}
+}
+
+func (enc encrypt) IsMatch(compared []byte, original string) error {
 	return bcrypt.CompareHashAndPassword(compared, []byte(original))
 }
 
-func (enc Encrypto) Hash(target string) (string, error) {
+func (enc encrypt) Hash(target string) (string, error) {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(target), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err

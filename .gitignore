@@ -30,3 +30,4 @@
 **/*.log
 package-lock.json
 **/*.bun
+.null-ls_726968_db.sql

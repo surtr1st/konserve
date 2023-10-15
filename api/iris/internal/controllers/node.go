@@ -9,14 +9,14 @@ import (
 
 type NodeController struct{ service *services.NodeService }
 
-func (ctrl *NodeController) useService() *services.NodeService {
-	services := &services.NodeService{DB: utils.UseTurso()}
-	ctrl.service = services
-	return services
+func (controller *NodeController) useService() services.NodeService {
+	nodeService := services.NodeService{DB: utils.UseTurso()}
+	controller.service = &nodeService
+	return nodeService
 }
 
-func (ctrl NodeController) RetrieveNodes(ctx iris.Context) {
-	nodes, err := ctrl.useService().Nodes()
+func (controller NodeController) RetrieveNodes(ctx iris.Context) {
+	nodes, err := controller.useService().Nodes()
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return

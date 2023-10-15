@@ -11,14 +11,14 @@ import (
 
 type UserController struct{ service *services.UserService }
 
-func (ctrl *UserController) useService() *services.UserService {
-	services := &services.UserService{DB: utils.UseTurso()}
-	ctrl.service = services
-	return services
+func (controller *UserController) useService() services.UserService {
+	userService := services.UserService{DB: utils.UseTurso()}
+	controller.service = &userService
+	return userService
 }
 
-func (ctrl UserController) RetrieveUsers(ctx iris.Context) {
-	users, err := ctrl.useService().Users()
+func (controller UserController) RetrieveUsers(ctx iris.Context) {
+	users, err := controller.useService().Users()
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
@@ -27,8 +27,8 @@ func (ctrl UserController) RetrieveUsers(ctx iris.Context) {
 	ctx.JSON(users)
 }
 
-func (ctrl UserController) CreateUser(ctx iris.Context) {
-	encrypt := utils.Encrypt{}
+func (controller UserController) CreateUser(ctx iris.Context) {
+	encrypt := utils.UseEncrypt()
 	user := ctx.Values().Get("user").(models.User)
 
 	hashedPassword, hashErr := encrypt.Hash(user.Password)
@@ -38,7 +38,7 @@ func (ctrl UserController) CreateUser(ctx iris.Context) {
 	}
 
 	user.Password = hashedPassword
-	_, err := ctrl.useService().CreateUser(user)
+	_, err := controller.useService().Create(user)
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
@@ -47,14 +47,14 @@ func (ctrl UserController) CreateUser(ctx iris.Context) {
 	ctx.StatusCode(iris.StatusCreated)
 }
 
-func (ctrl UserController) UpdateUser(ctx iris.Context) {
-	t := utils.Ternary[string]{}
-	v := helpers.Validate{}
+func (controller UserController) UpdateUser(ctx iris.Context) {
+	ternary := utils.Ternary[string]{}
+	validate := helpers.UseValidate()
 
 	target := ctx.Values().Get("user").(models.User)
 	userId, _ := ctx.Values().GetInt32("userId")
 
-	foundUser, findErr := ctrl.useService().FindUser(userId)
+	foundUser, findErr := controller.useService().Find(userId)
 	if findErr != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, findErr)
 		return
@@ -63,10 +63,10 @@ func (ctrl UserController) UpdateUser(ctx iris.Context) {
 	foundUser.Email = target.Email
 	foundUser.Username = target.Username
 	foundUser.Password = target.Password
-	foundUser.DisplayName = t.AssignAfterCondition(!v.IsEmpty(target.DisplayName), target.DisplayName, foundUser.DisplayName)
-	foundUser.SecretCode = t.AssignAfterCondition(!v.IsEmpty(target.SecretCode), target.SecretCode, foundUser.SecretCode)
+	foundUser.DisplayName = ternary.AssignAfterCondition(!validate.Is(target.DisplayName).Empty(), target.DisplayName, foundUser.DisplayName)
+	foundUser.SecretCode = ternary.AssignAfterCondition(!validate.Is(target.SecretCode).Empty(), target.SecretCode, foundUser.SecretCode)
 
-	_, err := ctrl.useService().UpdateUser(foundUser)
+	_, err := controller.useService().Update(foundUser)
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
@@ -75,10 +75,10 @@ func (ctrl UserController) UpdateUser(ctx iris.Context) {
 	ctx.StatusCode(iris.StatusOK)
 }
 
-func (ctrl UserController) DeleteUser(ctx iris.Context) {
+func (controller UserController) DeleteUser(ctx iris.Context) {
 	userId, _ := ctx.Values().GetInt32("userId")
 
-	_, err := ctrl.useService().DeleteUser(userId)
+	_, err := controller.useService().Delete(userId)
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return

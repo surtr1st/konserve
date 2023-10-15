@@ -11,15 +11,17 @@ import (
 
 type AuthController struct{}
 
-func (ctrl AuthController) Authenticate(ctx iris.Context) {
-	t := utils.Ternary[string]{}
-	v := helpers.Validate{}
+func (controller AuthController) Authenticate(ctx iris.Context) {
+	ternary := utils.Ternary[string]{}
+	validate := helpers.UseValidate()
 
 	authHeader := fmt.Sprintf("%s %s", ctx.Request().Header.Get("Authorization"), " ")
 	tokenString := strings.Split(authHeader, " ")[1]
-	token := t.AssignAfterCondition(v.IsEmpty(authHeader), "", tokenString)
+	nilToken := validate.Is(authHeader).Empty()
 
-	if v.IsEmpty(token) {
+	token := ternary.AssignAfterCondition(nilToken, "", tokenString)
+
+	if validate.Is(token).Empty() {
 		userId, _ := ctx.Values().GetInt32("userId")
 		accessToken := ctx.Values().GetString("accessToken")
 		ctx.JSON(iris.Map{"userId": userId, "accessToken": accessToken})

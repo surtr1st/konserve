@@ -51,11 +51,11 @@ func (controller UserController) UpdateUser(ctx iris.Context) {
 	validate := utils.UseValidate()
 
 	target := ctx.Values().Get("user").(models.User)
-	userId, _ := ctx.Values().GetInt32("userId")
+	id, _ := ctx.Values().GetInt32("userId")
 
-	foundUser, findErr := controller.useService().Find(userId)
-	if findErr != nil {
-		ctx.StopWithError(iris.StatusInternalServerError, findErr)
+	foundUser, err := controller.useService().Find(id)
+	if err != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
 
@@ -74,9 +74,9 @@ func (controller UserController) UpdateUser(ctx iris.Context) {
 }
 
 func (controller UserController) DeleteUser(ctx iris.Context) {
-	userId, _ := ctx.Values().GetInt32("userId")
+	id, _ := ctx.Values().GetInt32("userId")
 
-	if _, err := controller.useService().Delete(userId); err != nil {
+	if _, err := controller.useService().Delete(id); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}

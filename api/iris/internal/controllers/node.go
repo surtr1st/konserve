@@ -41,9 +41,9 @@ func (controller NodeController) UpdateNode(ctx iris.Context) {
 	target := ctx.Values().Get("node").(models.Node)
 	id, _ := ctx.Values().GetInt32("nodeId")
 
-	foundNode, findErr := controller.useService().Find(id)
-	if findErr != nil {
-		ctx.StopWithError(iris.StatusInternalServerError, findErr)
+	foundNode, err := controller.useService().Find(id)
+	if err != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
 	}
 

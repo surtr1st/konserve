@@ -9,6 +9,7 @@ const (
 	PASSWORD_INCORRECT        = "Password is incorrect! Please re-check your password again."
 	TURSO_CONNECTION_ERROR    = "Failed to connect Turso!"
 	DATABASE_CONNECTION_ERROR = "Failed to connect database!"
+	UNAUTHORIZED              = "Unauthorized! Your token has been expired or does not exist."
 )
 
 // Validate Response

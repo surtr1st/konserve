@@ -7,6 +7,7 @@ import (
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
+	locale "konserve/api/pkg/localization"
 
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/jwt"
@@ -22,12 +23,13 @@ func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 		return
 	}
 
-	store := "account"
-	response := map[string]string{"username": USERNAME, "password": PASSWORD}
+	encrypt := utils.UseEncrypt()
 	service := services.UserService{DB: utils.UseTurso()}
-	ctx.Values().Set("account", account)
-	handler := helpers.ErrorHandler[models.Account]{Store: store, Response: response}
-	encrypt := utils.Encrypt{}
+
+	store := "account"
+	ctx.Values().Set(store, account)
+	errorResponse := map[string]string{"username": locale.MISSING_USERNAME, "password": locale.MISSING_PASSWORD}
+	handler := helpers.ErrorHandler[models.Account]{Store: store, ErrorResponse: errorResponse}
 
 	kind, message := handler.ValidateBody(ctx)
 	if kind != kinds.EMPTY {
@@ -35,15 +37,15 @@ func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 		return
 	}
 
-	user, findErr := service.FindByUsername(account.Username)
-	if findErr != nil {
-		ctx.StopWithJSON(iris.StatusInternalServerError, findErr)
+	user, findError := service.FindByUsername(account.Username)
+	if findError != nil {
+		ctx.StopWithJSON(iris.StatusInternalServerError, findError)
 		return
 	}
 
 	matchPassword := encrypt.IsMatch([]byte(user.Password), account.Password)
 	if matchPassword != nil {
-		ctx.StopWithError(iris.StatusForbidden, errors.New("Password does not match!"))
+		ctx.StopWithError(iris.StatusForbidden, errors.New(locale.PASSWORD_INCORRECT))
 		return
 	}
 
@@ -54,7 +56,11 @@ func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 
 func (middleware AuthMiddleware) GenerateToken(signer *jwt.Signer) iris.Handler {
 	return func(ctx iris.Context) {
-		userId, _ := ctx.Values().GetInt32("userId")
+		userId, valueError := ctx.Values().GetInt32("userId")
+		if valueError != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, valueError)
+			return
+		}
 		claims := utils.TokenClaims{UserId: userId}
 
 		token, err := signer.Sign(claims)

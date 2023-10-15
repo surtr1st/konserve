@@ -5,33 +5,27 @@ import (
 	"konserve/api/internal/constants/kinds"
 	"konserve/api/internal/helpers"
 	"konserve/api/internal/models"
+	locale "konserve/api/pkg/localization"
 
 	"github.com/kataras/iris/v12"
 )
 
 type UserMiddleware struct{}
 
-// Response error messages
-const (
-	EMAIL    = "Email is empty! Please provide it!"
-	USERNAME = "Username is empty! Please provide it!"
-	PASSWORD = "Password is empty!"
-)
-
-func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
+func (middleware UserMiddleware) VerifyBody(ctx iris.Context) {
 	var body models.User
-	readErr := ctx.ReadJSON(&body)
-	if readErr != nil {
-		ctx.StopWithError(iris.StatusInternalServerError, readErr)
+	readError := ctx.ReadJSON(&body)
+	if readError != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, readError)
 		return
 	}
 
 	store := "user"
-	response := map[string]string{"email": EMAIL, "username": USERNAME, "password": PASSWORD}
+	errorResponse := map[string]string{"email": locale.MISSING_EMAIL, "username": locale.MISSING_USERNAME, "password": locale.MISSING_PASSWORD}
 	excludeProps := map[string]string{"uid": "uid", "displayName": "displayName", "secretCode": "secretCode"}
 
 	ctx.Values().Set(store, body)
-	handler := helpers.ErrorHandler[models.User]{Store: store, Response: response, Excludes: excludeProps}
+	handler := helpers.ErrorHandler[models.User]{Store: store, ErrorResponse: errorResponse, Excludes: excludeProps}
 
 	kind, message := handler.ValidateBody(ctx)
 	if kind != kinds.EMPTY {
@@ -42,7 +36,7 @@ func (middleware UserMiddleware) ValidateBody(ctx iris.Context) {
 	ctx.Next()
 }
 
-func (middleware UserMiddleware) ValidateParams(ctx iris.Context) {
+func (middleware UserMiddleware) VerifyParams(ctx iris.Context) {
 	requiredParams := "id"
 	handler := helpers.ErrorHandler[any]{Params: requiredParams}
 
@@ -52,8 +46,9 @@ func (middleware UserMiddleware) ValidateParams(ctx iris.Context) {
 		return
 	}
 
-	value, _ := ctx.Params().GetInt32(requiredParams)
-	ctx.Values().Set("userId", value)
+	if value, err := ctx.Params().GetInt32(requiredParams); err == nil {
+		ctx.Values().Set("userId", value)
+	}
 
 	ctx.Next()
 }

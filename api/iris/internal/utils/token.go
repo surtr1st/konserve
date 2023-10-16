@@ -27,10 +27,11 @@ func (retriever tokenRetriever) BearerToken() string {
 }
 
 func (retriever tokenRetriever) AccessToken() string {
+	ctx := retriever.ctx
 	ternary := UseTernary[string]()
 	validate := UseValidate()
 
-	accessToken := retriever.ctx.GetCookie("accessToken")
+	accessToken := ctx.GetCookie("accessToken")
 	nilToken := validate.Is(accessToken).Empty()
 
 	return ternary.When(nilToken).Assign("").Else(accessToken)

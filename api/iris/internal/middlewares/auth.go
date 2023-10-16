@@ -57,7 +57,8 @@ func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 }
 
 func (middleware AuthMiddleware) GenerateToken(ctx iris.Context) {
-	claims := utils.TokenClaims{Secret: env.JWT_SECRET}
+	secret, _ := ctx.Values().GetInt32("userId")
+	claims := utils.TokenClaims{Secret: secret}
 
 	token, err := jwt.Sign(jwt.HS256, []byte(env.SIGNATURE_KEY), claims, jwt.MaxAge(time.Minute))
 	if err != nil {
@@ -71,24 +72,30 @@ func (middleware AuthMiddleware) GenerateToken(ctx iris.Context) {
 
 func (middleware AuthMiddleware) VerifyToken(ctx iris.Context) {
 	validate := utils.UseValidate()
-	authHeader := utils.UseHeaderRetriever(ctx)
-	token := strings.TrimSpace(authHeader.BearerToken())
+	retriever := utils.UseTokenRetriever(ctx)
+	token := strings.TrimSpace(retriever.AccessToken())
+	isTokenEmpty := validate.Is(token).Empty()
 
 	incomingRequest := ctx.Request().URL.Path
 
 	switch incomingRequest {
 	case "/api/auth":
-		if validate.Is(token).Empty() {
+		if isTokenEmpty {
 			ctx.Next()
 			return
 		}
-	case "/api/user/register":
+	case "/api/users/register":
 		ctx.Next()
 		return
 	}
 
-	if _, err := jwt.Verify(jwt.HS256, []byte(env.SIGNATURE_KEY), []byte(token)); err != nil {
+	if isTokenEmpty {
 		ctx.StopWithError(iris.StatusUnauthorized, errors.New(locale.UNAUTHORIZED))
+		return
+	}
+
+	if _, err := jwt.Verify(jwt.HS256, []byte(env.SIGNATURE_KEY), []byte(token)); err != nil {
+		ctx.StopWithError(iris.StatusUnauthorized, errors.New(locale.NONEXISTENT_OR_EXPIRED_TOKEN))
 		return
 	}
 

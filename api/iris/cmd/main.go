@@ -18,6 +18,7 @@ func main() {
 	}
 	api := app.Party("/api")
 	api.UseRouter(cors.New(corsOptions))
+	handleServer(api)
 	handleAuth(api)
 
 	userRoutes := api.Party("/users")
@@ -51,17 +52,24 @@ func handleUser(route iris.Party) {
 func handleNode(route iris.Party) {
 	node := controllers.NodeController{}
 	middleware := middlewares.NodeMiddleware{}
+	verify := middlewares.VerifyMiddleware{}
 	route.Get("/", node.RetrieveNodes)
 	route.Post("/", middleware.VerifyBody, node.CreateNode)
 	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, node.UpdateNode)
-	route.Delete("/{id}", middleware.VerifyParams, node.DeleteNode)
+	route.Delete("/{id}", verify.Verify, middleware.VerifyParams, node.DeleteNode)
 }
 
 func handleLeaf(route iris.Party) {
 	leaf := controllers.LeafController{}
 	middleware := middlewares.LeafMiddleware{}
-	route.Get("/", leaf.RetrieveLeaves)
+	verify := middlewares.VerifyMiddleware{}
+	route.Get("/", verify.Verify, leaf.RetrieveLeaves)
 	route.Post("/", middleware.VerifyBody, leaf.CreateLeaf)
 	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, leaf.UpdateLeaf)
 	route.Delete("/{id}", middleware.VerifyParams, leaf.DeleteLeaf)
+}
+
+func handleServer(route iris.Party) {
+	server := controllers.ServerController{}
+	route.Delete("/remove-cookie", server.RemoveCookie)
 }

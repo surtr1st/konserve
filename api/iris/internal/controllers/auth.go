@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"konserve/api/internal/utils"
+	"time"
 
 	"github.com/kataras/iris/v12"
 )
@@ -10,14 +11,15 @@ type AuthController struct{}
 
 func (controller AuthController) Authenticate(ctx iris.Context) {
 	validate := utils.UseValidate()
-	authHeader := utils.UseHeaderRetriever(ctx)
+	authHeader := utils.UseTokenRetriever(ctx)
 
-	token := authHeader.BearerToken()
+	token := authHeader.AccessToken()
+
 	if validate.Is(token).Empty() {
 		userId, _ := ctx.Values().GetInt32("userId")
-		accessToken := ctx.Values().GetString("accessToken")
-
-		ctx.JSON(iris.Map{"userId": userId, "accessToken": accessToken})
+		ctx.AddCookieOptions(iris.CookieHTTPOnly(true), iris.CookieExpires(time.Minute))
+		ctx.SetCookieKV("accessToken", ctx.Values().GetString("accessToken"))
+		ctx.Writef("%d", userId)
 		return
 	}
 }

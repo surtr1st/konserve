@@ -3,7 +3,7 @@ create table users (
   email         text unique,
   username      text unique,
   password      text,
-  display_name  text unique,
+  display_name  text,
   secret_code   text
 );
 

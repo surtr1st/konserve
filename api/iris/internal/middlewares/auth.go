@@ -94,5 +94,10 @@ func (middleware AuthMiddleware) VerifyToken(ctx iris.Context) {
 		return
 	}
 
+	if _, err := jwt.Verify(jwt.HS256, []byte(env.SIGNATURE_KEY), []byte(token)); err != nil {
+		ctx.StopWithError(iris.StatusUnauthorized, errors.New(locale.NONEXISTENT_OR_EXPIRED_TOKEN))
+		return
+	}
+
 	ctx.Next()
 }

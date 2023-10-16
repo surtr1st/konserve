@@ -30,13 +30,19 @@ func (controller UserController) CreateUser(ctx iris.Context) {
 	encrypt := utils.UseEncrypt()
 	user := ctx.Values().Get("user").(models.User)
 
-	hashedPassword, hashErr := encrypt.Hash(user.Password)
-	if hashErr != nil {
-		ctx.StopWithError(iris.StatusInternalServerError, hashErr)
+	hashedPassword, hashPasswordErr := encrypt.Hash(user.Password)
+	hashedSercetCode, hashSecretCodeErr := encrypt.Hash(user.SecretCode)
+	if hashPasswordErr != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, hashPasswordErr)
+		return
+	}
+	if hashSecretCodeErr != nil {
+		ctx.StopWithError(iris.StatusInternalServerError, hashSecretCodeErr)
 		return
 	}
 
 	user.Password = hashedPassword
+	user.SecretCode = hashedSercetCode
 
 	if _, err := controller.useService().Create(user); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)

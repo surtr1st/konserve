@@ -57,7 +57,8 @@ func (middleware AuthMiddleware) VerifyUser(ctx iris.Context) {
 }
 
 func (middleware AuthMiddleware) GenerateToken(ctx iris.Context) {
-	claims := utils.TokenClaims{Secret: env.JWT_SECRET}
+	secret, _ := ctx.Values().GetInt32("userId")
+	claims := utils.TokenClaims{Secret: secret}
 
 	token, err := jwt.Sign(jwt.HS256, []byte(env.SIGNATURE_KEY), claims, jwt.MaxAge(time.Minute))
 	if err != nil {
@@ -71,8 +72,8 @@ func (middleware AuthMiddleware) GenerateToken(ctx iris.Context) {
 
 func (middleware AuthMiddleware) VerifyToken(ctx iris.Context) {
 	validate := utils.UseValidate()
-	authHeader := utils.UseHeaderRetriever(ctx)
-	token := strings.TrimSpace(authHeader.BearerToken())
+	authHeader := utils.UseTokenRetriever(ctx)
+	token := strings.TrimSpace(authHeader.AccessToken())
 
 	incomingRequest := ctx.Request().URL.Path
 

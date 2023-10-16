@@ -7,7 +7,7 @@ type (
 		Username    string `json:"username" validate:"required"`
 		Password    string `json:"password" validate:"required"`
 		DisplayName string `json:"displayName,omitempty"`
-		SecretCode  string `json:"secretCode,omitempty"`
+		SecretCode  string `json:"secretCode"`
 	}
 	Account struct {
 		Username string `json:"username" validate:"required"`

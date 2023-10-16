@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"konserve/api/internal/utils"
+	"time"
 
 	"github.com/kataras/iris/v12"
 )
@@ -16,8 +17,8 @@ func (controller AuthController) Authenticate(ctx iris.Context) {
 
 	if validate.Is(token).Empty() {
 		userId, _ := ctx.Values().GetInt32("userId")
-		accessToken := ctx.Values().GetString("accessToken")
-		ctx.SetCookieKV("accessToken", accessToken)
+		ctx.AddCookieOptions(iris.CookieHTTPOnly(true), iris.CookieExpires(time.Minute))
+		ctx.SetCookieKV("accessToken", ctx.Values().GetString("accessToken"))
 		ctx.Writef("%d", userId)
 		return
 	}

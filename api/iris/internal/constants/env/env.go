@@ -9,7 +9,6 @@ var (
 	TURSO_URL        = useEnv("TURSO_URL")
 	TURSO_AUTH_TOKEN = useEnv("TURSO_AUTH_TOKEN")
 	ALLOWED_ORIGINS  = useEnv("ALLOWED_ORIGINS")
-	JWT_SECRET       = useEnv("JWT_SECRET")
 	SIGNATURE_KEY    = useEnv("SIGNATURE_KEY")
 )
 

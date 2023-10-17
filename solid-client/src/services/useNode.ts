@@ -6,7 +6,7 @@ export function useNode() {
     `${BASE_URL}/nodes`,
   );
 
-  const retrieveNodes = async (): Promise<Nod3> => {
+  const retrieveNodes = async (): Promise<Nod3[]> => {
     const res = await onGet('/', {});
     return await res.json();
   };

@@ -6,7 +6,7 @@ export function useLeaf() {
     `${BASE_URL}/leaves`,
   );
 
-  const retrieveLeaves = async (): Promise<Leaf> => {
+  const retrieveLeaves = async (): Promise<Leaf[]> => {
     const res = await onGet('/', {});
     return await res.json();
   };

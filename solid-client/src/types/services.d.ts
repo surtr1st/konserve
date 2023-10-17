@@ -29,3 +29,14 @@ declare type TNodeParams = {
 declare type TLeafParams = TAuthParams & {
   nodeId: number;
 };
+declare type Nod3 = {
+  id: number;
+  name: string;
+  uid: number;
+};
+declare type Leaf = {
+  id: number;
+  username: string;
+  password: string;
+  nodeId: number;
+};

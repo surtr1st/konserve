@@ -19,3 +19,13 @@ declare type TUserParams = {
   displayName: string;
   secretCode: string;
 };
+declare type TUserId = {
+  userId?: number;
+};
+declare type TNodeParams = {
+  name: string;
+  uid: number;
+};
+declare type TLeafParams = TAuthParams & {
+  nodeId: number;
+};

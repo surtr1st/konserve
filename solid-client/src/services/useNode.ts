@@ -6,10 +6,9 @@ export function useNode() {
     `${BASE_URL}/nodes`,
   );
 
-  const retrieveNodes = () => {
-    onGet('/', {})
-      .then((res) => res.json())
-      .catch((err) => err);
+  const retrieveNodes = async (): Promise<Nod3> => {
+    const res = await onGet('/', {});
+    return await res.json();
   };
 
   const createNode = ({ name, uid }: TNodeParams) => {

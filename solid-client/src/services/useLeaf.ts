@@ -6,10 +6,9 @@ export function useLeaf() {
     `${BASE_URL}/leaves`,
   );
 
-  const retrieveLeaves = () => {
-    onGet('/', {})
-      .then((res) => res.json())
-      .catch((err) => err);
+  const retrieveLeaves = async (): Promise<Leaf> => {
+    const res = await onGet('/', {});
+    return await res.json();
   };
 
   const createLeaf = (leaf: TLeafParams) => {

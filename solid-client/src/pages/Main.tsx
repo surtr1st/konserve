@@ -2,7 +2,14 @@ import clsx from 'clsx';
 import { useAuth, useLeaf, useNode } from '../services';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { useNavigate } from '@solidjs/router';
-import { onMount, For, createSignal, Match, Switch } from 'solid-js';
+import {
+  For,
+  createSignal,
+  Match,
+  Switch,
+  createEffect,
+  onMount,
+} from 'solid-js';
 import { Button, Section } from '../components';
 import {
   DeleteNodePopup,
@@ -50,10 +57,17 @@ export function Main() {
     setShowDeletePopup(!showDeletePopup());
   };
 
-  onMount(() => {
+  createEffect(async () => {
     const navigate = useNavigate();
-    if (!isAuth()) navigate('/login');
 
+    const authenticated = await isAuth();
+    if (!authenticated) {
+      navigate('/login');
+      return;
+    }
+  });
+
+  onMount(() => {
     retrieveNodes()
       .then((res) => setNodes(res))
       .catch((err) => console.error(err));

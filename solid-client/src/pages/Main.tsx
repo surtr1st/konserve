@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useAuth } from '../services';
+import { useAuth, useLeaf, useNode } from '../services';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { useNavigate } from '@solidjs/router';
 import { onMount, For, createSignal, Match, Switch } from 'solid-js';
@@ -21,23 +21,17 @@ import {
 export function Main() {
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = usePreferredTheme();
+  const { isAuth } = useAuth();
+  const { retrieveNodes } = useNode();
+  const { retrieveLeaves } = useLeaf();
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
 
-  const [nodes, _] = createSignal([
-    { id: 1, name: 'Keyboard Cat' },
-    { id: 2, name: 'Maru' },
-    { id: 3, name: 'Henri The Existential Cat' },
-  ]);
-  const [accounts, _set] = createSignal([
-    { username: 'adudarwa', password: '123' },
-    { username: 'adudarwa', password: '123' },
-    { username: 'adudarwa', password: '123' },
-    { username: 'adudarwa', password: '123' },
-  ]);
+  const [nodes, setNodes] = createSignal<Nod3[]>([]);
+  const [leaves, setLeaves] = createSignal<Leaf[]>([]);
 
   const expandColumns = useDynamicGridColumns(nodes().length + 1);
   const openDetailPopup = () => {
@@ -57,10 +51,16 @@ export function Main() {
   };
 
   onMount(() => {
-    const { isAuth } = useAuth();
     const navigate = useNavigate();
-    console.log(isAuth());
     if (!isAuth()) navigate('/login');
+
+    retrieveNodes()
+      .then((res) => setNodes(res))
+      .catch((err) => console.error(err));
+
+    retrieveLeaves()
+      .then((res) => setLeaves(res))
+      .catch((err) => console.error(err));
   });
 
   return (
@@ -137,7 +137,7 @@ export function Main() {
             open={() => showDetailPopup()}
             onClose={openDetailPopup}
             onBackdropClick={openDetailPopup}
-            data={accounts()}
+            data={leaves()}
           />
           <DeleteNodePopup
             open={() => showDeletePopup()}

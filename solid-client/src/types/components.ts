@@ -82,7 +82,7 @@ export type TAccount = {
 };
 
 export type TDetailNodePopup = TDialog & {
-  data: TAccount[];
+  data: Leaf[];
 };
 
 export type TNodeActionPopup = TDialog & {

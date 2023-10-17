@@ -1,6 +1,6 @@
 declare type TAuthContent = {
   bearer: string;
-  user?: string;
+  user: string;
   secret?: string;
 };
 declare type TRequestHeaders = {

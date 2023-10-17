@@ -64,8 +64,8 @@ export function Login() {
           onClick={login}
         />
         <a
-          href='/register'
           class='p-2 my-2 cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'
+          onClick={() => navigate('/register')}
         >
           Does not have an account? Register here.
         </a>

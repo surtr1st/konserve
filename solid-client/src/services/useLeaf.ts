@@ -7,24 +7,49 @@ export function useLeaf() {
   );
 
   const retrieveLeaves = async (): Promise<Leaf[]> => {
-    const res = await onGet('/', {});
+    const token = sessionStorage.getItem('AccessToken');
+    const res = await onGet('', {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+    });
+    if (res.status >= 400) throw new Error(await res.text());
     return await res.json();
   };
 
   const createLeaf = (leaf: TLeafParams) => {
-    onPost('/', {}, leaf)
+    const token = sessionStorage.getItem('AccessToken');
+    onPost(
+      '',
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
+      },
+      leaf,
+    )
       .then((res) => res.ok)
       .catch((err) => err);
   };
 
   const updateLeaf = (id: number, data: Omit<TLeafParams, 'nodeId'>) => {
-    onPut(`/${id}`, {}, data)
+    const token = sessionStorage.getItem('AccessToken');
+    onPut(
+      `/${id}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        credentials: 'include',
+      },
+      data,
+    )
       .then((res) => res.ok)
       .catch((err) => err);
   };
 
   const deleteLeaf = (id: number) => {
-    onDelete(`/${id}`, {})
+    const token = sessionStorage.getItem('AccessToken');
+    onDelete(`/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+    })
       .then((res) => res.ok)
       .catch((err) => err);
   };

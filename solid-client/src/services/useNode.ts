@@ -7,24 +7,57 @@ export function useNode() {
   );
 
   const retrieveNodes = async (): Promise<Nod3[]> => {
-    const res = await onGet('/', {});
+    const token = sessionStorage.getItem('AccessToken');
+    const res = await onGet('', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: 'include',
+    });
+    if (res.status >= 400) throw new Error(await res.text());
     return await res.json();
   };
 
   const createNode = ({ name, uid }: TNodeParams) => {
-    onPost('/', {}, { name, uid })
+    const token = sessionStorage.getItem('AccessToken');
+    onPost(
+      '',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: 'include',
+      },
+      { name, uid },
+    )
       .then((res) => res.ok)
       .catch((err) => err);
   };
 
   const updateNode = (id: number, name: string) => {
-    onPut(`/${id}`, {}, { name })
+    const token = sessionStorage.getItem('AccessToken');
+    onPut(
+      `/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: 'include',
+      },
+      { name },
+    )
       .then((res) => res.ok)
       .catch((err) => err);
   };
 
   const deleteNode = (id: number) => {
-    onDelete(`/${id}`, {})
+    const token = sessionStorage.getItem('AccessToken');
+    onDelete(`/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: 'include',
+    })
       .then((res) => res.ok)
       .catch((err) => err);
   };

@@ -1,8 +1,11 @@
+import { onMount } from 'solid-js';
 import { Button, Input } from '../components';
 import { useAuth } from '../services';
+import { useNavigate } from '@solidjs/router';
 
 export function Login() {
-  const { authenticate } = useAuth();
+  const navigate = useNavigate();
+  const { authenticate, isAuth } = useAuth();
   let username:
     | HTMLInputElement
     | ((el: HTMLInputElement) => undefined)
@@ -15,8 +18,14 @@ export function Login() {
   const login = () => {
     const unwrapUsername = (username as HTMLInputElement).value;
     const unwrapPassword = (password as HTMLInputElement).value;
-    authenticate({ username: unwrapUsername, password: unwrapPassword });
+    authenticate({ username: unwrapUsername, password: unwrapPassword })
+      .then(() => navigate('/'))
+      .catch((err) => console.error(err));
   };
+
+  onMount(() => {
+    isAuth().then((ok) => ok && navigate('/'));
+  });
 
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
@@ -28,6 +37,7 @@ export function Login() {
             name='username'
             label='Username'
             textSize='text-lg'
+            value='test@uname'
             ref={username}
           />
           <Input
@@ -35,6 +45,7 @@ export function Login() {
             name='password'
             label='Password'
             textSize='text-lg'
+            value='test@pwd'
             ref={password}
           />
         </div>

@@ -8,7 +8,7 @@ export function useFetchClient(baseUrl: string) {
     fetch(`${baseUrl}${url}`, {
       method: 'GET',
       ...init,
-      headers: init?.headers || defaultHeaders,
+      headers: { ...init?.headers, ...defaultHeaders },
     });
 
   const onPost = <T>(
@@ -19,7 +19,7 @@ export function useFetchClient(baseUrl: string) {
     fetch(`${baseUrl}${url}`, {
       method: 'POST',
       ...init,
-      headers: init?.headers || defaultHeaders,
+      headers: { ...init?.headers, ...defaultHeaders },
       body: JSON.stringify(body),
     });
 
@@ -31,7 +31,7 @@ export function useFetchClient(baseUrl: string) {
     fetch(`${baseUrl}${url}`, {
       method: 'PUT',
       ...init,
-      headers: init?.headers || defaultHeaders,
+      headers: { ...init?.headers, ...defaultHeaders },
       body: JSON.stringify(body),
     });
 
@@ -39,7 +39,7 @@ export function useFetchClient(baseUrl: string) {
     fetch(`${baseUrl}${url}`, {
       method: 'DELETE',
       ...init,
-      headers: init?.headers || defaultHeaders,
+      headers: { ...init?.headers, ...defaultHeaders },
     });
 
   return {

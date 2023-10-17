@@ -73,7 +73,7 @@ func (middleware AuthMiddleware) GenerateToken(ctx iris.Context) {
 func (middleware AuthMiddleware) VerifyToken(ctx iris.Context) {
 	validate := utils.UseValidate()
 	retriever := utils.UseTokenRetriever(ctx)
-	token := strings.TrimSpace(retriever.AccessToken())
+	token := strings.TrimSpace(retriever.BearerToken())
 	isTokenEmpty := validate.Is(token).Empty()
 
 	incomingRequest := ctx.Request().URL.Path
@@ -85,6 +85,9 @@ func (middleware AuthMiddleware) VerifyToken(ctx iris.Context) {
 			return
 		}
 	case "/api/users/register":
+		ctx.Next()
+		return
+	case "/api/auth/verify":
 		ctx.Next()
 		return
 	}

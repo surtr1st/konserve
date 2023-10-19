@@ -5,7 +5,7 @@ import { useNavigate } from '@solidjs/router';
 
 export function Login() {
   const navigate = useNavigate();
-  const { authenticate, isAuth } = useAuth();
+  const { authenticate, isAuthorized } = useAuth();
   let username:
     | HTMLInputElement
     | ((el: HTMLInputElement) => undefined)
@@ -24,7 +24,7 @@ export function Login() {
   };
 
   onMount(() => {
-    isAuth().then((ok) => ok && navigate('/'));
+    isAuthorized().then((ok) => ok && navigate('/', { replace: true }));
   });
 
   return (

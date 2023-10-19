@@ -28,7 +28,7 @@ import {
 export function Main() {
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = usePreferredTheme();
-  const { isAuth } = useAuth();
+  const { isAuthorized } = useAuth();
   const { retrieveNodes } = useNode();
   const { retrieveLeaves } = useLeaf();
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
@@ -60,9 +60,9 @@ export function Main() {
   createEffect(async () => {
     const navigate = useNavigate();
 
-    const authenticated = await isAuth();
-    if (!authenticated) {
-      navigate('/login');
+    const authorized = await isAuthorized();
+    if (!authorized) {
+      navigate('/login', { replace: true });
       return;
     }
   });

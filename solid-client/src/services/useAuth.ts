@@ -19,11 +19,11 @@ export function useAuth() {
     }
   };
 
-  const isAuth = async () => {
+  const isAuthorized = async () => {
     const accessToken = sessionStorage.getItem('AccessToken');
     const res = await onGet(`/auth/verify?token=${accessToken}`);
     return res.status < 400 ? true : false;
   };
 
-  return { authenticate, isAuth };
+  return { authenticate, isAuthorized };
 }

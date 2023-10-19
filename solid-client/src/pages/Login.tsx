@@ -2,9 +2,11 @@ import { onMount } from 'solid-js';
 import { Button, Input } from '../components';
 import { useAuth } from '../services';
 import { useNavigate } from '@solidjs/router';
+import { useSolidToast } from '../hooks';
 
 export function Login() {
   const navigate = useNavigate();
+  const { onSuccess, onError } = useSolidToast();
   const { authenticate, isAuthorized } = useAuth();
   let username:
     | HTMLInputElement
@@ -19,8 +21,13 @@ export function Login() {
     const unwrapUsername = (username as HTMLInputElement).value;
     const unwrapPassword = (password as HTMLInputElement).value;
     authenticate({ username: unwrapUsername, password: unwrapPassword })
-      .then(() => navigate('/'))
-      .catch((err) => console.error(err));
+      .then((status) => {
+        if (status === 200) {
+          onSuccess('Authenticated');
+          navigate('/', { replace: true });
+        }
+      })
+      .catch((err) => onError(String(err)));
   };
 
   onMount(() => {

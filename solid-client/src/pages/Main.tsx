@@ -68,13 +68,9 @@ export function Main() {
   });
 
   onMount(() => {
-    retrieveNodes()
-      .then((res) => setNodes(res))
-      .catch((err) => console.error(err));
+    retrieveNodes().then((res) => setNodes(res));
 
-    retrieveLeaves()
-      .then((res) => setLeaves(res))
-      .catch((err) => console.error(err));
+    retrieveLeaves().then((res) => setLeaves(res));
   });
 
   return (

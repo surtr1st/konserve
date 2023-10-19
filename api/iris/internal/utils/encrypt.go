@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/json"
 	"os"
 
@@ -28,13 +29,9 @@ func (enc encrypt) Hash(target string) (string, error) {
 	return string(hashed), nil
 }
 
-func (enc encrypt) Encrypt(file string, secretCode string) ([]byte, error) {
-	data, err := os.ReadFile(file)
-	if err != nil {
-		return nil, err
-	}
-
-	block, err := aes.NewCipher([]byte(secretCode))
+func (enc encrypt) Encrypt(data []byte, secretCode string) ([]byte, error) {
+	key := sha256.Sum256([]byte(secretCode))
+	block, err := aes.NewCipher(key[:])
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +65,8 @@ func (enc encrypt) Decrypt(file string, secretCode string) (map[string]interface
 		return nil, err
 	}
 
-	block, err := aes.NewCipher([]byte(secretCode))
+	key := sha256.Sum256([]byte(secretCode))
+	block, err := aes.NewCipher(key[:])
 	if err != nil {
 		return nil, err
 	}

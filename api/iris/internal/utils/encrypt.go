@@ -29,31 +29,26 @@ func (enc encrypt) Hash(target string) (string, error) {
 }
 
 func (enc encrypt) Encrypt(file string, secretCode string) ([]byte, error) {
-	// Read the JSON file
 	data, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
 
-	// Create a new AES cipher block
 	block, err := aes.NewCipher([]byte(secretCode))
 	if err != nil {
 		return nil, err
 	}
 
-	// Create a GCM (Galois/Counter Mode) cipher
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
 		return nil, err
 	}
 
-	// Generate a random nonce
 	nonce := make([]byte, aesGCM.NonceSize())
 	if _, err := rand.Read(nonce); err != nil {
 		return nil, err
 	}
 
-	// Encrypt the data
 	encryptedData := aesGCM.Seal(nonce, nonce, data, nil)
 
 	return encryptedData, nil
@@ -68,29 +63,24 @@ func (enc encrypt) WriteTo(dest string, data []byte) error {
 }
 
 func (enc encrypt) Decrypt(file string, secretCode string) (map[string]interface{}, error) {
-	// Read the encrypted data
 	encryptedData, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
 
-	// Create a new AES cipher block
 	block, err := aes.NewCipher([]byte(secretCode))
 	if err != nil {
 		return nil, err
 	}
 
-	// Create a GCM (Galois/Counter Mode) cipher
 	aesGCM, err := cipher.NewGCM(block)
 	if err != nil {
 		return nil, err
 	}
 
-	// Get the nonce
 	nonceSize := aesGCM.NonceSize()
 	nonce, encryptedData := encryptedData[:nonceSize], encryptedData[nonceSize:]
 
-	// Decrypt the data
 	decryptedData, err := aesGCM.Open(nil, nonce, encryptedData, nil)
 	if err != nil {
 		return nil, err

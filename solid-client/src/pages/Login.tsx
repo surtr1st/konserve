@@ -1,8 +1,13 @@
+import { onMount } from 'solid-js';
 import { Button, Input } from '../components';
 import { useAuth } from '../services';
+import { useNavigate } from '@solidjs/router';
+import { useSolidToast } from '../hooks';
 
 export function Login() {
-  const { authenticate } = useAuth();
+  const navigate = useNavigate();
+  const { onSuccess, onError } = useSolidToast();
+  const { authenticate, isAuthorized } = useAuth();
   let username:
     | HTMLInputElement
     | ((el: HTMLInputElement) => undefined)
@@ -15,8 +20,19 @@ export function Login() {
   const login = () => {
     const unwrapUsername = (username as HTMLInputElement).value;
     const unwrapPassword = (password as HTMLInputElement).value;
-    authenticate({ username: unwrapUsername, password: unwrapPassword });
+    authenticate({ username: unwrapUsername, password: unwrapPassword })
+      .then((status) => {
+        if (status === 200) {
+          onSuccess('Authenticated');
+          navigate('/', { replace: true });
+        }
+      })
+      .catch((err) => onError(String(err)));
   };
+
+  onMount(() => {
+    isAuthorized().then((ok) => ok && navigate('/', { replace: true }));
+  });
 
   return (
     <main class='min-h-screen w-full flex flex-col justify-center items-center'>
@@ -28,6 +44,7 @@ export function Login() {
             name='username'
             label='Username'
             textSize='text-lg'
+            value='test@uname'
             ref={username}
           />
           <Input
@@ -35,6 +52,7 @@ export function Login() {
             name='password'
             label='Password'
             textSize='text-lg'
+            value='test@pwd'
             ref={password}
           />
         </div>
@@ -53,8 +71,8 @@ export function Login() {
           onClick={login}
         />
         <a
-          href='/register'
           class='p-2 my-2 cursor-pointer transition-all rounded-lg bg-transparent hover:bg-b-disabled hover:bg-opacity-30'
+          onClick={() => navigate('/register')}
         >
           Does not have an account? Register here.
         </a>

@@ -1,8 +1,15 @@
 import clsx from 'clsx';
-import { useAuth } from '../services';
+import { useAuth, useLeaf, useNode } from '../services';
 import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
 import { useNavigate } from '@solidjs/router';
-import { onMount, For, createSignal, Match, Switch } from 'solid-js';
+import {
+  For,
+  createSignal,
+  Match,
+  Switch,
+  createEffect,
+  onMount,
+} from 'solid-js';
 import { Button, Section } from '../components';
 import {
   DeleteNodePopup,
@@ -21,23 +28,17 @@ import {
 export function Main() {
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = usePreferredTheme();
+  const { isAuthorized } = useAuth();
+  const { retrieveNodes } = useNode();
+  const { retrieveLeaves } = useLeaf();
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
 
-  const [nodes, _] = createSignal([
-    { id: 1, name: 'Keyboard Cat' },
-    { id: 2, name: 'Maru' },
-    { id: 3, name: 'Henri The Existential Cat' },
-  ]);
-  const [accounts, _set] = createSignal([
-    { username: 'adudarwa', password: '123' },
-    { username: 'adudarwa', password: '123' },
-    { username: 'adudarwa', password: '123' },
-    { username: 'adudarwa', password: '123' },
-  ]);
+  const [nodes, setNodes] = createSignal<Nod3[]>([]);
+  const [leaves, setLeaves] = createSignal<Leaf[]>([]);
 
   const expandColumns = useDynamicGridColumns(nodes().length + 1);
   const openDetailPopup = () => {
@@ -56,11 +57,20 @@ export function Main() {
     setShowDeletePopup(!showDeletePopup());
   };
 
-  onMount(() => {
-    const { isAuth } = useAuth();
+  createEffect(async () => {
     const navigate = useNavigate();
-    console.log(isAuth());
-    if (!isAuth()) navigate('/login');
+
+    const authorized = await isAuthorized();
+    if (!authorized) {
+      navigate('/login', { replace: true });
+      return;
+    }
+  });
+
+  onMount(() => {
+    retrieveNodes().then((res) => setNodes(res));
+
+    retrieveLeaves().then((res) => setLeaves(res));
   });
 
   return (
@@ -137,7 +147,7 @@ export function Main() {
             open={() => showDetailPopup()}
             onClose={openDetailPopup}
             onBackdropClick={openDetailPopup}
-            data={accounts()}
+            data={leaves()}
           />
           <DeleteNodePopup
             open={() => showDeletePopup()}

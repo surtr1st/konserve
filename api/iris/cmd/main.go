@@ -18,7 +18,6 @@ func main() {
 	}
 	api := app.Party("/api")
 	api.UseRouter(cors.New(corsOptions))
-	handleServer(api)
 	handleAuth(api)
 
 	userRoutes := api.Party("/users")
@@ -36,8 +35,9 @@ func main() {
 func handleAuth(route iris.Party) {
 	auth := controllers.AuthController{}
 	middleware := middlewares.AuthMiddleware{}
-	route.Use(middleware.VerifyToken)
+	route.UseRouter(middleware.VerifyToken)
 	route.Post("/auth", middleware.VerifyUser, middleware.GenerateToken, auth.Authenticate)
+	route.Get("/auth/verify", auth.VerifyAuthorization)
 }
 
 func handleUser(route iris.Party) {
@@ -67,9 +67,4 @@ func handleLeaf(route iris.Party) {
 	route.Post("/", middleware.VerifyBody, leaf.CreateLeaf)
 	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, leaf.UpdateLeaf)
 	route.Delete("/{id}", middleware.VerifyParams, leaf.DeleteLeaf)
-}
-
-func handleServer(route iris.Party) {
-	server := controllers.ServerController{}
-	route.Delete("/remove-cookie", server.RemoveCookie)
 }

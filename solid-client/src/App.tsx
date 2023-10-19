@@ -1,30 +1,45 @@
 import { Routes, Route } from '@solidjs/router';
-import { Main, Login, Register, Preference, DetailNode } from './pages';
+import {
+  Main,
+  Login,
+  Register,
+  Preference,
+  DetailNode,
+  SecretCodeRegister,
+} from './pages';
+import { Toaster } from 'solid-toast';
 
 function App() {
   return (
-    <Routes>
-      <Route
-        path='/'
-        component={Main}
-      />
-      <Route
-        path='/login'
-        component={Login}
-      />
-      <Route
-        path='/register'
-        component={Register}
-      />
-      <Route
-        path='/preferences'
-        component={Preference}
-      />
-      <Route
-        path='/node'
-        component={DetailNode}
-      />
-    </Routes>
+    <div>
+      <Routes>
+        <Route
+          path='/'
+          component={Main}
+        />
+        <Route
+          path='/login'
+          component={Login}
+        />
+        <Route
+          path='/register'
+          component={Register}
+        />
+        <Route
+          path='/register/secret-code'
+          component={SecretCodeRegister}
+        />
+        <Route
+          path='/preferences'
+          component={Preference}
+        />
+        <Route
+          path='/node'
+          component={DetailNode}
+        />
+      </Routes>
+      <Toaster />
+    </div>
   );
 }
 

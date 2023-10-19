@@ -7,35 +7,39 @@ import {
   DetailNode,
   SecretCodeRegister,
 } from './pages';
+import { Toaster } from 'solid-toast';
 
 function App() {
   return (
-    <Routes>
-      <Route
-        path='/'
-        component={Main}
-      />
-      <Route
-        path='/login'
-        component={Login}
-      />
-      <Route
-        path='/register'
-        component={Register}
-      />
-      <Route
-        path='/register/secret-code'
-        component={SecretCodeRegister}
-      />
-      <Route
-        path='/preferences'
-        component={Preference}
-      />
-      <Route
-        path='/node'
-        component={DetailNode}
-      />
-    </Routes>
+    <div>
+      <Routes>
+        <Route
+          path='/'
+          component={Main}
+        />
+        <Route
+          path='/login'
+          component={Login}
+        />
+        <Route
+          path='/register'
+          component={Register}
+        />
+        <Route
+          path='/register/secret-code'
+          component={SecretCodeRegister}
+        />
+        <Route
+          path='/preferences'
+          component={Preference}
+        />
+        <Route
+          path='/node'
+          component={DetailNode}
+        />
+      </Routes>
+      <Toaster />
+    </div>
   );
 }
 

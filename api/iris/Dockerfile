@@ -1,23 +1,15 @@
-FROM golang:latest AS builder
+FROM golang:1.21-alpine as builder
 
-WORKDIR /app
+RUN mkdir -p /go/src/konserve
+COPY . /go/src/konserve
+WORKDIR /go/src/konserve
 
-COPY go.mod .
-
-COPY go.sum .
-
+ENV GO111MODULE=on
 RUN go mod download
+RUN go build ./cmd/main.go
 
-COPY . .
-
-RUN go install ./cmd/main.go
-
-FROM scratch
-
-COPY --from=builder /go/bin/main /main
-
-CMD [ "/main" ]
-
+FROM alpine:latest
+WORKDIR /usr/home/app
+COPY --from=builder /go/src/konserve/main /usr/home/app
 EXPOSE 4000
-
-
+ENTRYPOINT [ "./main" ]

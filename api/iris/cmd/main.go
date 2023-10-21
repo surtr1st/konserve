@@ -11,7 +11,7 @@ import (
 func main() {
 	app := iris.New()
 	corsOptions := cors.Options{
-		AllowedOrigins:   []string{"*", "http://localhost:5173"},
+		AllowedOrigins:   []string{"http://localhost:5173"},
 		AllowedHeaders:   []string{"Content-Type", "Accept", "Authorization"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowCredentials: true,

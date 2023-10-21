@@ -23,3 +23,8 @@ func (v validate) Number() bool {
 	match, _ := regexp.MatchString("^[0-9]*$", v.target)
 	return match
 }
+
+func (v validate) Email() bool {
+	match, _ := regexp.MatchString(`^[\w\.-]+@[\w\.-]+\.\w+`, v.target)
+	return match
+}

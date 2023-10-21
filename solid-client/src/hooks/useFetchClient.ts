@@ -4,6 +4,18 @@ export function useFetchClient(baseUrl: string) {
     'Content-Type': 'application/json',
   };
 
+  const useCredentials = (
+    token?: string,
+    type: RequestCredentials = 'same-origin',
+  ) => {
+    return {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: type,
+    } satisfies RequestInit;
+  };
+
   const onGet = (url: string, init?: RequestInit): Promise<Response> =>
     fetch(`${baseUrl}${url}`, {
       method: 'GET',
@@ -47,5 +59,6 @@ export function useFetchClient(baseUrl: string) {
     onPost,
     onPut,
     onDelete,
+    useCredentials,
   };
 }

@@ -15,6 +15,9 @@ func UseTokenRetriever(ctx iris.Context) tokenRetriever {
 	return tokenRetriever{ctx}
 }
 
+// Retrieve `Authorization` from request headers
+// Split and take `bearer token`
+// Return the string whether it was `bearer token` or an empty string
 func (retriever tokenRetriever) BearerToken() string {
 	ternary := UseTernary[string]()
 	validate := UseValidate()
@@ -26,6 +29,8 @@ func (retriever tokenRetriever) BearerToken() string {
 	return ternary.When(nilToken).Assign("").Else(tokenString)
 }
 
+// Retrieving the `bearer token` from Cookie
+// Return the string whether it was `bearer token` or an empty string
 func (retriever tokenRetriever) AccessToken() string {
 	ctx := retriever.ctx
 	ternary := UseTernary[string]()

@@ -21,6 +21,8 @@ type ErrorHandler[T any] struct {
 	Excludes      Exclude
 }
 
+// To handle request body, filtering `undefined` properties
+// Return a tuple of an error kind and a string message
 func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, message string) {
 	ternary := UseTernary[string]()
 
@@ -55,6 +57,8 @@ func (handler ErrorHandler[T]) ValidateBody(ctx iris.Context) (kind int32, messa
 	return kinds.EMPTY, ""
 }
 
+// To verify request params if it was number
+// Return a tuple of an error kind and a string message
 func (handler ErrorHandler[T]) IsIntParams(ctx iris.Context) (kind int32, message string) {
 	validate := UseValidate()
 

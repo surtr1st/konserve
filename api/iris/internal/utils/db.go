@@ -11,6 +11,7 @@ import (
 	_ "github.com/libsql/libsql-client-go/libsql"
 )
 
+// Return GORM DB for manipulating Turso's SQLite database
 func UseTurso() *gorm.DB {
 	driverName := "libsql"
 	config := &gorm.Config{

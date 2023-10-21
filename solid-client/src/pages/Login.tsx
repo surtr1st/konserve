@@ -27,7 +27,7 @@ export function Login() {
           navigate('/', { replace: true });
         }
       })
-      .catch((err) => onError(String(err)));
+      .catch((err: ResponseError) => onError(err.message));
   };
 
   onMount(() => {

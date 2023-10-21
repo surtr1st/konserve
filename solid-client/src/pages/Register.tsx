@@ -3,6 +3,7 @@ import { Button, Input } from '../components';
 import { useNavigate } from '@solidjs/router';
 import { TAccountRegister } from '../types';
 import { useSolidToast } from '../hooks';
+import { useUser } from '../services';
 
 export function Register() {
   const navigate = useNavigate();
@@ -13,9 +14,10 @@ export function Register() {
   let displayName: SolidInputRef;
 
   const { onError } = useSolidToast();
+  const { isEmailExisted, isUsernameExisted } = useUser();
   const [account, setAccount] = createSignal<Partial<TAccountRegister>>({});
 
-  const toNextStep = () => {
+  const verifyInput = () => {
     const unwrapEmail = (email as HTMLInputElement).value;
     const unwrapUsername = (username as HTMLInputElement).value;
     const unwrapPassword = (password as HTMLInputElement).value;
@@ -51,8 +53,27 @@ export function Register() {
         ? `@${unwrapUsername}`
         : unwrapDisplayName,
     });
+  };
 
-    navigate('/register/final', { state: account(), replace: false });
+  const verifyExistence = async (account: TAccountRegister) => {
+    try {
+      if (!account.email) return;
+      if (!account.username) return;
+      await isEmailExisted(account.email);
+      await isUsernameExisted(account.username);
+      return true;
+    } catch (err) {
+      onError((err as ResponseError).message);
+      return false;
+    }
+  };
+
+  const toNextStep = () => {
+    verifyInput();
+    verifyExistence(account() as TAccountRegister).then(
+      (ok) =>
+        ok && navigate('/register/final', { state: account(), replace: false }),
+    );
   };
 
   return (

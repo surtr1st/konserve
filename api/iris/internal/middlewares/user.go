@@ -71,12 +71,12 @@ func (middleware UserMiddleware) VerifyUniques(ctx iris.Context) {
 	account := ctx.Values().Get("user").(models.User)
 	validate := utils.UseValidate()
 
-	if user, _ := service.FindByEmail(account.Email); validate.Is(strconv.Itoa(user.Uid)).Undefined() {
+	if user, _ := service.FindByEmail(account.Email); !validate.Is(strconv.Itoa(user.Uid)).Undefined() {
 		ctx.StopWithError(iris.StatusInternalServerError, errors.New(locale.EMAIL_EXISTED))
 		return
 	}
 
-	if user, _ := service.FindByUsername(account.Username); validate.Is(strconv.Itoa(user.Uid)).Undefined() {
+	if user, _ := service.FindByUsername(account.Username); !validate.Is(strconv.Itoa(user.Uid)).Undefined() {
 		ctx.StopWithError(iris.StatusInternalServerError, errors.New(locale.USERNAME_EXISTED))
 		return
 	}

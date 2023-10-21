@@ -17,10 +17,14 @@ func UseEncrypt() encrypt {
 	return encrypt{}
 }
 
+// To check if the `compared` bytes equals to the hashed original
+// Return either `error` or `nil`
 func (enc encrypt) IsMatch(compared []byte, original string) error {
 	return bcrypt.CompareHashAndPassword(compared, []byte(original))
 }
 
+// To hash the target with bcrypt algorithm
+// Return a tuple of hash string and an error
 func (enc encrypt) Hash(target string) (string, error) {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(target), bcrypt.DefaultCost)
 	if err != nil {
@@ -29,6 +33,9 @@ func (enc encrypt) Hash(target string) (string, error) {
 	return string(hashed), nil
 }
 
+// To encrypt content of a file, preserved by a secret code
+// Use AES algorithm for encryption
+// Return a tuple of encrypted data and an error
 func (enc encrypt) Encrypt(data []byte, secretCode string) ([]byte, error) {
 	key := sha256.Sum256([]byte(secretCode))
 	block, err := aes.NewCipher(key[:])
@@ -51,6 +58,8 @@ func (enc encrypt) Encrypt(data []byte, secretCode string) ([]byte, error) {
 	return encryptedData, nil
 }
 
+// Write encrypted data to new destination
+// Return either `error` or `nil`
 func (enc encrypt) WriteTo(dest string, data []byte) error {
 	err := os.WriteFile(dest, data, 0644)
 	if err != nil {
@@ -59,6 +68,8 @@ func (enc encrypt) WriteTo(dest string, data []byte) error {
 	return nil
 }
 
+// To dencrypt content of a file, unlocked by a secret code
+// Return a tuple of dencrypted data and an error
 func (enc encrypt) Decrypt(file string, secretCode string) (map[string]interface{}, error) {
 	encryptedData, err := os.ReadFile(file)
 	if err != nil {

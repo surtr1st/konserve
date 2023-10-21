@@ -92,3 +92,7 @@ export type TNodeActionPopup = TDialog & {
 export type TLeafActionPopup = TNodeActionPopup;
 export type TVerifySecretCodePopup = TDialog;
 export type TDeleteNodePopup = TDialog;
+export type TAccountRegister = TAccount & {
+  email: string;
+  displayName: string;
+};

@@ -10,6 +10,8 @@ const (
 	DATABASE_CONNECTION_ERROR = "Failed to connect database!"
 	UNAUTHORIZED              = "Unauthorized! You need authentication token to proceed."
 	VERIFY_STATE_LOCKED       = "You've been locked for 10 minutes due to incorrect secret code verification over 3 times!"
+	EMAIL_EXISTED             = "This email has already existed!"
+	USERNAME_EXISTED          = "This username has already existed!"
 )
 
 // Validate Response

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"konserve/api/internal/constants/kinds"
 	"konserve/api/internal/models"
+	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
 	locale "konserve/api/pkg/localization"
 
@@ -48,6 +49,34 @@ func (middleware UserMiddleware) VerifyParams(ctx iris.Context) {
 
 	if value, err := ctx.Params().GetInt32(requiredParams); err == nil {
 		ctx.Values().Set("userId", value)
+	}
+
+	ctx.Next()
+}
+
+func (middleware UserMiddleware) VerifyBodyContent(ctx iris.Context) {
+	validate := utils.UseValidate()
+	account := ctx.Values().Get("user").(models.User)
+	if !validate.Is(account.Email).Email() {
+		ctx.StopWithError(iris.StatusNotAcceptable, errors.New(locale.EMAIL_FORMAT_VIOLATED))
+		return
+	}
+
+	ctx.Next()
+}
+
+func (middleware UserMiddleware) VerifyUniques(ctx iris.Context) {
+	service := services.UserService{DB: utils.UseTurso()}
+	account := ctx.Values().Get("user").(models.User)
+
+	if _, err := service.FindByEmail(account.Email); err == nil {
+		ctx.StopWithError(iris.StatusInternalServerError, errors.New(locale.EMAIL_EXISTED))
+		return
+	}
+
+	if _, err := service.FindByUsername(account.Username); err == nil {
+		ctx.StopWithError(iris.StatusInternalServerError, errors.New(locale.USERNAME_EXISTED))
+		return
 	}
 
 	ctx.Next()

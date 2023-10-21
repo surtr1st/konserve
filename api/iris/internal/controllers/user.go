@@ -1,9 +1,12 @@
 package controllers
 
 import (
+	"errors"
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
+	locale "konserve/api/pkg/localization"
+	"strconv"
 
 	"github.com/kataras/iris/v12"
 )
@@ -57,7 +60,7 @@ func (controller UserController) UpdateUser(ctx iris.Context) {
 	validate := utils.UseValidate()
 
 	target := ctx.Values().Get("user").(models.User)
-	id, _ := ctx.Values().GetInt32("userId")
+	id, _ := ctx.Values().GetInt("userId")
 
 	foundUser, err := controller.useService().Find(id)
 	if err != nil {
@@ -80,11 +83,35 @@ func (controller UserController) UpdateUser(ctx iris.Context) {
 }
 
 func (controller UserController) DeleteUser(ctx iris.Context) {
-	id, _ := ctx.Values().GetInt32("userId")
+	id, _ := ctx.Values().GetInt("userId")
 
 	if _, err := controller.useService().Delete(id); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
 		return
+	}
+
+	ctx.StatusCode(iris.StatusOK)
+}
+
+func (controller UserController) IsExisted(ctx iris.Context) {
+	validate := utils.UseValidate()
+	email := ctx.URLParamDefault("email", "")
+	username := ctx.URLParamDefault("username", "")
+
+	if !validate.Is(email).Empty() {
+		user, _ := controller.useService().FindByEmail(email)
+		if !validate.Is(strconv.Itoa(user.Uid)).Undefined() {
+			ctx.StopWithError(iris.StatusNotAcceptable, errors.New(locale.EMAIL_EXISTED))
+			return
+		}
+	}
+
+	if !validate.Is(username).Empty() {
+		user, _ := controller.useService().FindByUsername(username)
+		if !validate.Is(strconv.Itoa(user.Uid)).Undefined() {
+			ctx.StopWithError(iris.StatusNotAcceptable, errors.New(locale.USERNAME_EXISTED))
+			return
+		}
 	}
 
 	ctx.StatusCode(iris.StatusOK)

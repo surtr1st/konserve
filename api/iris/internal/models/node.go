@@ -1,7 +1,7 @@
 package models
 
 type Node struct {
-	Id   int32  `json:"id,omitempty"`
+	Id   int    `json:"id,omitempty"`
 	Name string `json:"name" validate:"required"`
-	Uid  int32  `json:"uid" validate:"required"`
+	Uid  int    `json:"uid" validate:"required"`
 }

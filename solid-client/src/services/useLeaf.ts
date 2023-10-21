@@ -2,56 +2,40 @@ import { BASE_URL } from '.';
 import { useFetchClient } from '../hooks';
 
 export function useLeaf() {
-  const { onGet, onPost, onPut, onDelete } = useFetchClient(
+  const { onGet, onPost, onPut, onDelete, useCredentials } = useFetchClient(
     `${BASE_URL}/leaves`,
   );
 
   const retrieveLeaves = async (): Promise<Leaf[]> => {
-    const token = sessionStorage.getItem('AccessToken');
-    const res = await onGet('', {
-      headers: { Authorization: `Bearer ${token}` },
-      credentials: 'include',
-    });
+    const token = sessionStorage.getItem('AccessToken') as string;
+    const res = await onGet('', useCredentials(token, 'include'));
     if (res.status >= 400) throw new Error(await res.text());
     return await res.json();
   };
 
-  const createLeaf = (leaf: TLeafParams) => {
-    const token = sessionStorage.getItem('AccessToken');
-    onPost(
+  const createLeaf = async (leaf: TLeafParams) => {
+    const token = sessionStorage.getItem('AccessToken') as string;
+    const res = await onPost<TLeafParams>(
       '',
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        credentials: 'include',
-      },
+      useCredentials(token, 'include'),
       leaf,
-    )
-      .then((res) => res.ok)
-      .catch((err) => err);
+    );
+    if (res.status >= 400) throw new Error(await res.text());
+    return res.ok;
   };
 
-  const updateLeaf = (id: number, data: Omit<TLeafParams, 'nodeId'>) => {
-    const token = sessionStorage.getItem('AccessToken');
-    onPut(
-      `/${id}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-        credentials: 'include',
-      },
-      data,
-    )
-      .then((res) => res.ok)
-      .catch((err) => err);
+  const updateLeaf = async (id: number, data: Omit<TLeafParams, 'nodeId'>) => {
+    const token = sessionStorage.getItem('AccessToken') as string;
+    const res = await onPut(`/${id}`, useCredentials(token, 'include'), data);
+    if (res.status >= 400) throw new Error(await res.text());
+    return res.ok;
   };
 
-  const deleteLeaf = (id: number) => {
-    const token = sessionStorage.getItem('AccessToken');
-    onDelete(`/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-      credentials: 'include',
-    })
-      .then((res) => res.ok)
-      .catch((err) => err);
+  const deleteLeaf = async (id: number) => {
+    const token = sessionStorage.getItem('AccessToken') as string;
+    const res = await onDelete(`/${id}`, useCredentials(token, 'include'));
+    if (res.status >= 400) throw new Error(await res.text());
+    return res.ok;
   };
 
   return { retrieveLeaves, createLeaf, updateLeaf, deleteLeaf };

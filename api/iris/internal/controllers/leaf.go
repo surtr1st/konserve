@@ -39,7 +39,7 @@ func (controller LeafController) CreateLeaf(ctx iris.Context) {
 
 func (controller LeafController) UpdateLeaf(ctx iris.Context) {
 	target := ctx.Values().Get("leaf").(models.Leaf)
-	id, _ := ctx.Values().GetInt32("leafId")
+	id, _ := ctx.Values().GetInt("leafId")
 
 	foundLeaf, findErr := controller.useService().Find(id)
 	if findErr != nil {
@@ -58,7 +58,7 @@ func (controller LeafController) UpdateLeaf(ctx iris.Context) {
 }
 
 func (controller LeafController) DeleteLeaf(ctx iris.Context) {
-	id, _ := ctx.Values().GetInt32("leafId")
+	id, _ := ctx.Values().GetInt("leafId")
 
 	if _, err := controller.useService().Delete(id); err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)

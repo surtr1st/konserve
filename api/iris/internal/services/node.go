@@ -19,7 +19,7 @@ func (service NodeService) Nodes() ([]models.Node, error) {
 	return nodes, nil
 }
 
-func (service NodeService) Find(uid int32) (models.Node, error) {
+func (service NodeService) Find(uid int) (models.Node, error) {
 	var node models.Node
 	result := service.DB.Find(&node, uid)
 
@@ -50,7 +50,7 @@ func (service NodeService) Update(node models.Node) (int64, error) {
 	return result.RowsAffected, nil
 }
 
-func (service NodeService) Delete(id int32) (int64, error) {
+func (service NodeService) Delete(id int) (int64, error) {
 	target, findErr := service.Find(id)
 	if findErr != nil {
 		return 0, findErr

@@ -8,14 +8,8 @@ export function Login() {
   const navigate = useNavigate();
   const { onSuccess, onError } = useSolidToast();
   const { authenticate, isAuthorized } = useAuth();
-  let username:
-    | HTMLInputElement
-    | ((el: HTMLInputElement) => undefined)
-    | undefined = undefined;
-  let password:
-    | HTMLInputElement
-    | ((el: HTMLInputElement) => undefined)
-    | undefined = undefined;
+  let username: SolidInputRef;
+  let password: SolidInputRef;
 
   const login = () => {
     const unwrapUsername = (username as HTMLInputElement).value;
@@ -27,7 +21,7 @@ export function Login() {
           navigate('/', { replace: true });
         }
       })
-      .catch((err) => onError(String(err)));
+      .catch((err: ResponseError) => onError(err.message));
   };
 
   onMount(() => {

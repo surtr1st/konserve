@@ -40,3 +40,6 @@ declare type Leaf = {
   password: string;
   nodeId: number;
 };
+declare type ResponseError = {
+  message: string;
+};

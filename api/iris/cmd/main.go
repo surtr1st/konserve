@@ -11,7 +11,7 @@ import (
 func main() {
 	app := iris.New()
 	corsOptions := cors.Options{
-		AllowedOrigins:   []string{"*", "http://localhost:5173"},
+		AllowedOrigins:   []string{"http://127.0.0.1:5173"},
 		AllowedHeaders:   []string{"Content-Type", "Accept", "Authorization"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowCredentials: true,
@@ -44,7 +44,8 @@ func handleUser(route iris.Party) {
 	user := controllers.UserController{}
 	middleware := middlewares.UserMiddleware{}
 	route.Get("/", user.RetrieveUsers)
-	route.Post("/register", middleware.VerifyBody, user.CreateUser)
+	route.Get("/exist", user.IsExisted)
+	route.Post("/register", middleware.VerifyBody, middleware.VerifyBodyContent, middleware.VerifyUniques, user.CreateUser)
 	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, user.UpdateUser)
 	route.Delete("/{id}", middleware.VerifyParams, user.DeleteUser)
 }

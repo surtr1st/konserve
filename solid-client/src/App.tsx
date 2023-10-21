@@ -26,7 +26,7 @@ function App() {
           component={Register}
         />
         <Route
-          path='/register/secret-code'
+          path='/register/final'
           component={SecretCodeRegister}
         />
         <Route

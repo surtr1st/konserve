@@ -87,6 +87,9 @@ func (middleware AuthMiddleware) VerifyToken(ctx iris.Context) {
 	case "/api/users/register":
 		ctx.Next()
 		return
+	case "/api/users/exist":
+		ctx.Next()
+		return
 	case "/api/auth/verify":
 		ctx.Next()
 		return

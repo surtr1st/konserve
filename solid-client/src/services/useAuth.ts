@@ -17,6 +17,7 @@ export function useAuth() {
 
   const isAuthorized = async () => {
     const accessToken = sessionStorage.getItem('AccessToken');
+    if (!accessToken) return false;
     const res = await onGet(`/auth/verify?token=${accessToken}`);
     return res.status < 400 ? true : false;
   };

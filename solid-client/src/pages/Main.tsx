@@ -8,7 +8,7 @@ import {
   Match,
   Switch,
   createEffect,
-  onMount,
+  createResource,
 } from 'solid-js';
 import { Button, Section } from '../components';
 import {
@@ -31,16 +31,17 @@ export function Main() {
   const { isAuthorized } = useAuth();
   const { retrieveNodes } = useNode();
   const { retrieveLeaves } = useLeaf();
+
+  const [nodes] = createResource<Nod3[]>(retrieveNodes);
+  const [leaves] = createResource<Leaf[]>(retrieveLeaves);
+
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
 
-  const [nodes, setNodes] = createSignal<Nod3[]>([]);
-  const [leaves, setLeaves] = createSignal<Leaf[]>([]);
-
-  const expandColumns = useDynamicGridColumns(nodes().length + 1);
+  const expandColumns = useDynamicGridColumns(nodes.length + 1);
   const openDetailPopup = () => {
     setShowDetailPopup(!showDetailPopup());
   };
@@ -65,12 +66,6 @@ export function Main() {
       navigate('/login', { replace: true });
       return;
     }
-  });
-
-  onMount(() => {
-    retrieveNodes().then((res) => setNodes(res));
-
-    retrieveLeaves().then((res) => setLeaves(res));
   });
 
   return (
@@ -112,8 +107,8 @@ export function Main() {
         <div
           class={clsx(
             'grid',
-            nodes().length >= 5 && 'grid-cols-5',
-            nodes().length < 5 && expandColumns,
+            nodes.length >= 5 && 'grid-cols-5',
+            nodes.length < 5 && expandColumns,
           )}
         >
           <NodeCreator onAdd={openCreator} />
@@ -147,7 +142,7 @@ export function Main() {
             open={() => showDetailPopup()}
             onClose={openDetailPopup}
             onBackdropClick={openDetailPopup}
-            data={leaves()}
+            data={leaves() as Leaf[]}
           />
           <DeleteNodePopup
             open={() => showDeletePopup()}

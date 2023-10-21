@@ -1,6 +1,10 @@
 import clsx from 'clsx';
 import { useAuth, useLeaf, useNode } from '../services';
-import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
+import {
+  useDynamicGridColumns,
+  usePreferredTheme,
+  useSolidToast,
+} from '../hooks';
 import { useNavigate } from '@solidjs/router';
 import {
   For,
@@ -28,6 +32,7 @@ import {
 export function Main() {
   const navigate = useNavigate();
   const { isDarkMode, toggleTheme } = usePreferredTheme();
+  const { onError } = useSolidToast();
   const { isAuthorized } = useAuth();
   const { retrieveNodes } = useNode();
   const { retrieveLeaves } = useLeaf();
@@ -68,9 +73,13 @@ export function Main() {
   });
 
   onMount(() => {
-    retrieveNodes().then((res) => setNodes(res));
+    retrieveNodes()
+      .then((res) => setNodes(res))
+      .catch((err: ResponseError) => onError(err.message));
 
-    retrieveLeaves().then((res) => setLeaves(res));
+    retrieveLeaves()
+      .then((res) => setLeaves(res))
+      .catch((err: ResponseError) => onError(err.message));
   });
 
   return (

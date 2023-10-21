@@ -9,8 +9,7 @@ export function useNode() {
   const retrieveNodes = async (): Promise<Nod3[]> => {
     const token = sessionStorage.getItem('AccessToken') as string;
     const res = await onGet('', useCredentials(token, 'include'));
-    if (res.status >= 400)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status >= 400) throw new Error(await res.text());
     return await res.json();
   };
 
@@ -21,8 +20,7 @@ export function useNode() {
       useCredentials(token, 'include'),
       node,
     );
-    if (res.status !== 201)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status !== 201) throw new Error(await res.text());
     return res.ok;
   };
 
@@ -31,16 +29,14 @@ export function useNode() {
     const res = await onPut(`/${id}`, useCredentials(token, 'include'), {
       name,
     });
-    if (res.status >= 400)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status >= 400) throw new Error(await res.text());
     return res.ok;
   };
 
   const deleteNode = async (id: number) => {
     const token = sessionStorage.getItem('AccessToken') as string;
     const res = await onDelete(`/${id}`, useCredentials(token, 'include'));
-    if (res.status >= 400)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status >= 400) throw new Error(await res.text());
     return res.ok;
   };
 

@@ -9,8 +9,7 @@ export function useLeaf() {
   const retrieveLeaves = async (): Promise<Leaf[]> => {
     const token = sessionStorage.getItem('AccessToken') as string;
     const res = await onGet('', useCredentials(token, 'include'));
-    if (res.status >= 400)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status >= 400) throw new Error(await res.text());
     return await res.json();
   };
 
@@ -21,24 +20,21 @@ export function useLeaf() {
       useCredentials(token, 'include'),
       leaf,
     );
-    if (res.status >= 400)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status >= 400) throw new Error(await res.text());
     return res.ok;
   };
 
   const updateLeaf = async (id: number, data: Omit<TLeafParams, 'nodeId'>) => {
     const token = sessionStorage.getItem('AccessToken') as string;
     const res = await onPut(`/${id}`, useCredentials(token, 'include'), data);
-    if (res.status >= 400)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status >= 400) throw new Error(await res.text());
     return res.ok;
   };
 
   const deleteLeaf = async (id: number) => {
     const token = sessionStorage.getItem('AccessToken') as string;
     const res = await onDelete(`/${id}`, useCredentials(token, 'include'));
-    if (res.status >= 400)
-      throw new Error(JSON.stringify({ message: await res.text() }));
+    if (res.status >= 400) throw new Error(await res.text());
     return res.ok;
   };
 

@@ -6,7 +6,8 @@ export function useAuth() {
   const authenticate = async ({ username, password }: TAuthParams) => {
     const res = await onPost<TAuthParams>('/auth', {}, { username, password });
 
-    if (res.status >= 400) throw new Error(await res.text());
+    if (res.status >= 400)
+      throw new Error(JSON.stringify({ message: await res.text() }));
 
     const json = (await res.json()) as TAuthHeaders;
     sessionStorage.setItem('UserID', json.user as string);

@@ -44,6 +44,7 @@ func handleUser(route iris.Party) {
 	user := controllers.UserController{}
 	middleware := middlewares.UserMiddleware{}
 	route.Get("/", user.RetrieveUsers)
+	route.Get("/exist", user.IsExisted)
 	route.Post("/register", middleware.VerifyBody, middleware.VerifyBodyContent, middleware.VerifyUniques, user.CreateUser)
 	route.Put("/{id}", middleware.VerifyParams, middleware.VerifyBody, user.UpdateUser)
 	route.Delete("/{id}", middleware.VerifyParams, user.DeleteUser)

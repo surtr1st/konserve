@@ -7,6 +7,7 @@ import (
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
 	locale "konserve/api/pkg/localization"
+	"strconv"
 
 	"github.com/kataras/iris/v12"
 )
@@ -68,13 +69,14 @@ func (middleware UserMiddleware) VerifyBodyContent(ctx iris.Context) {
 func (middleware UserMiddleware) VerifyUniques(ctx iris.Context) {
 	service := services.UserService{DB: utils.UseTurso()}
 	account := ctx.Values().Get("user").(models.User)
+	validate := utils.UseValidate()
 
-	if _, err := service.FindByEmail(account.Email); err == nil {
+	if user, _ := service.FindByEmail(account.Email); validate.Is(strconv.Itoa(user.Uid)).Undefined() {
 		ctx.StopWithError(iris.StatusInternalServerError, errors.New(locale.EMAIL_EXISTED))
 		return
 	}
 
-	if _, err := service.FindByUsername(account.Username); err == nil {
+	if user, _ := service.FindByUsername(account.Username); validate.Is(strconv.Itoa(user.Uid)).Undefined() {
 		ctx.StopWithError(iris.StatusInternalServerError, errors.New(locale.USERNAME_EXISTED))
 		return
 	}

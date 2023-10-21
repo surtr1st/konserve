@@ -20,7 +20,7 @@ func (middleware VerifyMiddleware) Verify(ctx iris.Context) {
 	secretCode := ctx.URLParam("secretCode")
 	verifyCount, _ := ctx.URLParamInt("verifyCount")
 
-	user, err := service.Find(int32(userId))
+	user, err := service.Find(userId)
 	if err != nil {
 		return
 	}

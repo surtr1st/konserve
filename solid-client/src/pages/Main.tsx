@@ -38,36 +38,33 @@ export function Main() {
 
   const [nodes] = createResource<Nod3[]>(retrieveNodes);
   const [leaves] = createResource<Leaf[]>(retrieveLeaves);
-  const [_, setStore] = useLocalStore('Store', { nodeId: 0 });
+  const [store, setStore] = useLocalStore<Partial<Nod3>>('Node', {});
 
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
-  const [node, setNode] = createSignal<Partial<Nod3>>({});
 
   const expandColumns = useDynamicGridColumns(nodes.length + 1);
-  const openDetailPopup = (nodeId?: number) => {
+  const openDetailPopup = (node?: Nod3) => {
     setShowDetailPopup(!showDetailPopup());
-    setStore({ nodeId });
+    setStore(node as Nod3);
   };
-  const openVerifyPopup = (nodeId?: number) => {
+  const openVerifyPopup = (node?: Nod3) => {
     setShowVerifyPopup(!showVerifyPopup());
-    setStore({ nodeId });
+    setStore(node as Nod3);
   };
   const openCreator = () => {
     setShowCreator(!showCreator());
   };
-  const openUpdatePopup = (nodeId?: number) => {
+  const openUpdatePopup = (node?: Nod3) => {
     setShowUpdatePopup(!showUpdatePopup());
-    const node = nodes()?.find((node) => node.id === nodeId);
-    setNode({ ...node });
-    setStore({ nodeId });
+    setStore(node as Nod3);
   };
-  const openDeletePopup = (nodeId?: number) => {
+  const openDeletePopup = (node?: Nod3) => {
     setShowDeletePopup(!showDeletePopup());
-    setStore({ nodeId });
+    setStore(node as Nod3);
   };
 
   createEffect(async () => {
@@ -132,10 +129,10 @@ export function Main() {
           <For each={nodes()}>
             {(node) => (
               <Node
-                onView={() => openDetailPopup(node.id)}
-                onViewDetail={() => openVerifyPopup(node.id)}
-                onEdit={() => openUpdatePopup(node.id)}
-                onDelete={() => openDeletePopup(node.id)}
+                onView={() => openDetailPopup(node)}
+                onViewDetail={() => openVerifyPopup(node)}
+                onEdit={() => openUpdatePopup(node)}
+                onDelete={() => openDeletePopup(node)}
               />
             )}
           </For>
@@ -149,7 +146,7 @@ export function Main() {
             open={() => showUpdatePopup()}
             onClose={openUpdatePopup}
             onBackdropClick={openUpdatePopup}
-            placeholder={node().name}
+            placeholder={store.name}
           />
           <DetailNodePopup
             open={() => showDetailPopup()}

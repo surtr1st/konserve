@@ -38,33 +38,36 @@ export function Main() {
 
   const [nodes] = createResource<Nod3[]>(retrieveNodes);
   const [leaves] = createResource<Leaf[]>(retrieveLeaves);
+  const [_, setStore] = useLocalStore('Store', { nodeId: 0 });
 
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
-  const [_, setNodeId] = useLocalStore('Store', { nodeId: 0 });
+  const [node, setNode] = createSignal<Partial<Nod3>>({});
 
   const expandColumns = useDynamicGridColumns(nodes.length + 1);
   const openDetailPopup = (nodeId?: number) => {
     setShowDetailPopup(!showDetailPopup());
-    setNodeId({ nodeId });
+    setStore({ nodeId });
   };
   const openVerifyPopup = (nodeId?: number) => {
     setShowVerifyPopup(!showVerifyPopup());
-    setNodeId({ nodeId });
+    setStore({ nodeId });
   };
   const openCreator = () => {
     setShowCreator(!showCreator());
   };
   const openUpdatePopup = (nodeId?: number) => {
     setShowUpdatePopup(!showUpdatePopup());
-    setNodeId({ nodeId });
+    const node = nodes()?.find((node) => node.id === nodeId);
+    setNode({ ...node });
+    setStore({ nodeId });
   };
   const openDeletePopup = (nodeId?: number) => {
     setShowDeletePopup(!showDeletePopup());
-    setNodeId({ nodeId });
+    setStore({ nodeId });
   };
 
   createEffect(async () => {
@@ -146,6 +149,7 @@ export function Main() {
             open={() => showUpdatePopup()}
             onClose={openUpdatePopup}
             onBackdropClick={openUpdatePopup}
+            placeholder={node().name}
           />
           <DetailNodePopup
             open={() => showDetailPopup()}

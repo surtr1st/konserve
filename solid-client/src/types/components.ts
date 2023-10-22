@@ -87,6 +87,7 @@ export type TDetailNodePopup = TDialog & {
 
 export type TNodeActionPopup = TDialog & {
   type?: CreateOrUpdate;
+  placeholder?: string;
 };
 
 export type TLeafActionPopup = TNodeActionPopup;

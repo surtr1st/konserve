@@ -9,6 +9,7 @@ export function NodeActionPopup({
   onClose,
   onBackdropClick,
   type = 'create',
+  placeholder = '',
 }: TNodeActionPopup) {
   let nodeName: SolidInputRef;
 
@@ -47,6 +48,7 @@ export function NodeActionPopup({
           label='Name'
           textSize='text-md'
           ref={nodeName}
+          value={placeholder}
         />
         <Switch>
           <Match when={type === 'create'}>

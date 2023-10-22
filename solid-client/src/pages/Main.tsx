@@ -1,6 +1,10 @@
 import clsx from 'clsx';
 import { useAuth, useLeaf, useNode } from '../services';
-import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
+import {
+  useDynamicGridColumns,
+  useLocalStore,
+  usePreferredTheme,
+} from '../hooks';
 import { useNavigate } from '@solidjs/router';
 import {
   For,
@@ -40,22 +44,27 @@ export function Main() {
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
+  const [_, setNodeId] = useLocalStore('Store', { nodeId: 0 });
 
   const expandColumns = useDynamicGridColumns(nodes.length + 1);
-  const openDetailPopup = () => {
+  const openDetailPopup = (nodeId?: number) => {
     setShowDetailPopup(!showDetailPopup());
+    setNodeId({ nodeId });
   };
-  const openVerifyPopup = () => {
+  const openVerifyPopup = (nodeId?: number) => {
     setShowVerifyPopup(!showVerifyPopup());
+    setNodeId({ nodeId });
   };
   const openCreator = () => {
     setShowCreator(!showCreator());
   };
-  const openUpdatePopup = () => {
+  const openUpdatePopup = (nodeId?: number) => {
     setShowUpdatePopup(!showUpdatePopup());
+    setNodeId({ nodeId });
   };
-  const openDeletePopup = () => {
+  const openDeletePopup = (nodeId?: number) => {
     setShowDeletePopup(!showDeletePopup());
+    setNodeId({ nodeId });
   };
 
   createEffect(async () => {
@@ -118,12 +127,12 @@ export function Main() {
             onBackdropClick={openCreator}
           />
           <For each={nodes()}>
-            {() => (
+            {(node) => (
               <Node
-                onView={openDetailPopup}
-                onViewDetail={openVerifyPopup}
-                onEdit={openUpdatePopup}
-                onDelete={openDeletePopup}
+                onView={() => openDetailPopup(node.id)}
+                onViewDetail={() => openVerifyPopup(node.id)}
+                onEdit={() => openUpdatePopup(node.id)}
+                onDelete={() => openDeletePopup(node.id)}
               />
             )}
           </For>

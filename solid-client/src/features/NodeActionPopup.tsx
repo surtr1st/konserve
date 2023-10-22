@@ -1,6 +1,8 @@
 import { Match, Switch } from 'solid-js';
 import { Button, Input, Modal } from '../components';
 import { TNodeActionPopup } from '../types';
+import { useNode } from '../services';
+import { useLocalStore, useSolidToast } from '../hooks';
 
 export function NodeActionPopup({
   open,
@@ -8,8 +10,26 @@ export function NodeActionPopup({
   onBackdropClick,
   type = 'create',
 }: TNodeActionPopup) {
-  const onCreate = () => {};
-  const onUpdate = () => {};
+  let nodeName: SolidInputRef;
+
+  const { onSuccess, onError } = useSolidToast();
+  const { createNode, updateNode } = useNode();
+  const [store, _] = useLocalStore('Store', { nodeId: 0 });
+
+  const onCreate = () => {
+    const userId = parseInt(sessionStorage.getItem('UserID') as string);
+    const unwrapNodeName = (nodeName as HTMLInputElement).value;
+    createNode({ uid: userId, name: unwrapNodeName })
+      .then((ok) => ok && onSuccess('Added new node!'))
+      .catch((err: ResponseError) => onError(err.message));
+  };
+
+  const onUpdate = () => {
+    const unwrapNodeName = (nodeName as HTMLInputElement).value;
+    updateNode(store.nodeId, unwrapNodeName)
+      .then((ok) => ok && onSuccess('Updated new node!'))
+      .catch((err: ResponseError) => onError(err.message));
+  };
 
   return (
     <Modal
@@ -26,6 +46,7 @@ export function NodeActionPopup({
           name='node-name'
           label='Name'
           textSize='text-md'
+          ref={nodeName}
         />
         <Switch>
           <Match when={type === 'create'}>

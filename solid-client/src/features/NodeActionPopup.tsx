@@ -21,7 +21,12 @@ export function NodeActionPopup({
     const userId = parseInt(sessionStorage.getItem('UserID') as string);
     const unwrapNodeName = (nodeName as HTMLInputElement).value;
     createNode({ uid: userId, name: unwrapNodeName })
-      .then((ok) => ok && onSuccess('Added new node!'))
+      .then((ok) => {
+        if (ok) {
+          onSuccess('Added new node!');
+          onClose!();
+        }
+      })
       .catch((err: ResponseError) => onError(err.message));
   };
 

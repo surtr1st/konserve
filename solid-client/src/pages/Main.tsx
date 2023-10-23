@@ -13,6 +13,7 @@ import {
   Switch,
   createEffect,
   createResource,
+  onMount,
 } from 'solid-js';
 import { Button, Section } from '../components';
 import {
@@ -38,15 +39,15 @@ export function Main() {
 
   const [nodes] = createResource<Nod3[]>(retrieveNodes);
   const [leaves] = createResource<Leaf[]>(retrieveLeaves);
-  const [store, setStore] = useLocalStore<Partial<Nod3>>('Node', {});
+  const [_, setStore] = useLocalStore<Partial<Nod3>>('Node', {});
 
+  const [node, setNode] = createSignal<Partial<Nod3>>({});
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
 
-  const expandColumns = useDynamicGridColumns(nodes.length + 1);
   const openDetailPopup = (node?: Nod3) => {
     setShowDetailPopup(!showDetailPopup());
     setStore(node as Nod3);
@@ -58,9 +59,11 @@ export function Main() {
   const openCreator = () => {
     setShowCreator(!showCreator());
   };
-  const openUpdatePopup = (node?: Nod3) => {
+  const openUpdatePopup = (val?: Nod3) => {
     setShowUpdatePopup(!showUpdatePopup());
-    setStore(node as Nod3);
+    const n = val as Nod3;
+    setTimeout(() => setNode(n), 0);
+    setStore(n);
   };
   const openDeletePopup = (node?: Nod3) => {
     setShowDeletePopup(!showDeletePopup());
@@ -117,7 +120,8 @@ export function Main() {
           class={clsx(
             'grid',
             nodes.length >= 5 && 'grid-cols-5',
-            nodes.length < 5 && expandColumns,
+            nodes.length < 5 &&
+              useDynamicGridColumns(nodes()?.length as number),
           )}
         >
           <NodeCreator onAdd={openCreator} />
@@ -146,7 +150,7 @@ export function Main() {
             open={() => showUpdatePopup()}
             onClose={openUpdatePopup}
             onBackdropClick={openUpdatePopup}
-            placeholder={store.name}
+            placeholder={node().name}
           />
           <DetailNodePopup
             open={() => showDetailPopup()}

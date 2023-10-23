@@ -13,7 +13,6 @@ import {
   Switch,
   createEffect,
   createResource,
-  onMount,
 } from 'solid-js';
 import { Button, Section } from '../components';
 import {
@@ -41,7 +40,7 @@ export function Main() {
   const [leaves] = createResource<Leaf[]>(retrieveLeaves);
   const [_, setStore] = useLocalStore<Partial<Nod3>>('Node', {});
 
-  const [node, setNode] = createSignal<Partial<Nod3>>({});
+  const [nodeName, setNodeName] = createSignal('');
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
@@ -61,12 +60,8 @@ export function Main() {
   };
   const openUpdatePopup = (val?: Nod3) => {
     setShowUpdatePopup(!showUpdatePopup());
-    const n = val as Nod3;
-    setNode((current) => {
-      current = n;
-      return current;
-    });
-    setStore(n);
+    setStore(val as Nod3);
+    setNodeName(val?.name as string);
   };
   const openDeletePopup = (node?: Nod3) => {
     setShowDeletePopup(!showDeletePopup());
@@ -124,7 +119,7 @@ export function Main() {
             'grid',
             nodes.length >= 5 && 'grid-cols-5',
             nodes.length < 5 &&
-              useDynamicGridColumns(nodes()?.length as number),
+              useDynamicGridColumns((nodes()?.length as number) + 1),
           )}
         >
           <NodeCreator onAdd={openCreator} />
@@ -132,6 +127,7 @@ export function Main() {
             open={() => showCreator()}
             onClose={openCreator}
             onBackdropClick={openCreator}
+            placeholder={() => ''}
           />
           <For each={nodes()}>
             {(node) => (
@@ -153,7 +149,7 @@ export function Main() {
             open={() => showUpdatePopup()}
             onClose={openUpdatePopup}
             onBackdropClick={openUpdatePopup}
-            placeholder={node().name}
+            placeholder={nodeName}
           />
           <DetailNodePopup
             open={() => showDetailPopup()}

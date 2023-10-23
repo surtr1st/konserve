@@ -15,7 +15,7 @@ export function NodeActionPopup({
 
   const { onSuccess, onError } = useSolidToast();
   const { createNode, updateNode } = useNode();
-  const [store, _] = useLocalStore('Store', { nodeId: 0 });
+  const [store, _] = useLocalStore<Partial<Nod3>>('Node', {});
 
   const onCreate = () => {
     const userId = parseInt(sessionStorage.getItem('UserID') as string);
@@ -27,7 +27,7 @@ export function NodeActionPopup({
 
   const onUpdate = () => {
     const unwrapNodeName = (nodeName as HTMLInputElement).value;
-    updateNode(store.nodeId, unwrapNodeName)
+    updateNode(store.id as number, unwrapNodeName)
       .then((ok) => ok && onSuccess('Updated new node!'))
       .catch((err: ResponseError) => onError(err.message));
   };

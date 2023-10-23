@@ -62,7 +62,10 @@ export function Main() {
   const openUpdatePopup = (val?: Nod3) => {
     setShowUpdatePopup(!showUpdatePopup());
     const n = val as Nod3;
-    setTimeout(() => setNode(n), 0);
+    setNode((current) => {
+      current = n;
+      return current;
+    });
     setStore(n);
   };
   const openDeletePopup = (node?: Nod3) => {

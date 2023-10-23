@@ -19,15 +19,26 @@ func (service NodeService) Nodes() ([]models.Node, error) {
 	return nodes, nil
 }
 
-func (service NodeService) Find(uid int) (models.Node, error) {
+func (service NodeService) Find(id int) (models.Node, error) {
 	var node models.Node
-	result := service.DB.Find(&node, uid)
+	result := service.DB.Find(&node, id)
 
 	if err := result.Error; err != nil {
 		return node, err
 	}
 
 	return node, nil
+}
+
+func (service NodeService) FindByUser(uid int) ([]models.Node, error) {
+	var nodes []models.Node
+	result := service.DB.Where(models.Node{Uid: uid}).Find(&nodes)
+
+	if err := result.Error; err != nil {
+		return nodes, err
+	}
+
+	return nodes, nil
 }
 
 func (service NodeService) Create(node models.Node) (int64, error) {

@@ -1,4 +1,4 @@
-import { JSXElement } from 'solid-js';
+import { Accessor, JSXElement } from 'solid-js';
 
 export type TDialog = {
   open: () => boolean;
@@ -87,6 +87,7 @@ export type TDetailNodePopup = TDialog & {
 
 export type TNodeActionPopup = TDialog & {
   type?: CreateOrUpdate;
+  placeholder: Accessor<string>;
 };
 
 export type TLeafActionPopup = TNodeActionPopup;

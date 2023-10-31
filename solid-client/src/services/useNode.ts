@@ -8,7 +8,11 @@ export function useNode() {
 
   const retrieveNodes = async (): Promise<Nod3[]> => {
     const token = sessionStorage.getItem('AccessToken') as string;
-    const res = await onGet('', useCredentials(token, 'include'));
+    const userId = sessionStorage.getItem('UserID');
+    const res = await onGet(
+      `?userId=${userId}`,
+      useCredentials(token, 'include'),
+    );
     if (res.status >= 400) throw new Error(await res.text());
     return await res.json();
   };

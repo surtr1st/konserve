@@ -1,6 +1,10 @@
 import clsx from 'clsx';
 import { useAuth, useLeaf, useNode } from '../services';
-import { useDynamicGridColumns, usePreferredTheme } from '../hooks';
+import {
+  useDynamicGridColumns,
+  useLocalStore,
+  usePreferredTheme,
+} from '../hooks';
 import { useNavigate } from '@solidjs/router';
 import {
   For,
@@ -34,28 +38,34 @@ export function Main() {
 
   const [nodes] = createResource<Nod3[]>(retrieveNodes);
   const [leaves] = createResource<Leaf[]>(retrieveLeaves);
+  const [_, setStore] = useLocalStore<Partial<Nod3>>('Node', {});
 
+  const [nodeName, setNodeName] = createSignal('');
   const [showDetailPopup, setShowDetailPopup] = createSignal(false);
   const [showCreator, setShowCreator] = createSignal(false);
   const [showVerifyPopup, setShowVerifyPopup] = createSignal(false);
   const [showUpdatePopup, setShowUpdatePopup] = createSignal(false);
   const [showDeletePopup, setShowDeletePopup] = createSignal(false);
 
-  const expandColumns = useDynamicGridColumns(nodes.length + 1);
-  const openDetailPopup = () => {
+  const openDetailPopup = (node?: Nod3) => {
     setShowDetailPopup(!showDetailPopup());
+    setStore(node as Nod3);
   };
-  const openVerifyPopup = () => {
+  const openVerifyPopup = (node?: Nod3) => {
     setShowVerifyPopup(!showVerifyPopup());
+    setStore(node as Nod3);
   };
   const openCreator = () => {
     setShowCreator(!showCreator());
   };
-  const openUpdatePopup = () => {
+  const openUpdatePopup = (val?: Nod3) => {
     setShowUpdatePopup(!showUpdatePopup());
+    setStore(val as Nod3);
+    setNodeName(val?.name as string);
   };
-  const openDeletePopup = () => {
+  const openDeletePopup = (node?: Nod3) => {
     setShowDeletePopup(!showDeletePopup());
+    setStore(node as Nod3);
   };
 
   createEffect(async () => {
@@ -108,7 +118,8 @@ export function Main() {
           class={clsx(
             'grid',
             nodes.length >= 5 && 'grid-cols-5',
-            nodes.length < 5 && expandColumns,
+            nodes.length < 5 &&
+              useDynamicGridColumns((nodes()?.length as number) + 1),
           )}
         >
           <NodeCreator onAdd={openCreator} />
@@ -116,14 +127,15 @@ export function Main() {
             open={() => showCreator()}
             onClose={openCreator}
             onBackdropClick={openCreator}
+            placeholder={() => ''}
           />
           <For each={nodes()}>
-            {() => (
+            {(node) => (
               <Node
-                onView={openDetailPopup}
-                onViewDetail={openVerifyPopup}
-                onEdit={openUpdatePopup}
-                onDelete={openDeletePopup}
+                onView={() => openDetailPopup(node)}
+                onViewDetail={() => openVerifyPopup(node)}
+                onEdit={() => openUpdatePopup(node)}
+                onDelete={() => openDeletePopup(node)}
               />
             )}
           </For>
@@ -137,6 +149,7 @@ export function Main() {
             open={() => showUpdatePopup()}
             onClose={openUpdatePopup}
             onBackdropClick={openUpdatePopup}
+            placeholder={nodeName}
           />
           <DetailNodePopup
             open={() => showDetailPopup()}

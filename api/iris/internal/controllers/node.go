@@ -4,6 +4,7 @@ import (
 	"konserve/api/internal/models"
 	"konserve/api/internal/services"
 	"konserve/api/internal/utils"
+	"strconv"
 
 	"github.com/kataras/iris/v12"
 )
@@ -17,6 +18,19 @@ func (controller *NodeController) useService() services.NodeService {
 }
 
 func (controller NodeController) RetrieveNodes(ctx iris.Context) {
+	validate := utils.UseValidate()
+	userId, _ := ctx.URLParamInt("userId")
+
+	if !validate.Is(strconv.Itoa(userId)).Undefined() {
+		nodes, err := controller.useService().FindByUser(userId)
+		if err != nil {
+			ctx.StopWithError(iris.StatusInternalServerError, err)
+			return
+		}
+		ctx.JSON(nodes)
+		return
+	}
+
 	nodes, err := controller.useService().Nodes()
 	if err != nil {
 		ctx.StopWithError(iris.StatusInternalServerError, err)
